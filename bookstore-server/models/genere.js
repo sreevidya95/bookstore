@@ -4,17 +4,17 @@ const sequelize = new Sequelize('bs','root','Saibaba123456@',{
     dialect:"mysql"
 });
 module.exports = (sequelize) => {
-const Genere = sequelize.define('Genere',{
-    genere_id:{
+const Genre = sequelize.define('Genre',{
+    genre_id:{
         type:DataTypes.INTEGER,
         allowNull:false,
         primaryKey:true,
         autoIncrement:true
     },
-    genere_name:{
+    genre_name:{
         type:DataTypes.STRING(30),
         allowNull:false
     }
 });
-return Genere;
+return Genre;
 }
