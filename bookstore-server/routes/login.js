@@ -2,27 +2,37 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const { Sequelize } = require('sequelize');
-const mail = require('node-mailer');
+const mail = require('nodemailer');
 const sequelize = new Sequelize("bs", 'root', 'Saibaba123456@', {
     host: "localhost",
     dialect: "mysql",
 });
 const Admin = require("../models/Admin")(sequelize);
-router.get('/:email',async (req,res)=>{
+router.post('/',async (req,res)=>{
     try{
         const admin = await Admin.findOne({
             where:{
-                email:req.params.email
+                email:req.body.email,
             }
         });
-            res.status(200).json(admin);
+           if(admin){
+            console.log(admin.get("password"))
+            const valid = await bcrypt.compare(req.body.password, admin.get("password"));
+            if(valid){
+                res.status(200).json(admin);
+            }    
+           }
+           else{
+            res.status(404).json({error:"invalid user name or password"})
+           }
+            
     }
     catch(err){
         res.status(500).json({error:err.message})
     }
     
 });
-router.post('/fp/:email', async(req,res)=>{
+router.post('/fp', async(req,res)=>{
    const transport = mail.createTransport({
     service:'gmail',
     auth:{
@@ -32,18 +42,27 @@ router.post('/fp/:email', async(req,res)=>{
 });
 var mailOptions={
     from:'tapp93550@gmail.com',
-     to:req.body.mail,
+     to:req.body.email,
      subject:'forgot passsword',
-     text:`here is your password to login into the book store app :${req.body.text}`
+     text:`here is your link to create new password for book store application`
 };
-transport.sendMail(mailOptions,(err,res)=>{
+transport.sendMail(mailOptions,(err,response)=>{
     if(err){
-        console.log(err);
+       res.status(500).json({error:err});
     }
     else{
-        console.log(res.response);
+       res.status(200).json({msg:"Email sent"});
     }
 });
 
+});
+router.post("/new",async(req,res)=>{
+      try{
+         req.body.password = await bcrypt.hash(req.body.password,10);
+        const admin = await Admin.create(req.body);
+        res.status(201).json(admin)
+      }catch(e){
+        res.status(500).json({error:e.message})
+      }
 })
 module.exports=router;
