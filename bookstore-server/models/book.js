@@ -1,8 +1,6 @@
-const {Sequelize,DataTypes} = require("sequelize");
-const sequelize = new Sequelize("bs",'root','Saibaba123456@',{
-    host:"localhost",
-    dialect:"mysql",
-});
+const {sequelize,DataTypes} = require("./sequelize");
+const Author = require('./author')(sequelize);
+const Genere = require('./genere')(sequelize);
 module.exports = (sequelize) => {
 const Book = sequelize.define("Book",{
     book_id:{
@@ -13,14 +11,6 @@ const Book = sequelize.define("Book",{
     },
     title:{
         type:DataTypes.STRING(30),
-        allowNull:false
-    },
-    author_id:{
-         type:DataTypes.INTEGER,
-         allowNull:false
-    },
-    genere_id:{
-        type:DataTypes.INTEGER,
         allowNull:false
     },
     price:{
@@ -39,14 +29,11 @@ const Book = sequelize.define("Book",{
         }
     }
 });
-Book.associate = models => {
-    const Author = require('./author');
-const Genere = require('./genere');
-Author.hasMany(Book,{foreignKey:'author_id'});
+    
+Author.hasMany(Book);
 Book.belongsTo(Author);
-Genere.hasMany(Book,{foreignKey:'genere_id'});
+Genere.hasMany(Book);
 Book.belongsTo(Genere);
-  }
 
 return Book;
 }

@@ -1,14 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const {Sequelize, where} = require('sequelize');
-const sequelize = new Sequelize("bs",'root','Saibaba123456@',{
-    host:"localhost",
-    dialect:"mysql",
-});
+const {sequelize} = require('../models/sequelize');
+const author = require('../models/author')(sequelize);
 const Book = require("../models/book")(sequelize);
+const genere = require('../models/genere')(sequelize);
 router.get('/',async (req,res)=>{
     try{
-        const books = await Book.findAll();
+        const books = await Book.findAll({
+            include:[{
+                model:author,
+                required:true,
+            },
+            {
+                model:genere,
+                required:true,
+            }
+        ]
+        });
             res.status(200).json(books);
     }
     catch(err){
@@ -18,7 +26,18 @@ router.get('/',async (req,res)=>{
 });
 router.get('/:id',async(req,res)=>{
     try{
-        const book = await Book.findByPk(req.params.id);
+        const book = await Book.findByPk(req.params.id,{
+            include:[
+                {
+                    model:author,
+                    required:true,
+                },
+                {
+                    model:genere,
+                    required:true,
+                }
+            ]
+        });
         if(book){
             res.status(200).json(book);
         }

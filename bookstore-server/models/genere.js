@@ -1,8 +1,4 @@
-const {Sequelize,DataTypes} = require('sequelize');
-const sequelize = new Sequelize('bs','root','Saibaba123456@',{
-    host:"localhost",
-    dialect:"mysql"
-});
+const {sequelize,DataTypes} = require("./sequelize");
 module.exports = (sequelize) => {
 const Genre = sequelize.define('Genre',{
     genre_id:{

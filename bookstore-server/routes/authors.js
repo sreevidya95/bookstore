@@ -1,10 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {Sequelize, where} = require('sequelize');
-const sequelize = new Sequelize("bs",'root','Saibaba123456@',{
-    host:"localhost",
-    dialect:"mysql",
-});
+const {sequelize} = require('../models/sequelize');
 const Author = require('../models/author')(sequelize);
 router.get('/',async (req,res)=>{
     try{

@@ -1,8 +1,4 @@
-const {Sequelize,DataTypes} = require('sequelize');
-const sequelize = new Sequelize("bs","root","Saibaba123456@",{
-    host:"localhost",
-    dialect:"mysql"
-});
+const {sequelize,DataTypes} = require("./sequelize");
 module.exports = (sequelize) => {
 const Enquiry = sequelize.define("Enquiry",{
     enq_id:{
@@ -16,7 +12,8 @@ const Enquiry = sequelize.define("Enquiry",{
         allowNull:false,
         validate:{
             isEmail:true
-        },
+        }
+    },
         message:{
             type:DataTypes.TEXT,
             allowNull:false
@@ -26,7 +23,7 @@ const Enquiry = sequelize.define("Enquiry",{
             allowNull:false,
             defaultValue:0,
         }
-    }
+    
 });
 return Enquiry;
 }
