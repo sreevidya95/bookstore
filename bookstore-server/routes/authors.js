@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {sequelize} = require('../models/sequelize');
 const Author = require('../models/author')(sequelize);
+const Books = require('../models/book')(sequelize);
 router.get('/',async (req,res)=>{
     try{
         const authors = await Author.findAll();
@@ -54,18 +55,28 @@ router.put("/:id",async (req,res)=>{
 });
 router.delete("/:id",async (req,res)=>{
     try{
+        const transaction = await sequelize.transaction();
         const deleted = await Author.destroy({
             where:{
                 author_id:req.params.id
             }
-        });
+        },{ transaction });
+        await Books.destroy({
+            where:{
+                AuthorAuthorId:req.params.id
+            }
+        },{transaction});
+        await transaction.commit();
         if(deleted){
+
             res.status(204).end();
         }
         else{
+            transaction.rollback();
             res.status(404).json({error:"couldnt find the author"})
         }
     }catch(err){
+        transaction.rollback();
         res.status(500).json({error:err.message});
     }
 })
