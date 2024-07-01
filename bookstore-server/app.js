@@ -3,6 +3,7 @@ const router = require('routes');
 const path = require('path');
 const cors = require('cors');
 const app = express();
+const bodyParser = require('body-parser');
 const { Sequelize } = require('sequelize');
 const sequelize = new Sequelize("bs", 'root', 'Saibaba123456@', {
     host: "localhost",
@@ -16,6 +17,8 @@ const Book = require('./models/book')(sequelize);
 sequelize.sync()
     .then(() => console.log("databases synced"))
     .catch(err => console.error(err));
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({extended:true}));
 app.use('/', express.static(path.join(__dirname, '/')));
 app.use(cors());
 const bookRouter = require("./routes/books");

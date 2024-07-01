@@ -24,7 +24,7 @@ const Enquiry = sequelize.define("Enquiry",{
         isRead:{
             type:DataTypes.BOOLEAN,
             allowNull:false,
-            defaultValue:false,
+            defaultValue:0,
         }
     }
 });
