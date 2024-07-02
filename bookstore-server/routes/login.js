@@ -1,4 +1,5 @@
 const express = require("express");
+const CustomeError = require('../CustomError');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const mail = require('nodemailer');
@@ -12,7 +13,7 @@ async function authenticateAdmin(email){
     });
     return admin; 
 }
-router.post('/',async (req,res)=>{
+router.post('/',async (req,res,next)=>{
     try{
         const admin = await authenticateAdmin(req.body.email);
            if(admin){
@@ -21,20 +22,24 @@ router.post('/',async (req,res)=>{
                 res.status(200).json(admin);
             }
             else{
-                res.status(404).json({error:"invalid password"})
+                const err = new CustomeError("invalid password",404)
+                next(err);
             }    
            }
            else{
-            res.status(404).json({error:"invalid user name or password"})
+                    const err = new CustomeError("invalid username or password",404)
+                    next(err);
            }
             
     }
-    catch(err){
-        res.status(500).json({error:err.message})
+    catch(e){
+        const err = new CustomeError(e.message,500)
+                next(err);
+       
     }
     
 });
-router.post('/fp', async(req,res)=>{
+router.post('/fp', async(req,res,next)=>{
     try{
         const admin = authenticateAdmin(req.body.email);
         if(admin){
@@ -53,7 +58,8 @@ router.post('/fp', async(req,res)=>{
             };
             transport.sendMail(mailOptions,(err,response)=>{
                 if(err){
-                res.status(500).json({error:err});
+                    const e = new CustomeError(err.message,500)
+                    next(e);
                 }
                 else{
                 res.status(200).json({msg:"Email sent"});
@@ -61,19 +67,53 @@ router.post('/fp', async(req,res)=>{
             });
         }
         else{
-            res.status(404).json({error:"Seems like you dont have the account"});
+            const err =  new CustomeError("seems like you dont have account",404)
+                next(err);
         }
     }catch(e){
-        res.status(500).json({error:e.message});
+        const err = new CustomeError(e.message,500)
+                next(err);
     }
 });
-router.post("/new",async(req,res)=>{
+router.post("/new",async(req,res,next)=>{
       try{
          req.body.password = await bcrypt.hash(req.body.password,10);
         const admin = await Admin.create(req.body);
         res.status(201).json(admin)
       }catch(e){
-        res.status(500).json({error:e.message})
+        const err = new CustomeError(e.message,500)
+                next(err);
       }
+});
+router.put('/newPassword/:email',async (req,res,next)=>{
+    try{
+        const admin = authenticateAdmin(req.params.email);
+        if(admin){
+            if(req.body.password){
+                req.body.password = await bcrypt.hash(req.body.password,10);
+            }
+            let updated = await Admin.update(req.body,{
+                where:{
+                    email : req.params.email
+                }
+            })
+            if(updated){
+                res.status(200).json({msg:"updated successfully"})
+            }
+            else{
+                const err = new CustomeError("couldnt update password",404)
+                next(err);
+            }
+        }
+        else{
+            const err = new CustomeError("invalid email",404)
+                next(err);
+        }
+    }catch(e){
+        const err = new CustomeError(e.message,500)
+                next(err);
+    }
+   
+    
 })
 module.exports=router;

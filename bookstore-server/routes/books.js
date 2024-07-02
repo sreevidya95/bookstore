@@ -1,10 +1,11 @@
 const express = require('express');
+const CustomeError = require('../CustomError');
 const router = express.Router();
 const {sequelize} = require('../models/sequelize');
 const author = require('../models/author')(sequelize);
 const Book = require("../models/book")(sequelize);
 const genere = require('../models/genere')(sequelize);
-router.get('/',async (req,res)=>{
+router.get('/',async (req,res,next)=>{
     try{
         const books = await Book.findAll({
             include:[{
@@ -20,11 +21,13 @@ router.get('/',async (req,res)=>{
             res.status(200).json(books);
     }
     catch(err){
-        res.status(500).json({error:err.message})
+        const e = new CustomeError(err.message,500)
+                next(e);
+      
     }
     
 });
-router.get('/:id',async(req,res)=>{
+router.get('/:id',async(req,res,next)=>{
     try{
         const book = await Book.findByPk(req.params.id,{
             include:[
@@ -42,22 +45,25 @@ router.get('/:id',async(req,res)=>{
             res.status(200).json(book);
         }
         else{
-            res.status(404).json({error:"couldnt find the book"});
+            const e = new CustomeError("couldnt find the book",404)
+            next(e);
         }
     }catch(error){
-        res.status(500).json({error:error.message});
+        const e = new CustomeError(error.message,500)
+            next(e);
     }
 });
-router.post('/',async (req,res)=>{
+router.post('/',async (req,res,next)=>{
     try{
         const book = await Book.create(req.body);
         res.status(201).json(book);
     }
     catch(error){
-        res.status(500).json({error:error.message});
+        const e = new CustomeError(error.message,500)
+            next(e);
     }
 });
-router.put('/:id',async (req,res)=>{
+router.put('/:id',async (req,res,next)=>{
     try{
         const updated = await Book.update(req.body,{
             where:{
@@ -70,14 +76,16 @@ router.put('/:id',async (req,res)=>{
 
         }
         else{
-            res.status(404).json({error:"Couldn't find the book"})
+            const e = new CustomeError("couldnt find the book",404)
+            next(e);
         }
     }catch(error){
-        res.status(500).json({error:error.message});
+        const e = new CustomeError(error.message,500)
+        next(e);
     }
     
 });
-router.delete('/:id',async (req,res)=>{
+router.delete('/:id',async (req,res,next)=>{
     try{
         let deleted = await Book.destroy({
             where:{
@@ -88,10 +96,12 @@ router.delete('/:id',async (req,res)=>{
             res.status(204).end();
         }
         else{
-            res.status(404).json({error:"Couldnt find the book"})
+            const e = new CustomeError("couldnt find the book",404)
+           next(e);
         }
     }catch(error){
-        res.status(500).json({error:error.message})
+        const e = new CustomeError(error.message,500)
+        next(e);
     }
 })
 module.exports = router;

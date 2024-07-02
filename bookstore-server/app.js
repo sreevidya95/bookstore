@@ -3,6 +3,7 @@ const router = require('routes');
 const path = require('path');
 const cors = require('cors');
 const app = express();
+const CustomeError = require('./CustomError');
 const bodyParser = require('body-parser');
 const { Sequelize } = require('sequelize');
 const sequelize = new Sequelize("bs", 'root', 'Saibaba123456@', {
@@ -33,6 +34,18 @@ app.use("/enquiry",EnquiryRouter);
 app.use("/login",AdminRouter);
 app.get("/", (req, res) => {
     res.send("welcome!!!!")
+})
+app.all("*",(req,res,next)=>{
+    const err = new CustomeError("couldnt find the above url in server",404)
+    next(err);
+})
+app.use((err,req,res,next)=>{
+    err.statusCode = err.statusCode || 500;
+    err.status = err.status || "error";
+    res.status(err.statusCode).json({
+        status:err.statusCode,
+        msg:err.message
+    })
 })
 app.listen(3000, () => {
     console.log("listening to port 3000");

@@ -1,41 +1,46 @@
 const express = require('express');
+const CustomeError = require('../CustomError');
 const router = express.Router();
 const {sequelize} = require('../models/sequelize');
 const Author = require('../models/author')(sequelize);
 const Books = require('../models/book')(sequelize);
-router.get('/',async (req,res)=>{
+router.get('/',async (req,res,next)=>{
     try{
         const authors = await Author.findAll();
             res.status(200).json(authors);
     }
     catch(err){
-        res.status(500).json({error:err.message})
+        const e = new CustomeError(err.message,500)
+        next(e);
     }
     
 });
-router.get("/:id",async (req,res)=>{
+router.get("/:id",async (req,res,next)=>{
     try{
         let author = await Author.findByPk(req.params.id);
         if(author){
             res.status(200).json(author)
         }
         else{
-            res.status(404).json({error:"couldnt find the Author"})
+            const e = new CustomeError("couldnt find the author",404)
+            next(e);
         }
     }catch(error){
-        res.status(500).json({error:error.message});
+        const e = new CustomeError(error.message,500)
+        next(e);
     }   
 
 });
-router.post("/",async (req,res)=>{
+router.post("/",async (req,res,next)=>{
     try{
        const created = await Author.create(req.body);
         res.status(201).json(created);
     }catch(err){
-        res.status(500).json({error:err.message});
+        const e = new CustomeError(err.message,500)
+        next(e);
     }
 });
-router.put("/:id",async (req,res)=>{
+router.put("/:id",async (req,res,next)=>{
     try{
         const updated = await Author.update(req.body,{
             where:{
@@ -47,13 +52,15 @@ router.put("/:id",async (req,res)=>{
             res.status(200).json(author);
         }
         else{
-            res.status(404).json({error:"couldnt find the author"})
+            const e = new CustomeError("couldnt find the author",404)
+             next(e);
         }
     }catch(err){
-        res.status(500).json({error:err.message});
+        const e = new CustomeError(err.message,500)
+        next(e);
     }
 });
-router.delete("/:id",async (req,res)=>{
+router.delete("/:id",async (req,res,next)=>{
     try{
         const transaction = await sequelize.transaction();
         const deleted = await Author.destroy({
@@ -73,11 +80,13 @@ router.delete("/:id",async (req,res)=>{
         }
         else{
             transaction.rollback();
-            res.status(404).json({error:"couldnt find the author"})
+            const e = new CustomeError("couldnt find the author",404)
+            next(e);
         }
     }catch(err){
         transaction.rollback();
-        res.status(500).json({error:err.message});
+        const e = new CustomeError(err.message,500)
+        next(e);
     }
 })
 module.exports = router;

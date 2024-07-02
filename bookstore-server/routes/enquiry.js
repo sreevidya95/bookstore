@@ -1,21 +1,19 @@
 const express = require("express");
+const CustomeError = require('../CustomError');
 const router = express.Router();
-const { Sequelize } = require('sequelize');
 const enquiry = require("../models/enquiry");
-const sequelize = new Sequelize("bs", 'root', 'Saibaba123456@', {
-    host: "localhost",
-    dialect: "mysql",
-});
+const {sequelize} = require("../models/sequelize");
 const Enquiry = require("../models/enquiry")(sequelize);
-router.get("/",async(req,res)=>{
+router.get("/",async(req,res,next)=>{
     try{
         const enquiry = await Enquiry.findAll();
             res.status(200).json(enquiry);
     }catch(err){
-        res.send(500).json({error:err.message})
+        const e = new CustomeError(err.message,500)
+        next(e);
     }
 });
-router.patch("/:id",async(req,res)=>{
+router.patch("/:id",async(req,res,next)=>{
     try{
         const update = await Enquiry.update({isRead:1},{
             where:{
@@ -27,13 +25,15 @@ router.patch("/:id",async(req,res)=>{
             res.status(200).json(enquiry)
         }
         else{
-            res.status(404).json({error:"couldnt find thiis message"})
+            const e = new CustomeError("couldnt find this message",404)
+        next(e);
         }
     }catch(e){
-        res.status(500).json({error:e.message});
+        const err = new CustomeError(e.message,500)
+        next(err);
     }
 });
-router.delete("/:id",async (req,res)=>{
+router.delete("/:id",async (req,res,next)=>{
     try{
       const d = await Enquiry.destroy({
         where:{
@@ -44,15 +44,17 @@ router.delete("/:id",async (req,res)=>{
         res.status(204).end();
       }
     }catch(e){
-        res.send(500).json({error:e.message});
+        const err = new CustomeError(e.message,500)
+        next(err);
     }
 });
-router.post("/",async (req,res)=>{
+router.post("/",async (req,res,next)=>{
     try{
         const enquiry = await Enquiry.create(req.body);
                 res.status(201).json(enquiry);
     }catch(e){
-        res.status(500).json({error:"something went wrong"})
+        const err = new CustomeError(e.message,500)
+        next(err);
     }
 });
 module.exports=router;
