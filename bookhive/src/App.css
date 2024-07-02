@@ -1,38 +1,43 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.dancing-script-name {
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    font-weight: bolder;
+    font-style: normal;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  .arsenal-sc-regular {
+    font-family: "Arsenal SC", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }
-  to {
-    transform: rotate(360deg);
+  .ml{
+    margin-left: 4rem !important;
   }
+.slide1{
+    position:absolute;
+    left:-700px;
+    top:-30px;
+    height: 500px !important;
+}
+.slide1-content{
+    position: relative;
+    top: -400px;
+    left: 600px;
+}
+.slide2-content{
+    position: relative;
+    left: -400px;
+    top: -100px;
+}
+.bestseller{
+    position: absolute;
+    right: 650px;
+    top: 35px;
+}
+.slide3-content{
+    position: relative;
+    top: -100px;
+}
+.eiffel{
+    margin-bottom: -250px !important;
+    margin-right: -380px;
 }
