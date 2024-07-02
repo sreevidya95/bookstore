@@ -15,6 +15,7 @@ const Author = require('./models/author')(sequelize);
 const Enquiry = require("./models/enquiry")(sequelize);
 const Genere = require("./models/genere")(sequelize);
 const Book = require('./models/book')(sequelize);
+// sequelize.sync({force:true})
 sequelize.sync()
     .then(() => console.log("databases synced"))
     .catch(err => console.error(err));
