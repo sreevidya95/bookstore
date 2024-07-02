@@ -32,5 +32,8 @@
         - Book table (contains details of all books)
         - Author table (contains details of author)
         - Genere table (contains genere information)
+        
+ - inserted sample data using chatGpt by giving create query of all tables at once in chatgpt
 
   #  Note:the images that are uploaded by the admin/user for authors and books are stored in images folder using multer concept and gave that url in database so please dont delete images to prevent image breaking
+
