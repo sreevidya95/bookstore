@@ -1,8 +1,13 @@
 import './App.css';
 import Nav from 'react-bootstrap/Nav';
 import Footer from './Footer';
-import {Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom';
+import { Tooltip } from 'react-tooltip'
 function App() {
+  const navigate = useNavigate();
+  if(localStorage.getItem("id")){
+    navigate("/home");
+  }
   return (
     <div className='App'>
        <div className="container-fluid">
@@ -45,8 +50,10 @@ function App() {
           </li>
         </ul>
        </div>
-        <Link to="/userLogin"><span><i className="fa-solid fa-user-gear fs-3 me-3 w3-animate-right"></i></span></Link>
-        <Nav.Link href="/userLogin"><i className="fa-solid fa-user fs-3 ms-2 me-5 w3-animate-right"></i></Nav.Link>
+        <Link to="/adminLogin"><span><i className="fa-solid fa-user-gear fs-3 me-3 w3-animate-right link"></i></span></Link>
+        <Link to="/userLogin"><i className="fa-solid fa-user fs-3 ms-2 me-5 w3-animate-right link"></i></Link>
+        <Tooltip anchorSelect='.fa-user-gear' place='bottom'>Admin Login</Tooltip>
+        <Tooltip anchorSelect='.fa-user' place='bottom'>User Login</Tooltip>
        </nav>
         </div>
     </header>

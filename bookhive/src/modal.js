@@ -7,7 +7,7 @@ export default function Model(props){
           <Modal.Title><button className="btn-close" onClick={props.onClick} style={{float:"right !important"}}></button>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>Your Enquiry is submitted successfully</Modal.Body>
+        <Modal.Body>{props.msg}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.onClick}>
             Close
