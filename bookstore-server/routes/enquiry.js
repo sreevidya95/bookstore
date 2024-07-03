@@ -1,7 +1,7 @@
 const express = require("express");
 const CustomeError = require('../CustomError');
 const router = express.Router();
-const enquiry = require("../models/enquiry");
+const cors = require('cors');
 const {sequelize} = require("../models/sequelize");
 const Enquiry = require("../models/enquiry")(sequelize);
 router.get("/",async(req,res,next)=>{

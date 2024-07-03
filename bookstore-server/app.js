@@ -1,5 +1,4 @@
 const express = require('express');
-const router = require('routes');
 const path = require('path');
 const cors = require('cors');
 const app = express();
@@ -21,8 +20,9 @@ sequelize.sync()
     .catch(err => console.error(err));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended:true}));
+    app.options('*', cors());
+    app.use(cors())
 app.use('/', express.static(path.join(__dirname, '/')));
-app.use(cors());
 const bookRouter = require("./routes/books");
 const AuthorRouter = require('./routes/authors');
 const GenereRouter = require("./routes/genres");
