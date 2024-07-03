@@ -88,3 +88,12 @@ footer{
       transform: translate(0, 0);
     }
   }
+  @media screen and (min-width:1000px){
+    .bg-img{
+      background-image: url("../public/maintanance.webp");
+      background-repeat: no-repeat;
+      background-size: cover;
+        height: 100vh;
+    }
+  }
+    

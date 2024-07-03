@@ -45,8 +45,8 @@ function App() {
           </li>
         </ul>
        </div>
-        <Nav.Link href="/login"><span><i className="fa-solid fa-user-gear fs-3 me-3 w3-animate-right"></i></span></Nav.Link>
-        <Nav.Link href="/maintainance"><i className="fa-solid fa-user fs-3 ms-2 me-5 w3-animate-right"></i></Nav.Link>
+        <Link to="/userLogin"><span><i className="fa-solid fa-user-gear fs-3 me-3 w3-animate-right"></i></span></Link>
+        <Nav.Link href="/userLogin"><i className="fa-solid fa-user fs-3 ms-2 me-5 w3-animate-right"></i></Nav.Link>
        </nav>
         </div>
     </header>
