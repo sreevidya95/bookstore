@@ -1,5 +1,6 @@
 import './App.css';
 import Nav from 'react-bootstrap/Nav';
+import Footer from './Footer';
 import {Link} from 'react-router-dom'
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
         <button className='navbar-toggler col-4' data-bs-toggle="collapse" data-bs-target="#navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
-        <div className='collpase navbar-collapse' id="navigation">
+        <div className='collpase navbar-collapse w3-animate-left' id="navigation">
         <ul className='navbar-nav'>
           <li className='nav-item fs-4'>
             <Nav.Link href="#" className="text-danger disabled arsenal-sc-regular ">Home</Nav.Link>
@@ -44,8 +45,8 @@ function App() {
           </li>
         </ul>
        </div>
-        <Nav.Link href="/login"><span><i className="fa-solid fa-user-gear fs-3 me-3"></i></span></Nav.Link>
-        <Nav.Link href="/maintainance"><i className="fa-solid fa-user fs-3 ms-2 me-5"></i></Nav.Link>
+        <Nav.Link href="/login"><span><i className="fa-solid fa-user-gear fs-3 me-3 w3-animate-right"></i></span></Nav.Link>
+        <Nav.Link href="/maintainance"><i className="fa-solid fa-user fs-3 ms-2 me-5 w3-animate-right"></i></Nav.Link>
        </nav>
         </div>
     </header>
@@ -62,7 +63,7 @@ function App() {
       <div className="carousel-caption d-none d-md-block slide1">
       <img src="./slide1.jpg" alt="no"/>
       <img src="./best.png" alt="no" className='bestseller'/>
-      <span className='text-center slide1-content'>
+      <span className='text-center slide1-content w3-animate-right'>
       <h1 className='display-4'>The all time classic</h1>
       <p className='fs-6 mt-2 ms-5 text-light'>
         No.1 best seller in classic,explore more by logging in...<br/>
@@ -92,7 +93,7 @@ function App() {
     <div className="carousel-item">
       <img src="https://chapterone.qodeinteractive.com/wp-content/uploads/2019/08/home-2-slide-2-image-1a.jpg" class="d-block w-100" alt="..."/>
       <div className="carousel-caption d-none d-md-block">
-      <span className='text-center slide3-content'>
+      <span className='text-center slide3-content w3-animate-bottom'>
       <h1 className='display-4 text-dark'>We all love literature</h1>
       <p className='fs-6 mt-2 ms-5 text-dark'>
         No.1 best seller in romance,explore more by logging in...<br/>
@@ -116,7 +117,7 @@ function App() {
     </main>
     <section className='row'>
       <div className='col-12'>
-        <p className='col-4 mt-5 display-5 text-center offset-4 mb-5 arsenal-sc-regular text-light' style={{backgroundColor:"rgb(209, 64, 49)"}}>Bestsellers</p>
+        <p className='col-4 mt-5 display-5 text-center offset-4 mb-5 arsenal-sc-regular text-light w3-animate-top' style={{backgroundColor:"rgb(209, 64, 49)"}}>Bestsellers</p>
         <img src="http://localhost:3000/images/hpcs.jpeg" alt="no" className='col-md-2 col-6 me-4 ml' height="300"/>
         <img src="http://localhost:3000/images/pride_prejudice.jpeg" alt="no" className='col-md-2 col-6 me-4' height="300"/>
         <img src="http://localhost:3000/images/great_expectations.jpeg" alt="no" className='col-md-2 col-6 me-4' height="300"/>
@@ -126,7 +127,7 @@ function App() {
     </section>
     <section className='row'>
       <div className='col-12'>
-        <p className='col-4 mt-5 display-5 text-center offset-4 mb-5 arsenal-sc-regular text-dark' style={{backgroundColor:"bisque"}}>Bestselling Authors</p>
+        <p className='col-4 mt-5 display-5 text-center offset-4 mb-5 arsenal-sc-regular text-white  w3-animate-bottom' style={{backgroundColor:"rgb(209, 64, 49)"}}>Bestselling Authors</p>
         <img src="http://localhost:3000/images/jk.jpeg" alt="no" className='col-md-2 col-6 me-4 ml' height="300"/>
         <img src="http://localhost:3000/images/amish.jpeg" alt="no" className='col-md-2 col-6 me-4' height="300"/>
         <img src="http://localhost:3000/images/ruskin.jpeg" alt="no" className='col-md-2 col-6 me-4' height="300"/>
@@ -134,6 +135,9 @@ function App() {
         <img src="http://localhost:3000/images/jane_austen.jpg" alt="no" className='col-md-2 col-6 me-4' height="300"/>
       </div>
     </section>
+    <footer className='mt-5 row'>
+    <Footer></Footer>
+    </footer>
    </div>
     </div>
    

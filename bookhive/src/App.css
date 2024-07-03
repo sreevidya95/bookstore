@@ -41,3 +41,50 @@
     margin-bottom: -250px !important;
     margin-right: -380px;
 }
+footer{
+    background-color: #282828;
+    width:100vw;
+}
+.carousel-item.active h1 {
+    animation: animate-carousel-title 1s normal forwards;
+  }
+  
+  @keyframes animate-carousel-title {
+    0% {
+      transform: translate(0, -2em);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(0, 0);
+      opacity: 1;
+    }
+  }
+  .carousel-item.active p, section img {
+    animation: animate-carousel-title 1s normal forwards;
+  }
+  
+  @keyframes animate-carousel-title {
+    0% {
+      transform: translate(-5em, 0em);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(0, 0);
+      opacity: 1;
+    }
+  }
+  .carousel-item.active button{
+    animation: animate-carousel-btn-primary 1s normal forwards;
+    animation-delay: 1s;
+  }
+  
+  @keyframes animate-carousel-btn-primary {
+    0% {
+      opacity: 0;
+      transform: translate(0, 3rem);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
