@@ -54,7 +54,7 @@ router.post('/fp', async(req,res,next)=>{
                 from:'tapp93550@gmail.com',
                 to:req.body.email,
                 subject:'forgot passsword',
-                text:`here is your link to create new password for book store application`
+                text:`here is your link to create new password for book store application ${req.body.url}/true`
             };
             transport.sendMail(mailOptions,(err,response)=>{
                 if(err){
@@ -78,6 +78,7 @@ router.post('/fp', async(req,res,next)=>{
 router.post("/new",async(req,res,next)=>{
       try{
          req.body.password = await bcrypt.hash(req.body.password,10);
+         console.log(req.body)
         const admin = await Admin.create(req.body);
         res.status(201).json(admin)
       }catch(e){
