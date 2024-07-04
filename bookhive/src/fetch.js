@@ -13,3 +13,12 @@ export async function postData(url,method,data){
         console.log("something went wrong",err);
      });
 }
+export async function getData(url,method){
+  return await fetch(url,{
+     method:method,
+  }).then(
+    res=>{return res.json()})
+  .catch(err=>{
+     console.log("something went wrong",err);
+  });
+}

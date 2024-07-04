@@ -141,7 +141,7 @@ export default function AdminLogin(){
                     </div>
                     {err.password && <h6 className="h6 col-5 offset-3 text-danger">{err.password}</h6> }
                    <Link className="btn col-6 offset-4 mt-3 text-primary text-decoration-underline" onClick={forgotPassword}>Forgot password?</Link>
-                   <input type="submit" className="btn-color col-3 offset-4 mt-5 text-white rounded-2" value="Login"/>
+                   <input type="submit" className="btn-color col-3 offset-4 mt-5 text-white rounded-2 mb-2" value="Login"/>
                 </form>
             </div>
         </div>
