@@ -115,11 +115,12 @@ footer{
      }
   }
 
-  .link:hover, .nav-item:hover{
+  .link:hover, .nav-item:hover,.btn-color:hover{
     transform: scale(1.1);
   }
   .btn-color{
     background-color:#D14031;
+    border:1px solid #D14031;
   }
   #email,#password{
     border-top: none;

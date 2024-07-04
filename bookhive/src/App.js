@@ -3,11 +3,14 @@ import Nav from 'react-bootstrap/Nav';
 import Footer from './Footer';
 import {Link,useNavigate} from 'react-router-dom';
 import { Tooltip } from 'react-tooltip'
+import { useEffect } from 'react';
 function App() {
   const navigate = useNavigate();
-  if(localStorage.getItem("id")){
-    navigate("/home");
-  }
+  useEffect(()=>{
+    if(localStorage.getItem("id")){
+      navigate("/books");
+    }
+  },[]);
   return (
     <div className='App'>
        <div className="container-fluid">
@@ -25,7 +28,7 @@ function App() {
         <div className='row'>
         <nav className='navbar navbar-expand-lg col-md-12 col-sm-12'>
         <Nav.Link href="#" className='navbar-brand col-3'>
-        <img className='col-3 ms-2' src="./logo.png" alt="no-image"/>
+        <img className='col-3 ms-2' src="/logo.png" alt="no-image"/>
             <span className='dancing-script-name col-5 fst-italic col-2'> Book Hive</span>
         </Nav.Link>
         <button className='navbar-toggler col-4' data-bs-toggle="collapse" data-bs-target="#navigation">
