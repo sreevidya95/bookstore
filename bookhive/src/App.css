@@ -61,7 +61,7 @@ footer,
 .cur-def{
   cursor: default;
 }
-.carousel-item.active h1 {
+.carousel-item.active h1,.book,.col {
   animation: animate-carousel-title 1s normal forwards;
 }
 
@@ -78,7 +78,7 @@ footer,
 }
 
 .carousel-item.active p,
-section img {
+section img,#v-pills-tab{
   animation: animate-carousel-title 1s normal forwards;
 }
 
@@ -94,9 +94,8 @@ section img {
   }
 }
 
-.carousel-item.active button {
+.carousel-item.active button,.auth,.card {
   animation: animate-carousel-btn-primary 1s normal forwards;
-  animation-delay: 1s;
 }
 
 @keyframes animate-carousel-btn-primary {
@@ -223,18 +222,29 @@ li{
 }
 .card-body{
   border-top:none !important;
- border-color:  #e9e3e3;;
+ border-color:  #e9e3e3;
 }
 .car_body{
   position: relative;
-    left: 300px;
     top: -250px;
 }
 .card-height{
   height: 300px !important;
+  border: 1px solid #e9e3e3 !important;
+  border-left:none !important;
 }
 #dropdownMenuButton1{
   margin-top: -7px;
   font-size: 20px;
   border:none
+}
+.ml{
+  color:#450303
+}
+.auth_img{
+  border-radius:100px;
+}
+.header{
+  position: sticky;
+  top:0;
 }

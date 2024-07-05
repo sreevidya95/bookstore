@@ -239,8 +239,8 @@ export default function Books() {
                                         <p className="card-text col-12 text-center"> Author:{e.Author.name}</p>
                                         <p className="card-text col-12 text-center"> Price:{e.price}</p>
                                         <p className="card-text col-12 text-center"> Genere:{e.Genre.genre_name}</p>
-                                        <i class="fa fa-edit col-6 fs-5  text-center link text-secondary"></i>
-                                        <i class="fa fa-trash col-6 fs-5 text-center link text-secondary" onClick={()=>showToast("delete",e.book_id,e.title)}></i>
+                                        <i className="fa fa-edit col-1 offset-5 fs-5  text-center link text-secondary"></i>
+                                        <i className="fa fa-trash col-2 fs-5 text-center link text-secondary" onClick={()=>showToast("delete",e.book_id,e.title)}></i>
                                         <Tooltip anchorSelect=".fa-edit" place="top">Edit Book</Tooltip>
                                         <Tooltip anchorSelect=".fa-trash" place="top">Delete Book</Tooltip>
                                     </div>

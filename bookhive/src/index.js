@@ -7,7 +7,7 @@ import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import UserLogin from './userlogin';
 import AdminLogin from './adminlogin';
 import Books from './Books';
-
+import BookDetails from './BookDetails';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
@@ -17,6 +17,7 @@ root.render(
         <Route path="/adminLogin" element={<AdminLogin/>}/>
         <Route path="/adminLogin/:cp" element={<AdminLogin/>}/>
         <Route path="/books" element={<Books/>}/>
+        <Route path="/book/:id" element={<BookDetails/>}/>
     </Routes>
     </BrowserRouter>
 );
