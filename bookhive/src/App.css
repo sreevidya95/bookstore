@@ -55,7 +55,12 @@ footer,
   background-color: #282828;
   width: 100vw;
 }
-
+.bg{
+  background-color: #e8dbca !important;
+}
+.cur-def{
+  cursor: default;
+}
 .carousel-item.active h1 {
   animation: animate-carousel-title 1s normal forwards;
 }
@@ -135,6 +140,9 @@ section img {
   .ml {
     margin-left: 30px;
   }
+  .settings{
+    left: -20px;
+  }
 }
 
 @media screen and (max-width:700px) {
@@ -148,21 +156,26 @@ section img {
     padding: 0px;
     overflow-x: hidden;
   }
-
+  .settings{
+    left: 40px;
+  }
   #search {
     position: relative;
     left: -250px;
     bottom: -50px;
   }
+  .card{
+    margin-left: 0px !important;
+  }
 }
 
 .link:hover,
 .nav-item:hover,
-.btn-color:hover {
+.btn-color:hover,li:hover {
   transform: scale(1.1);
 }
 
-.btn-color {
+.btn-color,.btn-color:hover {
   background-color: #D14031;
   border: 1px solid #D14031;
 }
@@ -192,10 +205,8 @@ section img {
   height: 50px !important;
   padding-top: 10px;
   position: relative;
-  left: -20px;
 }
 #v-pills-tab{
-  height:100vh !important;
   border:1px solid #e9e3e3;
 }
 hr{
@@ -204,4 +215,26 @@ hr{
 li{
   list-style-type:none;
   color:black;
+}
+.col{
+  float: right;
+    font-size: 25px;
+    border: 1px dotted black;
+}
+.card-body{
+  border-top:none !important;
+ border-color:  #e9e3e3;;
+}
+.car_body{
+  position: relative;
+    left: 300px;
+    top: -250px;
+}
+.card-height{
+  height: 300px !important;
+}
+#dropdownMenuButton1{
+  margin-top: -7px;
+  font-size: 20px;
+  border:none
 }

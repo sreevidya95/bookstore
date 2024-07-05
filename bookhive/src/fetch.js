@@ -22,3 +22,12 @@ export async function getData(url,method){
      console.log("something went wrong",err);
   });
 }
+export async function delData(url,method){
+  return await fetch(url,{
+     method:method,
+  }).then(
+    res=>{return res.status})
+  .catch(err=>{
+     console.log("something went wrong",err);
+  });
+}

@@ -1,7 +1,9 @@
 const express = require('express');
 const CustomeError = require('../CustomError');
 const router = express.Router();
+const {Sequelize} = require("sequelize");
 const {sequelize} = require('../models/sequelize');
+const { where } = require('sequelize');
 const author = require('../models/author')(sequelize);
 const Book = require("../models/book")(sequelize);
 const genere = require('../models/genere')(sequelize);
@@ -15,8 +17,8 @@ router.get('/',async (req,res,next)=>{
             {
                 model:genere,
                 required:true,
-            }
-        ]
+            },     
+        ],
         });
             res.status(200).json(books);
     }
