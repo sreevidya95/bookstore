@@ -15,11 +15,11 @@ export default function UserLogin(){
           if(message.hasOwnProperty('message')){
               setToast(true);
               setLoading(false);
-             window.location.reload();
           } 
     }
     function handleClose(){
         setToast(false);
+        window.location.reload();
        }  
     return(
        <div className="container-fluid bg-img">
@@ -38,8 +38,8 @@ export default function UserLogin(){
                 <input type="email" className="form-control-sm col-6 col-md-3 col-xl-3 offset-md-4 offset-3 mb-3 border border-secondary" placeholder="Enter your email id" name="user_email" onChange={handleChange} required/>
                 <textarea className="form-control-sm col-6 col-md-3 ocol-xl-3 offset-md-4 mb-3 offset-3" placeholder="Enter your Enquiries or your address and book name here" onChange={handleChange} name = "message" rows="5" required></textarea>
                 <input type="submit" className="col-md-2 col-4 col-xl-1 offset-md-5 btn btn-info mb-5 offset-4"/>
-                {toast && <Model show={toast}  onClick={handleClose} msg="Enquiry Sent"/>}
             </form>
+            {toast && <Model show={toast}  onClick={handleClose} msg="Enquiry Sent"/>}
             </>   
            }
            </div>

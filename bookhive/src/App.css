@@ -170,8 +170,11 @@ section img,#v-pills-tab{
 
 .link:hover,
 .nav-item:hover,
-.btn-color:hover,li:hover {
+.btn-color:hover,li:hover,.lin:hover {
   transform: scale(1.1);
+}
+.lin.active{
+  color:#D14031
 }
 
 .btn-color,.btn-color:hover {
@@ -247,4 +250,8 @@ li{
 .header{
   position: sticky;
   top:0;
+}
+.drop.show {
+  height:300px !important;
+  overflow-y: scroll;
 }

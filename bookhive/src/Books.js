@@ -1,13 +1,14 @@
-import { Link,useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Nav from 'react-bootstrap/Nav';
 import { useState, useReducer, useEffect, useRef } from "react";
 import Model from "./modal";
-import {getData,delData} from './fetch';
-import {isMobile}from 'react-device-detect';
+import { getData, delData } from './fetch';
+import { isMobile } from 'react-device-detect';
 import { Tooltip } from "react-tooltip";
 import Header from "./Header";
+import Footer from "./Footer";
 export default function Books() {
-   
+
     const [toast, setToast] = useState(false);
     const [categories, setCategories] = useState({});
     const [authors, setAuthors] = useState({});
@@ -19,7 +20,7 @@ export default function Books() {
     const initialState = {};
     const msg = useRef("");
     const type = useRef("");
-    const [id,setId] = useState(0);
+    const [id, setId] = useState(0);
     useEffect(() => {
         loadVal();
     }, [])
@@ -55,8 +56,8 @@ export default function Books() {
     function handleClose() {
         setToast(false);
     }
-    const handleOk= async (val)=> {
-        if(val==='signout'){
+    const handleOk = async (val) => {
+        if (val === 'signout') {
             setToast(false);
             localStorage.removeItem("id");
             localStorage.removeItem("name");
@@ -66,16 +67,16 @@ export default function Books() {
             setloading(true);
             setToast(false);
             console.log(id);
-            let msg = await delData(`http://localhost:3000/books/${id}`,"delete");
-            if(msg===204){
+            let msg = await delData(`http://localhost:3000/books/${id}`, "delete");
+            if (msg === 204) {
                 alert("Deleted Successfully")
             }
-            else{
+            else {
                 alert("something went wrong")
             }
-           
+
         }
-        
+
     }
     async function loadVal() {
         setloading(true);
@@ -141,23 +142,23 @@ export default function Books() {
         setBooks(book);
         setloading(false);
     }
-    function showToast(val,id,title){
-          setToast(true);
-          if(val==='delete'){
-            msg.current=`Are You sure you want to delete "${title}"`;
-            type.current="delete";
+    function showToast(val, id, title) {
+        setToast(true);
+        if (val === 'delete') {
+            msg.current = `Are You sure you want to delete "${title}"`;
+            type.current = "delete";
             setId(id);
-          }
-         
-        else{
-            msg.current="Are you sure you want to signout";
-            type.current="signout"
+        }
+
+        else {
+            msg.current = "Are you sure you want to signout";
+            type.current = "signout"
         }
     }
     return (
         <div className="container-fluid">
             <div className="row">
-                <Header onClick={() => showToast("signout",0,null)} change={sortBy} />
+                <Header onClick={() => showToast("signout", 0, null)} change={sortBy} />
             </div>
             {loading ?
                 <div className="row">
@@ -166,9 +167,9 @@ export default function Books() {
                     </div>
                 </div>
                 :
-                <div className="row">
+                <div className="row mt-5">
                     <div className={`nav flex-column nav-pills ${isMobile ? 'collapse col-12' : 'col-3 '}`} id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <Nav.Link className="nav-link mt-5 btn col-12" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home"
+                        <Nav.Link className="nav-link mt-5 btn col-12" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home"
                             role="tab" aria-controls="v-pills-home" aria-selected="true"><span className="btn btn-color text-white col-8 mb-5" onClick={LoadBooks}>ADD New Book</span>
                         </Nav.Link>
                         <hr />
@@ -206,13 +207,13 @@ export default function Books() {
                             <span className="col-1 text-dark ms-1">{range}</span>
                             <input type="button" className="btn btn-color col-8 mt-2 ms-2 text-white" onClick={() => sortBy("filter", range)} value="Filter" />
                         </Nav.Link>
-                        <hr/>
+                        <hr />
                         <Nav.Link className="nav-link btn col-12 mt-5" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages"
                             role="tab" aria-controls="v-pills-messages" aria-selected="false"><span className="h5 text-black">SortBy Publication Date</span>
-                              <ul className="col-12 mt-3">
+                            <ul className="col-12 mt-3">
                                 <li className="fs-5 text-center">Sort By older</li>
                                 <li className="fs-5 text-center">Sort By New</li>
-                              </ul>
+                            </ul>
                         </Nav.Link>
                         <hr />
                     </div>
@@ -234,13 +235,13 @@ export default function Books() {
                                     {e.book_image ? <img src={e.book_image} alt="no" height="300" className={`col-md-12 col-xl-12 ${!grid && "w-25"}`} />
                                         : <img src="/noimg.webp" alt="no" height="300" className={`col-md-12 col-xl-12 ${!grid && "w-25"}`} />}
                                     <div className={`card-body col-xl-12 col-md-12 mb-5 ${grid ? "border" : "car_body"}`}>
-                                        <Link  to={`/book/${e.book_id}`}><h5 className="card-title col-12 link text-center">{e.title}</h5></Link>
+                                        <Link to={`/book/${e.book_id}`}><h5 className="card-title col-12 link text-center">{e.title}</h5></Link>
                                         {/* <p class="card-text"> Author:{e.author.name}</p> */}
                                         <p className="card-text col-12 text-center"> Author:{e.Author.name}</p>
                                         <p className="card-text col-12 text-center"> Price:{e.price}</p>
                                         <p className="card-text col-12 text-center"> Genere:{e.Genre.genre_name}</p>
                                         <i className="fa fa-edit col-1 offset-5 fs-5  text-center link text-secondary"></i>
-                                        <i className="fa fa-trash col-2 fs-5 text-center link text-secondary" onClick={()=>showToast("delete",e.book_id,e.title)}></i>
+                                        <i className="fa fa-trash col-2 fs-5 text-center link text-secondary" onClick={() => showToast("delete", e.book_id, e.title)}></i>
                                         <Tooltip anchorSelect=".fa-edit" place="top">Edit Book</Tooltip>
                                         <Tooltip anchorSelect=".fa-trash" place="top">Delete Book</Tooltip>
                                     </div>
@@ -250,9 +251,12 @@ export default function Books() {
                             }
                         </div>
                     </div>
-                    {toast && <Model show={toast} msg={msg.current} onClick={handleClose} type="ok" value={()=>handleOk(type.current)} />}
+                    {toast && <Model show={toast} msg={msg.current} onClick={handleClose} type="ok" value={() => handleOk(type.current)} />}
                 </div>
             }
+            <footer className='mt-5 row'>
+                <Footer></Footer>
+            </footer>
         </div>
     )
 }
