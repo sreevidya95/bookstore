@@ -273,12 +273,9 @@ li{
   height:300px !important;
   overflow-y: scroll;
 }
-
-/* .name{
-  margin-top:15em !important;
-  color:#ac6818;
-  font-weight: bolder;
-} */
+.background{
+  border-bottom: 1px solid #e9e3e3;
+}
 .card-img-overlay .op{
   display: none;
 }

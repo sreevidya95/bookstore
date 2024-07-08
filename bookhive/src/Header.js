@@ -53,9 +53,12 @@ export default function Header(props) {
                 <span class="navbar-toggler-icon"></span>
             </button>}
             <Nav.Link href="#" className='navbar-brand col-10 col-md-12 col-xl-12'>
-                <span className='col-4 col-md-4 col-xl-4 ml  fs-4 cur-def'>Welcome Back,  {localStorage.getItem("name")}
+
+                <span className='col-4 col-md-4 col-xl-4 ml  fs-4 cur-def'>
+                <img className="me-2" src="/logo.png" alt="no"  height="50"/>
+                    Welcome Back,  {localStorage.getItem("name")}
                 </span>
-                <input type="text" placeholder="Search here....🔍" className="col-6 col-md-4 col-xl-4 offset-md-2 offset-xl-2 border border-secondary" id="search" onChange={(e) => props.change("search", e.target.value)} />
+                <input type="text" placeholder="Search here....🔍" className="col-6 col-md-4 col-xl-4 offset-md-1 offset-xl-1 border border-secondary" id="search" onChange={(e) => props.change("search", e.target.value)} />
                 <div className="dropdown dropstart fst-italic col-2 btn-color rounded-5 ms-5 col-md-2 col-xl-2 offset-md-1 offset-xl-1 settings text-center">
                     <button className="btn dropdown-toggle rounded-5 text-white" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         <span>{localStorage.getItem("name").charAt(0)}</span>
@@ -67,9 +70,9 @@ export default function Header(props) {
             </Nav.Link>
         </nav>
         <nav className='row background mt-3'>
-        <NavLink to="/books" className={`col-4 ms-5 text-center arsenal-sc-regular fs-3 text-decoration-none link ${window.location.pathname ==='/books' ? 'linkactive' : 'text-dark' }`}>Books</NavLink>
-        <NavLink to="/authors" className={`col-3 arsenal-sc-regular fs-3 text-decoration-none text-center link ${window.location.pathname ==='/authors' ? 'linkactive' : "text-dark"}`}>authors</NavLink>
-    <NavLink className="nav-link dropdown-toggle col-3 text-dark arsenal-sc-regular fs-3 text-decoration-none text-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <NavLink to="/books" className={`col-4 offset-1 text-center arsenal-sc-regular fs-3 text-decoration-none link mb-2 ${window.location.pathname ==='/books' ? 'linkactive' : 'text-dark' }`}>Books</NavLink>
+        <NavLink to="/authors" className={`col-3 arsenal-sc-regular fs-3 text-decoration-none text-center link mb-2 ${window.location.pathname ==='/authors' ? 'linkactive' : "text-dark"}`}>authors</NavLink>
+    <NavLink className="nav-link dropdown-toggle col-3 text-dark arsenal-sc-regular fs-3 text-decoration-none text-center mb-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <i className="fa-regular fa-message"></i>
     <Tooltip anchorSelect=".fa-message" place="bottom" className="fs-6">Messages From Users</Tooltip>
     </NavLink>

@@ -13,7 +13,7 @@ router.get("/",async(req,res,next)=>{
         next(e);
     }
 });
-router.patch("/:id",async(req,res,next)=>{
+router.put("/:id",async(req,res,next)=>{
     try{
         const update = await Enquiry.update({isRead:1},{
             where:{
