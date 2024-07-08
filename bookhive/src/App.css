@@ -61,7 +61,7 @@ footer,
 .cur-def{
   cursor: default;
 }
-.carousel-item.active h1,.book,.col {
+.carousel-item.active h1,.book,.col{
   animation: animate-carousel-title 1s normal forwards;
 }
 
@@ -78,8 +78,9 @@ footer,
 }
 
 .carousel-item.active p,
-section img,#v-pills-tab{
+section img,#v-pills-tab,.name{
   animation: animate-carousel-title 1s normal forwards;
+  animation-delay: 1s;
 }
 
 @keyframes animate-carousel-title {
@@ -117,7 +118,9 @@ section img,#v-pills-tab{
     background-size: cover;
     height: 100vh;
   }
-
+  .author{
+    margin-left: 80px;
+  }
   .margin {
     margin-top: 150px;
   }
@@ -141,6 +144,12 @@ section img,#v-pills-tab{
   }
   .settings{
     left: -20px;
+  }
+  .card-img-overlay:hover .op{
+    display: block;
+    background-color: rgba(248, 241, 232,0.5);
+    height: 470px;
+    transform: scale(1.1);
   }
 }
 
@@ -166,15 +175,24 @@ section img,#v-pills-tab{
   .card{
     margin-left: 0px !important;
   }
+  .author{
+    margin-left: -20px !important;
+  }
+  .card-img-overlay:active .op{
+    display: block;
+    background-color: rgba(248, 241, 232,0.5);
+    height: 470px;
+    transform: scale(1.1);
+  }
 }
 
 .link:hover,
 .nav-item:hover,
-.btn-color:hover,li:hover,.lin:hover {
+.btn-color:hover,li:hover{
   transform: scale(1.1);
 }
-.lin.active{
-  color:#D14031
+.linkactive{
+  color:#D14031 !important;
 }
 
 .btn-color,.btn-color:hover {
@@ -254,4 +272,13 @@ li{
 .drop.show {
   height:300px !important;
   overflow-y: scroll;
+}
+
+/* .name{
+  margin-top:15em !important;
+  color:#ac6818;
+  font-weight: bolder;
+} */
+.card-img-overlay .op{
+  display: none;
 }

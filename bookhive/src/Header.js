@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Nav } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 import { getData,delData } from "./fetch";
 import { Tooltip } from "react-tooltip";
 import Model from "./modal";
@@ -41,7 +41,6 @@ export default function Header(props) {
             }
             setToast(true);
         }
-       
     }
     function handleClose(){
         setToast(false);
@@ -50,9 +49,9 @@ export default function Header(props) {
     return (
         <>
         <nav className='navbar navbar-expand-lg col-md-12 col-sm-12 bg header'>
-            <button className='navbar-toggler col-2 border border-white bg-white' data-bs-toggle="collapse" data-bs-target="#v-pills-tab">
+            {window.location.pathname!=='/authors' &&<button className='navbar-toggler col-2 border border-white bg-white' data-bs-toggle="collapse" data-bs-target="#v-pills-tab">
                 <span class="navbar-toggler-icon"></span>
-            </button>
+            </button>}
             <Nav.Link href="#" className='navbar-brand col-10 col-md-12 col-xl-12'>
                 <span className='col-4 col-md-4 col-xl-4 ml  fs-4 cur-def'>Welcome Back,  {localStorage.getItem("name")}
                 </span>
@@ -68,17 +67,17 @@ export default function Header(props) {
             </Nav.Link>
         </nav>
         <nav className='row background mt-3'>
-        <NavLink to="/books" className="col-4 ms-5 text-center text-dark arsenal-sc-regular fs-3 text-decoration-none lin">Books</NavLink>
-        <NavLink to="/authors" className="col-3 text-dark arsenal-sc-regular fs-3 text-decoration-none link text-center">authors</NavLink>
-    <NavLink className="nav-link dropdown-toggle col-3 text-dark arsenal-sc-regular fs-3 text-decoration-none link text-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <i class="fa-regular fa-message"></i>
+        <NavLink to="/books" className={`col-4 ms-5 text-center arsenal-sc-regular fs-3 text-decoration-none link ${window.location.pathname ==='/books' ? 'linkactive' : 'text-dark' }`}>Books</NavLink>
+        <NavLink to="/authors" className={`col-3 arsenal-sc-regular fs-3 text-decoration-none text-center link ${window.location.pathname ==='/authors' ? 'linkactive' : "text-dark"}`}>authors</NavLink>
+    <NavLink className="nav-link dropdown-toggle col-3 text-dark arsenal-sc-regular fs-3 text-decoration-none text-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i className="fa-regular fa-message"></i>
     <Tooltip anchorSelect=".fa-message" place="bottom" className="fs-6">Messages From Users</Tooltip>
     </NavLink>
     <div className="dropdown-menu col-6 drop" aria-labelledby="navbarDropdown">
     {loading ?
                 <div className="row">
-                    <div class="spinner-grow sp col-6 offset-6" role="status">
-                        <span class="sr-only">Loading...</span>
+                    <div className="spinner-grow sp col-6 offset-6" role="status">
+                        <span className="sr-only">Loading...</span>
                     </div>
                 </div>
                 :

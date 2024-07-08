@@ -122,8 +122,8 @@ export default function AdminLogin(){
        <div className="container">
         {loading ? 
           <div className="row">
-            <div class="spinner-grow sp col-6 offset-6" role="status">
-                <span class="sr-only">Loading...</span>
+            <div className="spinner-grow sp col-6 offset-6" role="status">
+                <span className="sr-only">Loading...</span>
                 </div>
             </div>
        :

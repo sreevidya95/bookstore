@@ -19,13 +19,13 @@ export default function UserLogin(){
     }
     function handleClose(){
         setToast(false);
-        window.location.reload();
+        setEnquiry({user_email:"",message:""})
        }  
     return(
        <div className="container-fluid bg-img">
         {loading ? 
-            <div class="spinner-grow" role="status">
-                <span class="sr-only">Loading...</span>
+            <div className="spinner-grow" role="status">
+                <span className="sr-only">Loading...</span>
                 </div>
        :
        <>
@@ -34,7 +34,7 @@ export default function UserLogin(){
                 address in below form, we will reply to you through Email.
              </h5>
            </div>
-            <form className="row form mt-5" onSubmit={submitEnquiry}>
+            <form className="row form mt-5 auth" onSubmit={submitEnquiry}>
                 <input type="email" className="form-control-sm col-6 col-md-3 col-xl-3 offset-md-4 offset-3 mb-3 border border-secondary" placeholder="Enter your email id" name="user_email" onChange={handleChange} required/>
                 <textarea className="form-control-sm col-6 col-md-3 ocol-xl-3 offset-md-4 mb-3 offset-3" placeholder="Enter your Enquiries or your address and book name here" onChange={handleChange} name = "message" rows="5" required></textarea>
                 <input type="submit" className="col-md-2 col-4 col-xl-1 offset-md-5 btn btn-info mb-5 offset-4"/>
