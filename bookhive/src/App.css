@@ -184,6 +184,9 @@ section img,#v-pills-tab,.name{
     height: 470px;
     transform: scale(1.1);
   }
+  .ml{
+    margin-left: -5px !important;
+  }
 }
 
 .link:hover,
@@ -269,13 +272,13 @@ li{
   position: sticky;
   top:0;
 }
-.drop.show {
-  height:300px !important;
-  overflow-y: scroll;
-}
 .background{
   border-bottom: 1px solid #e9e3e3;
 }
 .card-img-overlay .op{
   display: none;
+}
+.drop.show {
+  height:300px !important;
+  overflow-y: scroll;
 }

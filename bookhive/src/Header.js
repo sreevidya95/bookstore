@@ -49,12 +49,11 @@ export default function Header(props) {
     return (
         <>
         <nav className='navbar navbar-expand-lg col-md-12 col-sm-12 bg header'>
-            {window.location.pathname!=='/authors' &&<button className='navbar-toggler col-2 border border-white bg-white' data-bs-toggle="collapse" data-bs-target="#v-pills-tab">
+        {window.location.pathname!=='/authors' &&<button className='navbar-toggler col-2 border border-white bg-white' data-bs-toggle="collapse" data-bs-target="#v-pills-tab">
                 <span class="navbar-toggler-icon"></span>
             </button>}
             <Nav.Link href="#" className='navbar-brand col-10 col-md-12 col-xl-12'>
-
-                <span className='col-4 col-md-4 col-xl-4 ml  fs-4 cur-def'>
+                <span className='col-4  ml  fs-4 cur-def'>
                 <img className="me-2" src="/logo.png" alt="no"  height="50"/>
                     Welcome Back,  {localStorage.getItem("name")}
                 </span>
@@ -76,7 +75,7 @@ export default function Header(props) {
     <i className="fa-regular fa-message"></i>
     <Tooltip anchorSelect=".fa-message" place="bottom" className="fs-6">Messages From Users</Tooltip>
     </NavLink>
-    <div className="dropdown-menu col-6 drop" aria-labelledby="navbarDropdown">
+    <div className="dropdown-menu col-12 col-md-6 col-xl-6 drop" aria-labelledby="navbarDropdown">
     {loading ?
                 <div className="row">
                     <div className="spinner-grow sp col-6 offset-6" role="status">

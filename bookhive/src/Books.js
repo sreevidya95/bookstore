@@ -74,9 +74,15 @@ export default function Books() {
             else {
                 alert("something went wrong")
             }
-
+            setloading(false);
         }
 
+    }
+    async function sortPublicationDate(sort){
+        setloading(true);
+       let book = await getData(`http://localhost:3000/books/${sort}`, "get");
+       setBooks(book);
+       setloading(false);
     }
     async function loadVal() {
         setloading(true);
@@ -211,8 +217,8 @@ export default function Books() {
                         <Nav.Link className="nav-link btn col-12 mt-5" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages"
                             role="tab" aria-controls="v-pills-messages" aria-selected="false"><span className="h5 text-black">SortBy Publication Date</span>
                             <ul className="col-12 mt-3">
-                                <li className="fs-5 text-center">Sort By older</li>
-                                <li className="fs-5 text-center">Sort By New</li>
+                                <li className="fs-5 text-center" onClick={()=>sortPublicationDate('ASC')}>Sort By older</li>
+                                <li className="fs-5 text-center" onClick={()=>sortPublicationDate('DESC')}>Sort By New</li>
                             </ul>
                         </Nav.Link>
                         <hr />

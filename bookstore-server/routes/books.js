@@ -29,6 +29,30 @@ router.get('/',async (req,res,next)=>{
     }
     
 });
+//sorting books by publication date
+router.get('/:sort',async (req,res,next)=>{
+    try{
+        const books = await Book.findAll({
+            include:[{
+                model:author,
+                required:true,
+            },
+            {
+                model:genere,
+                required:true,
+            },    
+        ],
+        order: [['publication_date',req.params.sort]]
+        });
+            res.status(200).json(books);
+    }
+    catch(err){
+        const e = new CustomeError(err.message,500)
+                next(e);
+      
+    }
+    
+});
 router.get('/:id',async(req,res,next)=>{
     try{
         const book = await Book.findByPk(req.params.id,{
