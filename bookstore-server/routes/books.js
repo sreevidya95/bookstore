@@ -29,20 +29,14 @@ router.get('/',async (req,res,next)=>{
     }
     
 });
-//sorting books by publication date
-router.get('/:sort',async (req,res,next)=>{
+//getting books of particular author to display books of author
+router.get('/author/:id',async (req,res,next)=>{
     try{
         const books = await Book.findAll({
-            include:[{
-                model:author,
-                required:true,
-            },
-            {
-                model:genere,
-                required:true,
-            },    
-        ],
-        order: [['publication_date',req.params.sort]]
+           where:{
+            AuthorAuthorId:req.params.id
+           },
+           attributes:["book_image",'title']
         });
             res.status(200).json(books);
     }
@@ -53,31 +47,59 @@ router.get('/:sort',async (req,res,next)=>{
     }
     
 });
-router.get('/:id',async(req,res,next)=>{
-    try{
-        const book = await Book.findByPk(req.params.id,{
-            include:[
-                {
+//sorting books by publication date and getting particular book
+router.get('/:sort',async (req,res,next)=>{
+    console.log(req.params.sort);
+    if(req.params.sort ==='ASC' || req.params.sort==='DESC'){
+        try{
+            const books = await Book.findAll({
+                include:[{
                     model:author,
                     required:true,
                 },
                 {
                     model:genere,
                     required:true,
-                }
-            ]
-        });
-        if(book){
-            res.status(200).json(book);
+                },    
+            ],
+            order: [['publication_date',req.params.sort]]
+            });
+                res.status(200).json(books);
         }
-        else{
-            const e = new CustomeError("couldnt find the book",404)
-            next(e);
+        catch(err){
+            const e = new CustomeError(err.message,500)
+                    next(e);
+          
         }
-    }catch(error){
-        const e = new CustomeError(error.message,500)
-            next(e);
     }
+    else{
+        try{
+            const book = await Book.findByPk(req.params.sort,{
+                include:[
+                    {
+                        model:author,
+                        required:true,
+                    },
+                    {
+                        model:genere,
+                        required:true,
+                    }
+                ]
+            });
+            if(book){
+                res.status(200).json(book);
+            }
+            else{
+                const e = new CustomeError("couldnt find the book",404)
+                next(e);
+            }
+        }catch(error){
+            const e = new CustomeError(error.message,500)
+                next(e);
+        }
+
+    }
+    
 });
 router.post('/',async (req,res,next)=>{
     try{

@@ -260,7 +260,7 @@ export default function Books() {
                     {toast && <Model show={toast} msg={msg.current} onClick={handleClose} type="ok" value={() => handleOk(type.current)} />}
                 </div>
             }
-            <footer className='mt-5 row'>
+            <footer className='mt-5'>
                 <Footer></Footer>
             </footer>
         </div>

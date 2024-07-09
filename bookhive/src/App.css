@@ -61,6 +61,9 @@ footer,
 .cur-def{
   cursor: default;
 }
+.cur{
+  cursor: pointer;
+}
 .carousel-item.active h1,.book,.col{
   animation: animate-carousel-title 1s normal forwards;
 }
@@ -132,6 +135,9 @@ section img,#v-pills-tab,.name{
 
   .img {
     margin-left: 200px;
+  }
+  .fr{
+    float: right !important;
   }
 
   .mt {
@@ -266,7 +272,7 @@ li{
   color:#450303
 }
 .auth_img{
-  border-radius:100px;
+  border-radius:200px;
 }
 .header{
   position: sticky;
@@ -281,4 +287,14 @@ li{
 .drop.show {
   height:300px !important;
   overflow-y: scroll;
+}
+.ap{
+  height:100px;
+  background-color: rgba(248, 241, 232,0.5);
+}
+.title{
+  height: 400px;
+    border: 1px solid black !important;
+    text-align: center;
+    padding-top: 200px;
 }

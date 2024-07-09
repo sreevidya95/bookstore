@@ -1,7 +1,8 @@
+import { isMobile } from "react-device-detect";
 export default function Footer(){
     return(
-        <>
-        <div className="col-12 col-md-3 col-xl-3 ms-5">
+        <div className="row">
+        <div className="col-12 col-md-3 col-xl-3 ${!isMobile && 'ms-5">
          <h3 className="col-12 h4 arsenal-sc-regular fw-bold text-light text-center">Publishers</h3>
          <h6 className="fs-6 col-12  text-light text-center">Bestsellers</h6>
          <h6 className="fs-6 col-12  text-light text-center">Author Story</h6>
@@ -31,7 +32,7 @@ export default function Footer(){
         <div className="col-12" style={{backgroundColor:"#000"}}>
          <h6 className="h6 col-12  text-light text-center">&copy; 2024, All Rights reserved</h6>
         </div>
-        </>
+        </div>
 
     );
 }

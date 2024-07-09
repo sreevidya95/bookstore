@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Nav } from "react-bootstrap";
-import { NavLink} from "react-router-dom";
+import { NavLink,useParams} from "react-router-dom";
 import { getData,delData } from "./fetch";
 import { Tooltip } from "react-tooltip";
 import Model from "./modal";
@@ -8,6 +8,7 @@ export default function Header(props) {
     const[messages,setMessages]=useState([]);
     const [loading,setloading]=useState(false);
     const[toast,setToast]=useState(false);
+    const {id} = useParams();
     let msg=useRef('');
     useEffect(()=>{
         getMessage();
@@ -57,7 +58,7 @@ export default function Header(props) {
                 <img className="me-2" src="/logo.png" alt="no"  height="50"/>
                     Welcome Back,  {localStorage.getItem("name")}
                 </span>
-                <input type="text" placeholder="Search here....🔍" className="col-6 col-md-4 col-xl-4 offset-md-1 offset-xl-1 border border-secondary" id="search" onChange={(e) => props.change("search", e.target.value)} />
+               {typeof id==='undefined' && <input type="text" placeholder="Search here....🔍" className="col-6 col-md-4 col-xl-4 offset-md-1 offset-xl-1 border border-secondary" id="search" onChange={(e) => props.change("search", e.target.value)} />}
                 <div className="dropdown dropstart fst-italic col-2 btn-color rounded-5 ms-5 col-md-2 col-xl-2 offset-md-1 offset-xl-1 settings text-center">
                     <button className="btn dropdown-toggle rounded-5 text-white" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         <span>{localStorage.getItem("name").charAt(0)}</span>

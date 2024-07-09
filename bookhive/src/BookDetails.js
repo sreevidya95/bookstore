@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { getData } from "./fetch";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
+import Footer from "./Footer";
+import Header from "./Header";
 export default function BookDetails(){
     const[loading,setloading]=useState(false);
     let {id} = useParams();
     const[book,setBook]= useState({});
+    const navigate = useNavigate();
     async function getBook(){
         setloading(true);
        
@@ -18,8 +21,16 @@ export default function BookDetails(){
         setloading(true);
         getBook();
     },[id]);
+    function signOut(){
+        localStorage.removeItem("id");
+        localStorage.removeItem("name");
+        navigate("/");
+    }
     return(
-       <div className="container">
+       <div className="container-fluid">
+         <div className="row">
+                <Header onClick={() => signOut()} />
+            </div>
         {book && loading ?
                 <div className="row">
                     <div className="spinner-grow sp col-6 offset-6" role="status">
@@ -41,6 +52,7 @@ export default function BookDetails(){
                     {book.Author && book.Author.name} crafts a rich tapestry that will leave readers eagerly turning each page, eager to uncover the secrets that lie beneath 
                      the surface</p>
                      {book.Genre && <h6 className="fs-3 text-dark col-12 arsenal-sc-regular">Category: {book.Genre.genre_name}</h6>}
+                     {book.publication_date && <h6 className="fs-5 text-dark col-12 arsenal-sc-regular">Plublcation Date: {book.publication_date}</h6>}
                      <hr/>
                      {book.Author && 
                      <div className="row">
@@ -56,6 +68,9 @@ export default function BookDetails(){
                         }
             </div>
         </div>}
+        <footer className='mt-5'>
+                <Footer></Footer>
+            </footer>
        </div>
     );
 }

@@ -126,7 +126,7 @@ export default function Authors() {
             }
             {toast && <Model show={toast} msg={msg.current} onClick={handleClose} type="ok" value={() => editAuthor(type.current, id.current)} />}
             {alert && <Model show={alert} msg={msg.current} onClick={handleClose} />}
-            <footer className='mt-5 row'>
+            <footer className='mt-5'>
                 <Footer></Footer>
             </footer>
         </div>
