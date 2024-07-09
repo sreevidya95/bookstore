@@ -7,6 +7,7 @@ import { isMobile } from 'react-device-detect';
 import { Tooltip } from "react-tooltip";
 import Header from "./Header";
 import Footer from "./Footer";
+import Offcanva from "./Offcanvas";
 export default function Books() {
 
     const [toast, setToast] = useState(false);
@@ -20,6 +21,7 @@ export default function Books() {
     const initialState = {};
     const msg = useRef("");
     const type = useRef("");
+    const[offcanvas,setOffcanvas]=useState(false);
     const [id, setId] = useState(0);
     useEffect(() => {
         loadVal();
@@ -55,6 +57,7 @@ export default function Books() {
     const navigate = useNavigate();
     function handleClose() {
         setToast(false);
+        setOffcanvas(false);
     }
     const handleOk = async (val) => {
         if (val === 'signout') {
@@ -149,16 +152,20 @@ export default function Books() {
         setloading(false);
     }
     function showToast(val, id, title) {
-        setToast(true);
         if (val === 'delete') {
             msg.current = `Are You sure you want to delete "${title}"`;
             type.current = "delete";
             setId(id);
+            setToast(true);
         }
-
+        else if (val === "edit") {
+            setOffcanvas(true);
+            setId(id);
+        }
         else {
             msg.current = "Are you sure you want to signout";
-            type.current = "signout"
+            type.current = "signout";
+            setToast(true);
         }
     }
     return (
@@ -176,7 +183,7 @@ export default function Books() {
                 <div className="row mt-5">
                     <div className={`nav flex-column nav-pills ${isMobile ? 'collapse col-12' : 'col-3 '}`} id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <Nav.Link className="nav-link mt-5 btn col-12" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home"
-                            role="tab" aria-controls="v-pills-home" aria-selected="true"><span className="btn btn-color text-white col-8 mb-5" onClick={LoadBooks}>ADD New Book</span>
+                            role="tab" aria-controls="v-pills-home" aria-selected="true"><span className="btn btn-color text-white col-8 mb-5" onClick={()=>setOffcanvas(true)}>ADD New Book</span>
                         </Nav.Link>
                         <hr />
                         <Nav.Link className="nav-link btn mt-5" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home"
@@ -246,7 +253,7 @@ export default function Books() {
                                         <p className="card-text col-12 text-center"> Author:{e.Author.name}</p>
                                         <p className="card-text col-12 text-center"> Price:{e.price}</p>
                                         <p className="card-text col-12 text-center"> Genere:{e.Genre.genre_name}</p>
-                                        <i className="fa fa-edit col-1 offset-5 fs-5  text-center link text-secondary"></i>
+                                        <i className="fa fa-edit col-1 offset-5 fs-5  text-center link text-secondary" onClick={() => showToast("edit", e.book_id, e.title)}></i>
                                         <i className="fa fa-trash col-2 fs-5 text-center link text-secondary" onClick={() => showToast("delete", e.book_id, e.title)}></i>
                                         <Tooltip anchorSelect=".fa-edit" place="top">Edit Book</Tooltip>
                                         <Tooltip anchorSelect=".fa-trash" place="top">Delete Book</Tooltip>
@@ -258,6 +265,7 @@ export default function Books() {
                         </div>
                     </div>
                     {toast && <Model show={toast} msg={msg.current} onClick={handleClose} type="ok" value={() => handleOk(type.current)} />}
+                       {offcanvas && <Offcanva show={offcanvas} onClick={handleClose} id={id && id}/>}
                 </div>
             }
             <footer className='mt-5'>

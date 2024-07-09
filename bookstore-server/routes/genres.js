@@ -32,8 +32,19 @@ router.get('/:id',async(req,res,next)=>{
 });
 router.post('/',async (req,res,next)=>{
     try{
-        const genere = await Genere.create(req.body);
-        res.status(201).json(genere);
+        const checkGenere = await Genere.findAll({
+            where:{
+                genre_name:req.body.genre_name
+            }
+        });
+        if(checkGenere.length>0){
+            const e = new CustomeError("Genere Already Exists",403)
+            next(e);
+        }
+        else{
+            const genere = await Genere.create(req.body);
+            res.status(201).json(genere);
+        }
     }
     catch(error){
         const e = new CustomeError(error.message,500)
