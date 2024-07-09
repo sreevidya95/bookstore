@@ -83,7 +83,6 @@ footer,
 .carousel-item.active p,
 section img,#v-pills-tab,.name{
   animation: animate-carousel-title 1s normal forwards;
-  animation-delay: 1s;
 }
 
 @keyframes animate-carousel-title {
@@ -104,13 +103,13 @@ section img,#v-pills-tab,.name{
 
 @keyframes animate-carousel-btn-primary {
   0% {
-    opacity: 0;
     transform: translate(0, 3rem);
+    opacity: 0;
   }
 
   100% {
-    opacity: 1;
     transform: translate(0, 0);
+    opacity: 1;
   }
 }
 

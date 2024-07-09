@@ -51,9 +51,9 @@ export default function AuthorDetails() {
             </div>
             <div className="row">
                 <div className="col-md-4 col-xl-4 col-12 mt-5">
-                    {data && (data.author_image ? <img src={data.author_image} alt="no" height="300" width="300" className="ms-5 auth_img fr"/>:<img src="/user.jpg" alt="no" className="ms-5 auth_img fr"/>)}
+                    {data && (data.author_image ? <img src={data.author_image} alt="no" height="300" width="300" className="ms-5 auth_img fr name"/>:<img src="/user.jpg" alt="no" className="ms-5 auth_img fr"/>)}
                 </div>
-                <div className="col-md-6 col-xl-6 col-12 mt-5 offset-xl-1 offset-md-1">
+                <div className="col-md-6 col-xl-6 col-12 mt-5 offset-xl-1 offset-md-1 auth">
                     {data && <h3 className="display-4 col-12 text-dark arsenal-sc-regular">{data.name}</h3>}
                     {data && <h3 className="h5 col-12 text-secondary mt-3">{data.biography}</h3>}
                     <h3 className="h5 col-12 text-secondary mt-3 text-dark cur">Know More about her:
@@ -67,8 +67,8 @@ export default function AuthorDetails() {
                 <div className="row">
                     {books && (books.length>0 ? books.map(e=>
                       <>
-                     {e.book_image ? <img src={e.book_image} alt="none" height="400" className={`${!isMobile && 'ms-5'} mt-5 mb-5 col-md-3 col-xl-3 col-12`}/>: 
-                     <span className={`${!isMobile ? 'ms-5' : 'ms-3'} mt-5 mb-5 col-md-3 col-xl-3 col-12 h1 fw-bold title`}>{e.title}</span>}
+                     {e.book_image ? <img src={e.book_image} alt="none" height="400" className={`${!isMobile && 'ms-5'} mt-5 mb-5 col-md-3 col-xl-3 col-12 book`}/>: 
+                     <span className={`${!isMobile ? 'ms-5' : 'ms-3'} mt-5 mb-5 col-md-3 col-xl-3 col-12 h1 fw-bold title book`}>{e.title}</span>}
                       </>
                     ):<h1 className="h3 text-dark text-center mb-5">No Books found for this Author</h1>)}
                 </div>
