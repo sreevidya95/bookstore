@@ -3,6 +3,8 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import { useState } from "react";
 import { postData } from "./fetch";
+import { ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Model(props) {
   const [genere, setGenere] = useState("");
   const [author, setAuthor] = useState({ name: "", biography: "", author_image: "" })
@@ -25,31 +27,33 @@ export default function Model(props) {
       else {
         let msg = await postData("http://localhost:3000/generes/", "post", { genre_name: genere });
         if (msg.hasOwnProperty('msg')) {
-          alert(msg.msg);
-          props.close();
+          toast.error(msg.msg);
+         
         }
         else if (msg.hasOwnProperty('genre_id')) {
-          alert("Added Successfully");
+          toast.success("Added Successfully");
           props.close();
         }
         else {
-          alert("something Went Wrong");
-          props.close();
+         
+         toast.error("something went wrong")
         }
       }
     }
     else {
+      toast.success("add");
       console.log(author);
     }
   }
   return (
+    <>
     <Modal show={props.show} onHide={props.onClick}>
       <Modal.Header>
         {props.close && <Modal.Title><h1 className="h3">{props.type === 'genere' ? "Add Genere" : "ADD Author"}</h1></Modal.Title>}
         <span className="btn-close" style={{ float: "right !important" }} onClick={props.onClick}></span>
       </Modal.Header>
       <Modal.Body>{props.msg ? props.msg :
-        <Form className="mt-5">
+        <Form>
           <Form.Control name={props.type === 'genere' ? "genre_name" : "name"} placeholder={props.type === 'genere' ? "Enter Genere Name" : "Enter Author's Name"} className="mt-2" onChange={handleData} />
           {error.name && <h1 className="text-danger mt-1 h6">{error.name}</h1>}
           {props.type !== 'genere' &&
@@ -68,6 +72,9 @@ export default function Model(props) {
           Close
         </Button>
       </Modal.Footer>
+      <ToastContainer position="top-center"/>
     </Modal>
+    
+     </>
   )
 }

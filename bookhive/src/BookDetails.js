@@ -39,7 +39,7 @@ export default function BookDetails() {
                 </div> :
                 <div className="row">
                     <div className="col-12 col-md-6 col-xl-6 mt-5 book">
-                        {book.book_image ? <img src={book.book_image} alt="no" width={!isMobile && "500"} /> : <img src="/noimg.webp" alt="no" width={!isMobile && "500"} />}
+                        {book.book_image ? <img src={book.book_image} alt="no" width={!isMobile && "500"} className="b-img"/> : <img src="/noimg.webp" alt="no" width={!isMobile && "500"} className="b-img"/>}
                     </div>
                     <div className="col-12 col-md-6 col-xl-6 mt-5 auth">
                         {book.Author && <h6 className="fs-2 text-secondary col-12 arsenal-sc-regular">By {book.Author.name}</h6>}
@@ -56,11 +56,11 @@ export default function BookDetails() {
                         <hr />
                         {book.Author &&
                             <div className="row">
-                                <div className="col-3 mt-5 book">
+                                <div className="col-md-3 col-xl-3 col-12 mt-5 book">
                                     {book.Author ? <img src={book.Author.author_image} alt="no" width="100" height="100" className="auth_img" /> :
                                         <img src="/noimg.webp" alt="no" width="100" className="auth_img" />}
                                 </div>
-                                <div className="col-6 mt-5">
+                                <div className="col-md-8 col-xl-8 col-12 mt-5">
                                     {book.Author && <h6 className="fs-2 col-12 arsenal-sc-regular text-dark">{book.Author.name}</h6>}
                                     {book.Author && <h6 className="fs-5 text-secondary col-12">{book.Author.biography}</h6>}
                                 </div>

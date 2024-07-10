@@ -126,6 +126,9 @@ section img,#v-pills-tab,.name{
   .margin {
     margin-top: 150px;
   }
+  .b-img{
+    margin-left: 100px;
+  }
 
   .mt,
   .img {

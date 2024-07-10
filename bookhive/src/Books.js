@@ -8,9 +8,11 @@ import { Tooltip } from "react-tooltip";
 import Header from "./Header";
 import Footer from "./Footer";
 import Offcanva from "./Offcanvas";
+import { toast,ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Books() {
 
-    const [toast, setToast] = useState(false);
+    const [to, setToast] = useState(false);
     const [categories, setCategories] = useState({});
     const [authors, setAuthors] = useState({});
     const [books, setBooks] = useState({});
@@ -69,13 +71,12 @@ export default function Books() {
         else {
             setloading(true);
             setToast(false);
-            console.log(id);
             let msg = await delData(`http://localhost:3000/books/${id}`, "delete");
             if (msg === 204) {
-                alert("Deleted Successfully")
+               toast.success("Deleted Successfully");
             }
             else {
-                alert("something went wrong")
+                toast.error("Something went Wrong");
             }
             setloading(false);
         }
@@ -142,11 +143,6 @@ export default function Books() {
                 });
             }
 
-        }
-        else {
-            books.forEach(e => {
-                console.log(typeof new Date(e.publication_date))
-            });
         }
         setBooks(book);
         setloading(false);
@@ -264,9 +260,11 @@ export default function Books() {
                             }
                         </div>
                     </div>
-                    {toast && <Model show={toast} msg={msg.current} onClick={handleClose} type="ok" value={() => handleOk(type.current)} />}
+                    {to && <Model show={to} msg={msg.current} onClick={handleClose} type="ok" value={() => handleOk(type.current)} />}
                        {offcanvas && <Offcanva show={offcanvas} onClick={handleClose} id={id && id}/>}
+                       <ToastContainer position="top-center"/>
                 </div>
+                
             }
             <footer className='mt-5'>
                 <Footer></Footer>

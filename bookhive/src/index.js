@@ -22,7 +22,6 @@ root.render(
         <Route path="/book/:id" element={<BookDetails/>}/>
         <Route path='/authors' element={<Authors/>}/>
         <Route path='/author/:id' element={<AuthorDetails/>}/>
-
     </Routes>
     </BrowserRouter>
 );

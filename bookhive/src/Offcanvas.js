@@ -49,7 +49,7 @@ export default function Offcanva(props){
                     </div>
                 </div>
                 :
-               <Form className="mt-5">
+               <Form>
                  <Form.Control name="title" placeholder="Enter Book Name" className="mt-2"/>
                  <Form.Control name="price" type="number" placeholder="Enter Price of book" className="mt-3"/>
                  <Form.Control name="publication_date" type={type} placeholder="Enter Publication Date" 

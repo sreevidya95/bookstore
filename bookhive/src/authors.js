@@ -7,11 +7,12 @@ import { delData } from "./fetch";
 import { Tooltip } from "react-tooltip";
 import Footer from "./Footer";
 import { isMobile } from 'react-device-detect';
+import { ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Authors() {
     const [loading, setloading] = useState(false);
-    const [toast, setToast] = useState(false);
+    const [to, setToast] = useState(false);
     const [authors, setAuthors] = useState([]);
-    const [alert, setAlert] = useState(false);
     let msg = useRef("");
     let id = useRef(0);
     let type = useRef("");
@@ -50,15 +51,15 @@ export default function Authors() {
     }, []);
     async function editAuthor(method, id) {
         setloading(true);
+        setToast(false);
         if (method === 'delete') {
-            console.log(id);
             let m = await delData(`http://localhost:3000/authors/${id}`, method);
-            setAlert(true);
             if (m === 204) {
-                msg.current = "Deleted Successfully";
+               toast.success("Deleted Successfully");
             }
             else {
-                msg.current = "something went wrong";
+                toast.error("something went wrong");
+                
             }
             setloading(false);
         }
@@ -71,10 +72,6 @@ export default function Authors() {
     }
     function handleClose() {
         setToast(false);
-        if(alert===true){
-            setAlert(false);
-            loadAuthor();
-        }
     }
     async function loadAuthor() {
         setloading(true)
@@ -122,10 +119,10 @@ export default function Authors() {
                     }
                      <Tooltip anchorSelect=".fa-edit" place="top">Edit Author</Tooltip>
                      <Tooltip anchorSelect=".fa-trash" place="top">Delete Author</Tooltip>
+                     {to && <Model show={to} msg={msg.current} onClick={handleClose} type="ok" value={() => editAuthor(type.current, id.current)} />}
+                     <ToastContainer position="top-center"/>
                 </div>
             }
-            {toast && <Model show={toast} msg={msg.current} onClick={handleClose} type="ok" value={() => editAuthor(type.current, id.current)} />}
-            {alert && <Model show={alert} msg={msg.current} onClick={handleClose} />}
             <footer className='mt-5'>
                 <Footer></Footer>
             </footer>
