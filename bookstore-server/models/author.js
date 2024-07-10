@@ -19,9 +19,6 @@ const Author = sequelize.define("Author",{
         type:DataTypes.STRING,
         allowNull:true,
         defaultValue:null,
-        validate:{
-            isUrl:true
-        }
     }
 });
 return Author;
