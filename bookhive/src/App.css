@@ -300,3 +300,8 @@ li{
     text-align: center;
     padding-top: 200px;
 }
+.filenotFound{
+  background-image: url("../public/404.webp") !important;
+  background-size: cover;
+  height: 100vh;
+}

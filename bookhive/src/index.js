@@ -10,6 +10,7 @@ import Books from './Books';
 import BookDetails from './BookDetails';
 import Authors from './authors';
 import AuthorDetails from './AuthorDetails';
+import FileNotFound from './FileNotFound';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
@@ -22,6 +23,7 @@ root.render(
         <Route path="/book/:id" element={<BookDetails/>}/>
         <Route path='/authors' element={<Authors/>}/>
         <Route path='/author/:id' element={<AuthorDetails/>}/>
+        <Route path="*" element={<FileNotFound/>}/>
     </Routes>
     </BrowserRouter>
 );
