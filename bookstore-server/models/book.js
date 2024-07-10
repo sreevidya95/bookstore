@@ -24,9 +24,6 @@ const Book = sequelize.define("Book",{
     book_image:{
         type:DataTypes.STRING,
         allowNull:true,
-        validate:{
-            isUrl:true
-        }
     }
 });
     

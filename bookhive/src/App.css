@@ -62,7 +62,7 @@ footer,
   cursor: default;
 }
 .cur{
-  cursor: pointer;
+  cursor: pointer !important;
 }
 .carousel-item.active h1,.book,.col{
   animation: animate-carousel-title 1s normal forwards;

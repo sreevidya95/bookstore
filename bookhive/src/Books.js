@@ -58,6 +58,7 @@ export default function Books() {
     const [state, dispatch] = useReducer(reducer, initialState);
     const navigate = useNavigate();
     function handleClose() {
+        setId(0)
         setToast(false);
         setOffcanvas(false);
     }
@@ -73,7 +74,10 @@ export default function Books() {
             setToast(false);
             let msg = await delData(`http://localhost:3000/books/${id}`, "delete");
             if (msg === 204) {
-               toast.success("Deleted Successfully");
+               toast.success("Deleted Successfully",{
+                onClose:()=> {LoadBooks();setId(0)}
+               });
+              
             }
             else {
                 toast.error("Something went Wrong");
@@ -179,7 +183,7 @@ export default function Books() {
                 <div className="row mt-5">
                     <div className={`nav flex-column nav-pills ${isMobile ? 'collapse col-12' : 'col-3 '}`} id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <Nav.Link className="nav-link mt-5 btn col-12" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home"
-                            role="tab" aria-controls="v-pills-home" aria-selected="true"><span className="btn btn-color text-white col-8 mb-5" onClick={()=>setOffcanvas(true)}>ADD New Book</span>
+                            role="tab" aria-controls="v-pills-home" aria-selected="true"><span className="btn btn-color text-white col-8 mb-5" onClick={()=>setOffcanvas(true)} disabled={to}>ADD New Book</span>
                         </Nav.Link>
                         <hr />
                         <Nav.Link className="nav-link btn mt-5" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home"
@@ -261,7 +265,7 @@ export default function Books() {
                         </div>
                     </div>
                     {to && <Model show={to} msg={msg.current} onClick={handleClose} type="ok" value={() => handleOk(type.current)} />}
-                       {offcanvas && <Offcanva show={offcanvas} onClick={handleClose} id={id && id}/>}
+                       {offcanvas && <Offcanva show={offcanvas} onClick={handleClose} id={id && id} onload={LoadBooks}/>}
                        <ToastContainer position="top-center"/>
                 </div>
                 

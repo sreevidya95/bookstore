@@ -7,6 +7,17 @@ const { where } = require('sequelize');
 const author = require('../models/author')(sequelize);
 const Book = require("../models/book")(sequelize);
 const genere = require('../models/genere')(sequelize);
+const multer  = require('multer');
+const storage = multer.diskStorage({
+    destination: "./images",
+    filename: (req, file, cb) => {
+      file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8');
+      return cb(
+        null,file.originalname
+      );
+    },
+  });
+  const upload = multer({ storage: storage });
 router.get('/',async (req,res,next)=>{
     try{
         const books = await Book.findAll({
@@ -101,8 +112,12 @@ router.get('/:sort',async (req,res,next)=>{
     }
     
 });
-router.post('/',async (req,res,next)=>{
+router.post('/',upload.single('book_image'),async (req,res,next)=>{
+    if(req.file){
+        req.body.book_image = `http://localhost:3000/${req.file.path}`
+     }
     try{
+        console.log(req.body)
         const book = await Book.create(req.body);
         res.status(201).json(book);
     }

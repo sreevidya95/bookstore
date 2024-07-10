@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function Authors() {
     const [loading, setloading] = useState(false);
     const [to, setToast] = useState(false);
+    const [alert, setAlert] = useState(false);
     const [authors, setAuthors] = useState([]);
     let msg = useRef("");
     let id = useRef(0);
@@ -72,6 +73,7 @@ export default function Authors() {
     }
     function handleClose() {
         setToast(false);
+        setAlert(false);
     }
     async function loadAuthor() {
         setloading(true)
@@ -90,9 +92,10 @@ export default function Authors() {
                         <span className="sr-only">Loading...</span>
                     </div>
                 </div>
-                : <div className="row mt-5 ms-5">
-                    <div className={`col-1 text-right fs-1 bg text-secondary rounded-5 ${isMobile ? 'offset-10' : 'offset-11'}`}><i className="fa fa-plus link" aria-hidden="true"></i>
-                    </div>
+                : <div className="row mt-5 ms-5 cur">
+                    <span className={`col-1 text-right fs-1 bg text-secondary rounded-5  ${isMobile ? 'offset-10' : 'offset-11'}`}>
+                        <i className="fa fa-plus link" onClick={()=>setAlert(true)}></i>
+                    </span>
                     <Tooltip anchorSelect=".fa-plus" place="top">Add New Author</Tooltip>
                     {(authors.length > 0) ?
                         authors.map((e) =>
@@ -100,7 +103,7 @@ export default function Authors() {
                                 {e.author_image ? <img src={e.author_image} alt="no" className="card-img" height="500" width="300" />
                                     : <img src="/user.jpg" alt='no' className="card-img" height="500" width='300' />}
                                 <div className="card-body card-img-overlay text-white  text-center">
-                                    <div className="op rounded-5">
+                                    <div className="op rounded-5 cur">
                                         <span className="col-1 text-dark"> <i className="fa fa-edit fs-5  text-center link mt-5" onClick={() => console.log("update")}></i></span>
                                         <span className="col-1 offset-1 text-dark"> <i className="fa fa-trash fs-5 text-center link mt-5 mb-5"
                                             onClick={() => showToast("delete", e.author_id, e.name)}></i></span>
@@ -120,6 +123,7 @@ export default function Authors() {
                      <Tooltip anchorSelect=".fa-edit" place="top">Edit Author</Tooltip>
                      <Tooltip anchorSelect=".fa-trash" place="top">Delete Author</Tooltip>
                      {to && <Model show={to} msg={msg.current} onClick={handleClose} type="ok" value={() => editAuthor(type.current, id.current)} />}
+                     {alert && <Model show={alert} type="addAuthor" close={handleClose} />}
                      <ToastContainer position="top-center"/>
                 </div>
             }

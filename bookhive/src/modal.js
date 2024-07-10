@@ -63,8 +63,11 @@ export default function Model(props) {
       }
       else{
         var data = new FormData();
-        data.set('name',author.name);
-        data.set('biography',author.biography)
+        Object.entries(author).forEach(([key, value]) =>  
+          { 
+            if(value!==''){
+            data.append(key, value);
+          }});
         if(author.author_image!==null && author.author_image!==''){
               data.set('author_image',author.author_image)
         }
@@ -95,7 +98,7 @@ export default function Model(props) {
     <Modal show={props.show} onHide={props.onClick}>
       <Modal.Header>
         {props.close && <Modal.Title><h1 className="h3">{props.type === 'genere' ? "Add Genere" : "ADD Author"}</h1></Modal.Title>}
-        <span className="btn-close" style={{ float: "right !important" }} onClick={props.onClick}></span>
+        <span className="btn-close" style={{ float: "right !important" }} onClick={props.onClick ? props.onClick : props.close}></span>
       </Modal.Header>
       <Modal.Body>{props.msg ? props.msg :
         <Form>
@@ -114,7 +117,7 @@ export default function Model(props) {
         {props.type && <Button variant="primary" onClick={props.value ? props.value : addData}>
           Ok
         </Button>}
-        <Button variant="secondary" onClick={props.onClick}>
+        <Button variant="secondary" onClick={props.onClick ? props.onClick : props.close}>
           Close
         </Button>
       </Modal.Footer>

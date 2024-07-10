@@ -45,7 +45,7 @@ export default function BookDetails() {
                         {book.Author && <h6 className="fs-2 text-secondary col-12 arsenal-sc-regular">By {book.Author.name}</h6>}
                         <h1 className="display-4 arsenal-sc-regular">{book.title}</h1>
                         <div className="col-mt-3 fs-1 col-12 arsenal-sc-regular">${book.price}</div>
-                        <p className="col-12 fs-6 text-secondary">{book.title} Dive into a captivating narrative where compelling characters navigate a world fraught with
+                        <p className="col-12 fs-5 text-secondary">{book.title} Dive into a captivating narrative where compelling characters navigate a world fraught with
                             challenges and discoveries. This tale weaves together elements of suspense, adventure,
                             and poignant reflections, inviting readers on a journey that explores themes of identity,
                             courage, and the intricacies of human relationships. With vivid prose and masterful storytelling,
@@ -62,7 +62,7 @@ export default function BookDetails() {
                                 </div>
                                 <div className="col-md-8 col-xl-8 col-12 mt-5">
                                     {book.Author && <h6 className="fs-2 col-12 arsenal-sc-regular text-dark">{book.Author.name}</h6>}
-                                    {book.Author && <h6 className="fs-5 text-secondary col-12">{book.Author.biography}</h6>}
+                                    {book.Author && <h6 className="fs-6 text-secondary col-12">{book.Author.biography}</h6>}
                                 </div>
                             </div>
                         }
