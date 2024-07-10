@@ -52,7 +52,7 @@ export default function Header(props) {
         <>
             <nav className='navbar navbar-expand-lg col-md-12 col-sm-12 bg header'>
                 {window.location.pathname !== '/authors' && <button className='navbar-toggler col-2 border border-white bg-white' data-bs-toggle="collapse" data-bs-target="#v-pills-tab">
-                    <span class="navbar-toggler-icon"></span>
+                    <span className="navbar-toggler-icon"></span>
                 </button>}
                 <Nav.Link href="#" className='navbar-brand col-10 col-md-12 col-xl-12'>
                     <span className='col-4  ml  fs-4 cur-def'>

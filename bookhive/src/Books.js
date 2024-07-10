@@ -112,6 +112,7 @@ export default function Books() {
         setloading(true);
         let book = [];
         if (type === "genre") {
+            if(categories[val - 1])
             filterData.current.push(categories[val - 1].genre_name)
             books.forEach(e => {
                 if (e.GenreGenreId === val) {
@@ -120,7 +121,8 @@ export default function Books() {
             });
         }
         else if (type === "author") {
-            filterData.current.push(authors[val - 1].name)
+            if(authors[val - 1])
+             filterData.current.push(authors[val - 1].name)
             books.forEach(e => {
                 if (e.AuthorAuthorId === val) {
                     book.push(e);
@@ -128,9 +130,9 @@ export default function Books() {
             });
         }
         else if (type === "filter") {
-            filterData.current.push(`price:${val}`)
+            filterData.current.push(` price: ${val}`);
             books.forEach(e => {
-                if (e.price <= val) {
+                if (parseFloat(e.price) <= parseFloat(val)) {
                     book.push(e);
                 }
             });
@@ -253,7 +255,7 @@ export default function Books() {
                                         <p className="card-text col-12 text-center"> Author:{e.Author.name}</p>
                                         <p className="card-text col-12 text-center"> Price:{e.price}</p>
                                         <p className="card-text col-12 text-center"> Genere:{e.Genre.genre_name}</p>
-                                        <i className="fa fa-edit col-1 offset-5 fs-5  text-center link text-secondary" onClick={() => showToast("edit", e.book_id, e.title)}></i>
+                                        <i className="fa fa-edit col-1 offset-5 fs-5  text-center link text-secondary" onClick={() => {setId(e.book_id);setOffcanvas(true)}}></i>
                                         <i className="fa fa-trash col-2 fs-5 text-center link text-secondary" onClick={() => showToast("delete", e.book_id, e.title)}></i>
                                         <Tooltip anchorSelect=".fa-edit" place="top">Edit Book</Tooltip>
                                         <Tooltip anchorSelect=".fa-trash" place="top">Delete Book</Tooltip>
