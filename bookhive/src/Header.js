@@ -84,7 +84,7 @@ export default function Header(props) {
                 <NavLink className="nav-link col-2 text-white fs-3 text-decoration-none text-center mb-2"
                     href="#">
                     <div className="dropdown">
-                        <button className="dropdown-toggle text-dark border border-white bg-white" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button className="dropdown-toggle text-dark border border-white bg-white arsenal-sc-regular fs-3" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Genere
                         </button>
                         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">

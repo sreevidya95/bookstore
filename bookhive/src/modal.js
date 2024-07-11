@@ -126,11 +126,11 @@ export default function Model(props) {
         </Modal.Header>
         <Modal.Body>{props.msg ? props.msg :
           <Form>
-            <Form.Control name={props.type === 'genere' ? "genre_name" : "name"} placeholder={props.type === 'genere' ? "Enter Genere Name" : "Enter Author's Name"} className="mt-2" onChange={handleData} value={props.id ? author.name : genere.genre_name} />
+            <Form.Control name={props.type === 'genere' ? "genre_name" : "name"} placeholder={props.type === 'genere' ? "Enter Genere Name" : "Enter Author's Name"} className={`mt-2 ${error.name ? "border border-danger" : 'border border-secondary'}`} onChange={handleData} value={props.id ? author.name : genere.genre_name} />
             {error.name && <h1 className="text-danger mt-1 h6">{error.name}</h1>}
             {props.type !== 'genere' &&
               <>
-                <Form.Control name="biography" as="textarea" placeholder="Enter Author's biography" className="mt-3" onChange={handleData} value={author.biography} />
+                <Form.Control name="biography" as="textarea" placeholder="Enter Author's biography" className={`mt-3 ${error.biography ? "border border-danger" : 'border border-secondary'}`} onChange={handleData} value={author.biography} />
                 {error.biography && <h1 className="text-danger mt-1 h6">{error.biography}</h1>}
                 {props.id > 0 ?
                   (author.author_image === null ? <h1 className="text-dark mt-2 h6">Image was not uploaded</h1> :
@@ -142,7 +142,7 @@ export default function Model(props) {
                     onClick={() => setUpload(true)} className="mt-2">Upload New Image</Link>
                 }
                 {(props.id === 0 || upload === true) &&
-                  <Form.Control type="file" accept="image/*" name="author_image" placeholder="Select Image" className="mt-3" onChange={handleData} />}
+                  <Form.Control type="file" accept="image/*" name="author_image" placeholder="Select Image" className="mt-3 border border-secondary" onChange={handleData} />}
               </>
             }
 

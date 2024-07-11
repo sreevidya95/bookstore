@@ -41,13 +41,13 @@ export default function Offcanva(props) {
   async function AddBook(id) {
       let error = {};
       if (book.title === '') {
-        error.title = "Book's Title SHouldnt be Empty";
+        error.title = "Book's Title Shouldnt be Empty";
       }
       else if (book.price === '') {
-        error.price = "Book's Price SHouldnt be Empty";
+        error.price = "Book's Price Shouldnt be Empty";
       }
       else if (book.publication_date === '') {
-        error.pd = "Book's Publication Date SHouldnt be Empty";
+        error.pd = "Book's Publication Date Shouldnt be Empty";
       }
       else if (book.AuthorAuthorId === '') {
         error.aid = "Please Select Author of the Book";
@@ -125,18 +125,18 @@ export default function Offcanva(props) {
               </div>
               :
               <Form className="mt-5">
-                <Form.Control name="title" placeholder="Enter Book Name" className="mt-2" onChange={handleChange} value={book.title} />
+                <Form.Control name="title" placeholder="Enter Book Name" className={`mt-2 ${error.title ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} value={book.title} />
 
                 {error.title && <h1 className="text-danger mt-2 h6">{error.title}</h1>}
 
-                <Form.Control name="price" type="number" placeholder="Enter Price of book" className="mt-3" onChange={handleChange} 
+                <Form.Control name="price" type="number" placeholder="Enter Price of book" className={`mt-3 ${error.price ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} 
 
                 min="1" value={book.price} step="0.10"/>
 
                 {error.price && <h1 className="text-danger mt-2 h6">{error.price}</h1>}
 
                 <Form.Control name="publication_date" type={type} placeholder="Enter Publication Date"
-                  onFocus={() => setType("date")} className="mt-3" onChange={handleChange} value={book.publication_date} />
+                  onFocus={() => setType("date")} className={`mt-3 ${error.pd ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} value={book.publication_date} />
 
                 {error.pd && <h1 className="text-danger mt-2 h6">{error.pd}</h1>}
                 {props.id>0 ?
@@ -149,9 +149,9 @@ export default function Offcanva(props) {
                   onClick={()=>setUpload(true)} className="mt-2">Upload New Image</Link>
                 }
                {(props.id===0 || upload===true) &&
-                <Form.Control type="file" accept="image/*" name="book_image" placeholder="Select Image" className="mt-3" onChange={handleChange} />}
+                <Form.Control type="file" accept="image/*" name="book_image" placeholder="Select Image" className="mt-3 border-secondary" onChange={handleChange} />}
 
-                <Form.Select name="AuthorAuthorId" className="mt-3" onChange={handleChange} value={book.AuthorAuthorId}>
+                <Form.Select name="AuthorAuthorId" className={`mt-3 ${error.aid ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} value={book.AuthorAuthorId}>
                   <option value="">Select Author</option>
                   {authors && authors.map(e =>
                     <option value={e.author_id} key={e.author_id}>{e.name}</option>
@@ -163,7 +163,7 @@ export default function Offcanva(props) {
                 <p className="mt-3">Couldn't find the Author You Want ? <Link to="#" type="btn"
                   onClick={() => { setToast(true); setAdd("addAuthor") }}> Click Here</Link></p>
 
-                <Form.Select name="GenreGenreId" className="mt-3" onChange={handleChange} value={book.GenreGenreId}>
+                <Form.Select name="GenreGenreId" onChange={handleChange} value={book.GenreGenreId} className={`mt-3 ${error.gid ? "border border-danger" : "border border-secondary"}`}>
                   <option value="">Select Genere</option>
                   {generes && generes.map(e =>
                     <option value={e.genre_id} key={e.genre_id}>{e.genre_name}</option>
