@@ -17,7 +17,7 @@ function App() {
        <header>
         <div className="row bg-dark">
             <p className='col-11 text-light'>
-              Free shipping for all orders above 500/-
+              Free shipping for all orders above $20
             </p>
             <div className='col-1'>
               <span className='col-1 me-3'><i className="fa-brands fa-x-twitter text-light"></i></span>
@@ -80,7 +80,7 @@ function App() {
         and find the amazing deals to buy,explore more about author <br/>
         and the book by logging in
       </p>
-      <button className='mt-5 text-light fs-3 col-2' style={{backgroundColor:"#D14031",border:"1px solid #D14031"}}>ReadMore...</button>
+      <button className='mt-5 text-light fs-3 col-2 rounded-3' style={{backgroundColor:"#D14031",border:"1px solid #D14031"}}>ReadMore...</button>
       </span>
       </div>
     </div>

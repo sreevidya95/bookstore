@@ -14,6 +14,7 @@ export default function AdminLogin(){
     const[fp,setfp]=useState(false);
     const[err,setErr]=useState({});
     const[loading,setLoading] = useState(false);
+    const[types,setType]=useState("password");
     const cp = useParams();
     let val = useRef();
     let error = {};
@@ -59,6 +60,14 @@ export default function AdminLogin(){
           }
         }
         setErr(error);
+    }
+    function toggleType(){
+      if(types==='password'){
+        setType("text");
+      }
+      else{
+        setType("password");
+      }
     }
     async function sendMail(){
       if(forgotEmail===''|| typeof forgotEmail==='undefined'){
@@ -155,10 +164,16 @@ export default function AdminLogin(){
         <Modal.Body>
         {fp ? (
              <>
-            <input type="password" placeholder="New Password" className="col-8" name="newpassword" required onChange={passwordChange}/><br/>
+            <input type={types} placeholder="New Password" className={`col-8 form-control-sm ${err.newpassword ? "border border-danger" : "border border-secondary"}`} name="newpassword" required onChange={passwordChange}/><br/>
             {err.newpassword && <h6 className="h6 col-8 text-danger">{err.newpassword}</h6>}
-            <input type="password" placeholder="Confirm New Password" className="col-8 form-control-sm  mt-2" name="confirm" onChange={passwordChange} required/>
+            <input type={types} placeholder="Confirm New Password" className={`col-8 form-control-sm  mt-2 ${err.confirm ? "border border-danger" : " border border-secondary"}`} name="confirm" onChange={passwordChange} required/>
             {err.confirm && <h6 className="h6 col-8 text-danger">{err.confirm}</h6>}
+            <div className="form-check col-12 mt-2">
+                  <input className="form-check-input border border-secondary" type="checkbox" value="" id="flexCheckDefault" onClick={toggleType}/>
+                  <label className="form-check-label ms-1" for="flexCheckDefault">
+                       Show Password
+                  </label>
+              </div>
             </>
         ):
                <>
