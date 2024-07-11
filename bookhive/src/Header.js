@@ -78,13 +78,13 @@ export default function Header(props) {
                 </Nav.Link>
             </nav>
             <nav className='row background mt-3'>
-                <NavLink to="/books" className={`col-2 offset-1 text-center arsenal-sc-regular fs-3 text-decoration-none link mb-2 ${window.location.pathname === '/books' ? 'linkactive' : 'text-dark'}`}>Books</NavLink>
-                <NavLink to="/authors" className={`col-2 arsenal-sc-regular fs-3 text-decoration-none text-center link mb-2 ${window.location.pathname === '/authors' ? 'linkactive' : "text-dark"}`}>authors</NavLink>
-                <NavLink className="nav-link dropdown-toggle col-2 text-dark arsenal-sc-regular fs-3 text-decoration-none text-center mb-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <NavLink to="/books" className={`col-6 col-md-2 offset-md-1 text-center arsenal-sc-regular fs-3 text-decoration-none link mb-2 ${window.location.pathname === '/books' ? 'linkactive' : 'text-dark'}`}>Books</NavLink>
+                <NavLink to="/authors" className={`col-6 col-md-2 arsenal-sc-regular fs-3 text-decoration-none text-center link mb-2 ${window.location.pathname === '/authors' ? 'linkactive' : "text-dark"}`}>authors</NavLink>
+                <NavLink className="nav-link dropdown-toggle col-6 col-md-2 text-dark arsenal-sc-regular fs-3 text-decoration-none text-center mb-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fa-regular fa-message"></i>
                     <Tooltip anchorSelect=".fa-message" place="bottom" className="fs-6">Messages From Users</Tooltip>
                 </NavLink>
-                <NavLink className="nav-link col-2 text-white fs-3 text-decoration-none text-center mb-2"
+                <NavLink className="nav-link col-6 col-md-2 text-white fs-3 text-decoration-none text-center mb-2"
                     href="#">
                     <div className="dropdown">
                         <button className="dropdown-toggle text-dark border border-white bg-white arsenal-sc-regular fs-3" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -101,7 +101,7 @@ export default function Header(props) {
                         </div>
                     </div>
                 </NavLink>
-                <span className="nav-link col-2 fs-3 text-center mb-2 btn"><i class="fa-solid fa-user-plus link" onClick={()=>setOffcanvas(true)}></i></span>
+                <span className="nav-link col-6 col-md-2 fs-3 text-center mb-2 btn"><i class="fa-solid fa-user-plus link" onClick={()=>setOffcanvas(true)}></i></span>
                 <Tooltip anchorSelect=".fa-user-plus" place="bottom" className="fs-6"> Add New Admin</Tooltip>
                 <div className="dropdown-menu col-12 col-md-6 col-xl-6 drop" aria-labelledby="navbarDropdown">
                     {loading ?

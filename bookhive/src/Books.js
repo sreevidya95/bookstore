@@ -67,6 +67,7 @@ export default function Books() {
             setToast(false);
             localStorage.removeItem("id");
             localStorage.removeItem("name");
+            localStorage.removeItem('email');
             navigate("/");
         }
         else {
@@ -218,7 +219,7 @@ export default function Books() {
                         <hr />
                         <Nav.Link className="nav-link btn col-12 mt-5" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages"
                             role="tab" aria-controls="v-pills-messages" aria-selected="false"><span className="h5 text-black">FilterBy Price</span>
-                            <input type="range" className="col-8 mt-2 ms-2 text-dark" min="1" max="500" onChange={(event) => setRange(event.target.value)} step="1" />
+                            <input type="range" className="col-2 mt-2 ms-2 text-dark form-range w" min="1" max="500" onChange={(event) => setRange(event.target.value)} step="1" />
                             <span className="col-1 text-dark ms-1">{range}</span>
                             <input type="button" className="btn btn-color col-8 mt-2 ms-2 text-white" onClick={() => sortBy("filter", range)} value="Filter" />
                         </Nav.Link>

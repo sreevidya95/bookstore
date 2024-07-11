@@ -69,6 +69,7 @@ export default function Authors() {
         else{
             localStorage.removeItem("id");
             localStorage.removeItem("name");
+            localStorage.removeItem('email');
             naviage("/")
             
         }

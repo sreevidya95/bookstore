@@ -55,6 +55,7 @@ export default function AdminLogin(){
             setModal(true);
             localStorage.setItem('id',message.admin_id);
             localStorage.setItem('name',message.name);
+            localStorage.setItem('email',message.email);
             navigate("/books");
 
           }

@@ -13,6 +13,7 @@ export default function AuthorDetails() {
     function signOut() {
         localStorage.removeItem("id");
         localStorage.removeItem("name");
+        localStorage.removeItem('email');
         navigate("/");
     }
     useEffect(() => {

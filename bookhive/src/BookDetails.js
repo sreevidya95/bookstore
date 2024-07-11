@@ -24,6 +24,7 @@ export default function BookDetails() {
     function signOut() {
         localStorage.removeItem("id");
         localStorage.removeItem("name");
+        localStorage.removeItem('email');
         navigate("/");
     }
     return (

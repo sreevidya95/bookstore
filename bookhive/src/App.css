@@ -1,3 +1,4 @@
+
 .dancing-script-name {
   font-family: "Dancing Script", cursive;
   font-optical-sizing: auto;
@@ -13,6 +14,11 @@
 
 .ml {
   margin-left: 4rem !important;
+}
+
+.mlh{
+  margin-top:30px;
+  margin-left :1.5rem;
 }
 
 .slide1 {
@@ -162,6 +168,13 @@ section img,#v-pills-tab,.name{
 }
 
 @media screen and (max-width:700px) {
+  .carousel-inner .carousel-item .i {
+    display: none !important;
+  }
+  .mlh{
+    margin-left: 30px !important;
+        margin-top: 30px;
+  }
   .img {
     height: 300px;
   }
@@ -316,4 +329,7 @@ li{
   background-size: cover;
   height:50vh;
   background-position-y: -300px;
+}
+.w{
+  width: 250px !important;
 }

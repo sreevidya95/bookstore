@@ -31,11 +31,11 @@ function App() {
         <img className='col-3 ms-2' src="/logo.png" alt="no-image"/>
             <span className='dancing-script-name col-5 fst-italic col-2'> Book Hive</span>
         </Nav.Link>
-        <button className='navbar-toggler col-4' data-bs-toggle="collapse" data-bs-target="#navigation">
+        <button className='navbar-toggler col-4' data-bs-toggle="collapse" data-bs-target="#navigation" aria-expanded="false" >
         <span class="navbar-toggler-icon"></span>
         </button>
         <div className='collpase navbar-collapse w3-animate-left' id="navigation">
-        <ul className='navbar-nav'>
+        <ul className='navbar-nav mr-auto'>
           <li className='nav-item fs-4'>
             <Nav.Link href="#" className="text-danger disabled arsenal-sc-regular ">Home</Nav.Link>
           </li>
@@ -69,7 +69,7 @@ function App() {
   </div>
   <div className="carousel-inner">
     <div className="carousel-item active">
-      <img src="./s.jpeg" className="d-block w-100" alt="..." style={{height:"500px"}}/>
+      <img src="./s.jpeg" className="d-block w-100 i" alt="..." style={{height:"500px"}}/>
       <div className="carousel-caption d-none d-md-block slide1">
       <img src="./slide1.jpg" alt="no"/>
       <img src="./best.png" alt="no" className='bestseller'/>
@@ -127,22 +127,22 @@ function App() {
     </main>
     <section className='row'>
       <div className='col-12'>
-        <p className='col-4 mt-5 display-5 text-center offset-4 mb-5 arsenal-sc-regular text-light w3-animate-top' style={{backgroundColor:"rgb(209, 64, 49)"}}>Bestsellers</p>
-        <img src="http://localhost:3000/images/hpcs.jpeg" alt="no" className='col-md-2 col-6 me-4 ml' height="300"/>
-        <img src="http://localhost:3000/images/pride_prejudice.jpeg" alt="no" className='col-md-2 col-6 me-4' height="300"/>
-        <img src="http://localhost:3000/images/great_expectations.jpeg" alt="no" className='col-md-2 col-6 me-4' height="300"/>
-        <img src="http://localhost:3000/images/immortals.jpeg" alt="no" className='col-md-2 col-6 me-4' height="300"/>
-        <img src="http://localhost:3000/images/hp1.jpeg" alt="no" className='col-md-2 col-6 me-4' height="300"/>
+        <p className='col-12 col-md-4 col-xl-4 mt-5 display-5 text-center offset-md-4 offset-xl-4 mb-5 arsenal-sc-regular text-light w3-animate-top' style={{backgroundColor:"rgb(209, 64, 49)"}}>Bestsellers</p>
+        <img src="http://localhost:3000/images/hpcs.jpeg" alt="no" className='col-md-2 col-xl-2 col-4 me-4 mlh' height="300"/>
+        <img src="http://localhost:3000/images/pride_prejudice.jpeg" alt="no" className='col-md-2 col-xl-2 col-4 me-4 mlh' height="300"/>
+        <img src="http://localhost:3000/images/great_expectations.jpeg" alt="no" className='col-md-2 col-xl-2 col-4 me-4 mlh' height="300"/>
+        <img src="http://localhost:3000/images/immortals.jpeg" alt="no" className='col-md-2 col-xl-2 col-4 me-4 mlh' height="300"/>
+        <img src="http://localhost:3000/images/hp1.jpeg" alt="no" className='col-md-2 col-4 col-xl-2 me-4 mlh' height="300"/>
       </div>
     </section>
     <section className='row'>
       <div className='col-12'>
-        <p className='col-4 mt-5 display-5 text-center offset-4 mb-5 arsenal-sc-regular text-white  w3-animate-bottom' style={{backgroundColor:"rgb(209, 64, 49)"}}>Bestselling Authors</p>
-        <img src="http://localhost:3000/images/jk.jpeg" alt="no" className='col-md-2 col-6 me-4 ml' height="300"/>
-        <img src="http://localhost:3000/images/amish.jpeg" alt="no" className='col-md-2 col-6 me-4' height="300"/>
-        <img src="http://localhost:3000/images/ruskin.jpeg" alt="no" className='col-md-2 col-6 me-4' height="300"/>
-        <img src="http://localhost:3000/images/rk_narayan.jpeg" alt="no" className='col-md-2 col-6 me-4' height="300"/>
-        <img src="http://localhost:3000/images/jane_austen.jpg" alt="no" className='col-md-2 col-6 me-4' height="300"/>
+        <p className='col-12 col-md-4 col-xl-4 mt-5 display-5 text-center offset-md-4 offset-xl-4 mb-5 arsenal-sc-regular text-white  w3-animate-bottom' style={{backgroundColor:"rgb(209, 64, 49)"}}>Bestselling Authors</p>
+        <img src="http://localhost:3000/images/jk.jpeg" alt="no" className='col-md-2 col-xl-2 col-4 me-4 mlh' height="300"/>
+        <img src="http://localhost:3000/images/amish.jpeg" alt="no" className='col-md-2 col-4 col-xl-2 me-4 mlh' height="300"/>
+        <img src="http://localhost:3000/images/ruskin.jpeg" alt="no" className='col-md-2 col-4 col-xl-2 me-4 mlh' height="300"/>
+        <img src="http://localhost:3000/images/rk_narayan.jpeg" alt="no" className='col-md-2 col-4 col-xl-2 me-4 mlh' height="300"/>
+        <img src="http://localhost:3000/images/jane_austen.jpg" alt="no" className='col-md-2 col-4 col-xl-2 me-4 mlh' height="300"/>
       </div>
     </section>
     <footer className='mt-5 row'>
