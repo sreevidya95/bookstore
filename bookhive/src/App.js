@@ -96,7 +96,7 @@ function App() {
         and find the amazing deals to buy,explore more about author <br/>
         and the book by logging in
       </p>
-      <button className='mt-5 text-light fs-3 col-2' style={{backgroundColor:"#D14031",border:"1px solid #D14031"}}>ReadMore...</button>
+      <button className='mt-5 text-light fs-3 col-2 rounded-3' style={{backgroundColor:"#D14031",border:"1px solid #D14031"}}>ReadMore...</button>
         </span>
       </div>
     </div>
@@ -110,7 +110,7 @@ function App() {
         and find the amazing deals to buy,explore more about author <br/>
         and the book by logging in
       </p>
-      <button className='mt-5 text-light fs-3 col-2' style={{backgroundColor:"#D14031",border:"1px solid #D14031"}}>ReadMore...</button>
+      <button className='mt-5 text-light fs-3 col-2 rounded-3' style={{backgroundColor:"#D14031",border:"1px solid #D14031"}}>ReadMore...</button>
         </span>
       </div>
     </div>

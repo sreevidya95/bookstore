@@ -122,7 +122,7 @@ export default function Model(props) {
       <Modal show={props.show} onHide={props.onClick}>
         <Modal.Header>
           {props.close && <Modal.Title><h1 className="h3">{props.type === 'genere' ? "Add Genere" : props.id > 0 ? "Edit Author" : "ADD Author"}</h1></Modal.Title>}
-          <span className="btn-close" style={{ float: "right !important" }} onClick={props.onClick ? props.onClick : props.close}></span>
+          <span className="btn-close cur" style={{ float: "right !important" }} onClick={props.onClick ? props.onClick : props.close}></span>
         </Modal.Header>
         <Modal.Body>{props.msg ? props.msg :
           <Form>

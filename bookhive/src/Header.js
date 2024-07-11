@@ -4,12 +4,14 @@ import { Link, NavLink, useParams } from "react-router-dom";
 import { getData, delData } from "./fetch";
 import { Tooltip } from "react-tooltip";
 import Model from "./modal";
+import Offcanva from "./Offcanvas";
 export default function Header(props) {
     const [messages, setMessages] = useState([]);
     const [loading, setloading] = useState(false);
     const [to, setToast] = useState(false);
     const [alert, setAlert] = useState(false);
     const[genere,setGenere]=useState();
+    const[offcanvas,setOffcanvas]=useState(false);
     const { id } = useParams();
     let msg = useRef('');
     useEffect(() => {
@@ -50,6 +52,7 @@ export default function Header(props) {
     function handleClose() {
         setToast(false);
         setAlert(false);
+        setOffcanvas(false)
         getMessage();
     }
     return (
@@ -75,7 +78,7 @@ export default function Header(props) {
                 </Nav.Link>
             </nav>
             <nav className='row background mt-3'>
-                <NavLink to="/books" className={`col-3 offset-1 text-center arsenal-sc-regular fs-3 text-decoration-none link mb-2 ${window.location.pathname === '/books' ? 'linkactive' : 'text-dark'}`}>Books</NavLink>
+                <NavLink to="/books" className={`col-2 offset-1 text-center arsenal-sc-regular fs-3 text-decoration-none link mb-2 ${window.location.pathname === '/books' ? 'linkactive' : 'text-dark'}`}>Books</NavLink>
                 <NavLink to="/authors" className={`col-2 arsenal-sc-regular fs-3 text-decoration-none text-center link mb-2 ${window.location.pathname === '/authors' ? 'linkactive' : "text-dark"}`}>authors</NavLink>
                 <NavLink className="nav-link dropdown-toggle col-2 text-dark arsenal-sc-regular fs-3 text-decoration-none text-center mb-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fa-regular fa-message"></i>
@@ -98,6 +101,8 @@ export default function Header(props) {
                         </div>
                     </div>
                 </NavLink>
+                <span className="nav-link col-2 fs-3 text-center mb-2 btn"><i class="fa-solid fa-user-plus link" onClick={()=>setOffcanvas(true)}></i></span>
+                <Tooltip anchorSelect=".fa-user-plus" place="bottom" className="fs-6"> Add New Admin</Tooltip>
                 <div className="dropdown-menu col-12 col-md-6 col-xl-6 drop" aria-labelledby="navbarDropdown">
                     {loading ?
                         <div className="row">
@@ -129,6 +134,7 @@ export default function Header(props) {
             </nav>
             {to && <Model show={to} msg={msg.current} onClick={handleClose}/>}
             {alert && <Model show={alert} onClick={handleClose} type="genere" close={handleClose} />}
+            {offcanvas && <Offcanva show={offcanvas} onClick={handleClose}/>}
         </>
     );
 }

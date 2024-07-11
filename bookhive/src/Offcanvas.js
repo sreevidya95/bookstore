@@ -3,7 +3,7 @@ import { Offcanvas } from "react-bootstrap";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import { getData, postFormData } from "./fetch";
+import { getData, postFormData,postData } from "./fetch";
 import Model from "./modal";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,7 +16,9 @@ export default function Offcanva(props) {
   const [to, setToast] = useState(false);
   const [add, setAdd] = useState("");
   const [error, setError] = useState({});
-  const[upload,setUpload]=useState(false)
+  const[upload,setUpload]=useState(false);
+  const[ptype,setptype]=useState("password");
+  const[admin,setAdmin]=useState({name:"",email:"",password:"",cp:""})
   const [book, setBook] = useState({ title: "", price: "", publication_date: "", book_image: "", AuthorAuthorId: "", GenreGenreId: "" })
   useEffect(() => {
     LoadData();
@@ -38,6 +40,14 @@ export default function Offcanva(props) {
     setloading(false);
   }
   const [type, setType] = useState("text");
+  function toggleType(){
+    if(ptype==='text'){
+      setptype("password")
+    }
+    else{
+      setptype("text")
+    }
+  }
   async function AddBook(id) {
       let error = {};
       if (book.title === '') {
@@ -98,21 +108,59 @@ export default function Offcanva(props) {
       }
       setError(error);
   }
+  async function AddAdmin(){
+    setloading(true);
+     let error={};
+     if(admin.name===''){
+         error.name="Admin Name should not be Empty";
+     }
+     else if(admin.email==='' || /\S+@\S+\.\S+/.test(admin.email)===false){
+      error.email="Enter Valid Email"
+     }
+     else if(admin.password===''||!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/.test(admin.password))){
+         error.p="Enter Valid Password,Make Sure Password contains Numbers,Letters and Symbols"
+     }
+     else if(admin.cp!==admin.password){
+        error.cp="Confirm Passwrod should match with the Password"
+     }
+     else{
+       delete admin.cp;
+      let msg=await  postData("http://localhost:3000/login/new","post",admin);
+      if (msg.hasOwnProperty('msg')) {
+        toast.error(msg.msg,
+        );
+
+      }
+      else if (msg.hasOwnProperty('admin_id')) {
+        toast.success("Admin Added Successfully",{
+          onClose: () => props.onClick()
+        })
+     }
+  }
+  setError(error);
+      setloading(false)
+}
   function handleChange(event) {
     if (event.target.name === 'book_image') {
-      setBook({ ...book, [event.target.name]: event.target.files[0] })
+      setBook({ ...book, [event.target.name]: event.target.files[0] });
     }
     else {
-      setBook({ ...book, [event.target.name]: event.target.value })
+      if(props.id){
+        setBook({ ...book, [event.target.name]: event.target.value });
+      }
+      else{
+        setAdmin({...admin,[event.target.name]:event.target.value});
+      }
+      
     }
   }
   return (
     <Offcanvas show={props.show} placement="end">
       <Offcanvas.Header>
         <Offcanvas.Title>
-          <h3 className="h3">{props.id > 0 ? "Edit Book" : "Add Book"}</h3>
+          <h3 className="h3">{props.id ? props.id > 0 ? "Edit Book" : "Add Book" : "Add Admin"}</h3>
         </Offcanvas.Title>
-        <span className="btn-close" style={{ float: "right !important" }} onClick={props.onClick}></span>
+        <span className="btn-close cur" style={{ float: "right !important" }} onClick={props.onClick}></span>
       </Offcanvas.Header>
       <Offcanvas.Body>
         <div className="container">
@@ -125,6 +173,8 @@ export default function Offcanva(props) {
               </div>
               :
               <Form className="mt-5">
+                {props.id ?
+                <>
                 <Form.Control name="title" placeholder="Enter Book Name" className={`mt-2 ${error.title ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} value={book.title} />
 
                 {error.title && <h1 className="text-danger mt-2 h6">{error.title}</h1>}
@@ -176,6 +226,25 @@ export default function Offcanva(props) {
                   onClick={() => { setToast(true); setAdd("genere") }}> Click Here</Link></p>
 
                 <Button type="submit" as={Col} xs={{ span: 4, offset: 4 }} className="mt-5" onClick={() => AddBook(props.id)}>{props.id > 0 ? "Edit Book" : "Add Book"}</Button>
+                </>:
+                <>
+                  <Form.Control name="name" placeholder="Enter Admin's Name" className={`mt-3 ${error.name ? "border border-danger" : "border border-secondary"}`} onChange={handleChange}/>
+                  {error.name && <h1 className="text-danger mt-2 h6">{error.name}</h1>}   
+                  <Form.Control type="email" name="email" placeholder="Enter Email Address" className={`mt-3 ${error.email ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required/>
+                  {error.email && <h1 className="text-danger mt-2 h6">{error.email}</h1>}  
+                  <Form.Control type={ptype} name="password" placeholder="Enter Password" className={`mt-3 ${error.p ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required/>
+                  {error.p && <h1 className="text-danger mt-2 h6">{error.p}</h1>}  
+                  <Form.Control type={ptype} name="cp" placeholder="Enter Email Address" className={`mt-3 ${error.cp ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required/>
+                  {error.cp && <h1 className="text-danger mt-2 h6">{error.cp}</h1>}   
+                  <div className="form-check col-12 mt-3">
+                  <input className="form-check-input border border-secondary" type="checkbox" value="" id="flexCheckDefault" onClick={toggleType}/>
+                  <label className="form-check-label ms-1" for="flexCheckDefault">
+                       Show Password
+                  </label>
+              </div>
+              <Button type="submit" as={Col} xs={{ span: 4, offset: 4 }} className="mt-5" onClick={() =>AddAdmin()}>Add Admin</Button>
+                </>
+                }
               </Form>}
 
             {to && <Model show={toast} onClick={handleClose} type={add} close={handleClose} />}
