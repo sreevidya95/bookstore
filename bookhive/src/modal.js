@@ -141,7 +141,7 @@ export default function Model(props) {
                   <Link to="#" type="btn"
                     onClick={() => setUpload(true)} className="mt-2">Upload New Image</Link>
                 }
-                {(props.id === 0 || upload === true) &&
+                {(typeof props.id==='undefined' || props.id === 0 || upload === true) &&
                   <Form.Control type="file" accept="image/*" name="author_image" placeholder="Select Image" className="mt-3 border border-secondary" onChange={handleData} />}
               </>
             }

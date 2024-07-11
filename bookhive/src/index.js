@@ -11,6 +11,7 @@ import BookDetails from './BookDetails';
 import Authors from './authors';
 import AuthorDetails from './AuthorDetails';
 import FileNotFound from './FileNotFound';
+import Aboutus from './about';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
@@ -23,6 +24,7 @@ root.render(
         <Route path="/book/:id" element={<BookDetails/>}/>
         <Route path='/authors' element={<Authors/>}/>
         <Route path='/author/:id' element={<AuthorDetails/>}/>
+        <Route path="/about" element={<Aboutus/>}/>
         <Route path="*" element={<FileNotFound/>}/>
     </Routes>
     </BrowserRouter>

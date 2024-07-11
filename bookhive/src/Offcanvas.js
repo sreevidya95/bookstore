@@ -21,7 +21,8 @@ export default function Offcanva(props) {
   const[admin,setAdmin]=useState({name:"",email:"",password:"",cp:""})
   const [book, setBook] = useState({ title: "", price: "", publication_date: "", book_image: "", AuthorAuthorId: "", GenreGenreId: "" })
   useEffect(() => {
-    LoadData();
+    if(typeof props.id !=='undefined')
+        LoadData();
   }, []);
   function handleClose() {
     setToast(false);
@@ -145,7 +146,7 @@ export default function Offcanva(props) {
       setBook({ ...book, [event.target.name]: event.target.files[0] });
     }
     else {
-      if(props.id){
+      if(typeof props.id!=='undefined'){
         setBook({ ...book, [event.target.name]: event.target.value });
       }
       else{
@@ -158,7 +159,7 @@ export default function Offcanva(props) {
     <Offcanvas show={props.show} placement="end">
       <Offcanvas.Header>
         <Offcanvas.Title>
-          <h3 className="h3">{props.id ? props.id > 0 ? "Edit Book" : "Add Book" : "Add Admin"}</h3>
+          <h3 className="h3">{(typeof props.id !=='undefined') ? props.id > 0 ? "Edit Book" : "Add Book" : "Add Admin"}</h3>
         </Offcanvas.Title>
         <span className="btn-close cur" style={{ float: "right !important" }} onClick={props.onClick}></span>
       </Offcanvas.Header>
@@ -173,7 +174,7 @@ export default function Offcanva(props) {
               </div>
               :
               <Form className="mt-5">
-                {props.id ?
+                {(typeof props.id !=='undefined') ?
                 <>
                 <Form.Control name="title" placeholder="Enter Book Name" className={`mt-2 ${error.title ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} value={book.title} />
 
@@ -247,7 +248,7 @@ export default function Offcanva(props) {
                 }
               </Form>}
 
-            {to && <Model show={toast} onClick={handleClose} type={add} close={handleClose} />}
+            {to && <Model show={toast} onClick={handleClose} type={add} close={handleClose}/>}
           </div>
         </div>
       </Offcanvas.Body>

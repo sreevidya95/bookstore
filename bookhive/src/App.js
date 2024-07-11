@@ -40,10 +40,10 @@ function App() {
             <Nav.Link href="#" className="text-danger disabled arsenal-sc-regular ">Home</Nav.Link>
           </li>
           <li className='nav-item fs-4'>
-            <Nav.Link href="https://www.lipsum.com/" className='arsenal-sc-regular '>About</Nav.Link>
+            <Nav.Link href="/about" className='arsenal-sc-regular '>About</Nav.Link>
           </li>
           <li className='nav-item fs-4'>
-            <Nav.Link href="https://www.lipsum.com/" className='arsenal-sc-regular '>Our Blog</Nav.Link>
+            <Nav.Link href="https://www.thatartsyreadergirl.com/" className='arsenal-sc-regular '>Our Blog</Nav.Link>
           </li>
           <li className='nav-item fs-4'>
             <Nav.Link href="https://www.lipsum.com/" className='arsenal-sc-regular '>Events</Nav.Link>
