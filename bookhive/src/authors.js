@@ -56,7 +56,9 @@ export default function Authors() {
         if (method === 'delete') {
             let m = await delData(`http://localhost:3000/authors/${id}`, method);
             if (m === 204) {
-               toast.success("Deleted Successfully");
+               toast.success("Deleted Successfully",{
+                onClose: () => loadAuthor()
+               });
             }
             else {
                 toast.error("something went wrong");
@@ -72,8 +74,13 @@ export default function Authors() {
         }
     }
     function handleClose() {
-        setToast(false);
-        setAlert(false);
+            setToast(false);
+            setAlert(false);
+             if(id.current>0){
+                loadAuthor();
+             }
+            id.current=0;
+        
     }
     async function loadAuthor() {
         setloading(true)
@@ -104,7 +111,8 @@ export default function Authors() {
                                     : <img src="/user.jpg" alt='no' className="card-img" height="500" width='300' />}
                                 <div className="card-body card-img-overlay text-white  text-center">
                                     <div className="op rounded-5 cur">
-                                        <span className="col-1 text-dark"> <i className="fa fa-edit fs-5  text-center link mt-5" onClick={() => console.log("update")}></i></span>
+                                        <span className="col-1 text-dark"> <i className="fa fa-edit fs-5  text-center link mt-5" onClick={() => 
+                                            {setAlert(true);id.current=e.author_id}}></i></span>
                                         <span className="col-1 offset-1 text-dark"> <i className="fa fa-trash fs-5 text-center link mt-5 mb-5"
                                             onClick={() => showToast("delete", e.author_id, e.name)}></i></span>
                                         <div className="row">
@@ -123,7 +131,7 @@ export default function Authors() {
                      <Tooltip anchorSelect=".fa-edit" place="top">Edit Author</Tooltip>
                      <Tooltip anchorSelect=".fa-trash" place="top">Delete Author</Tooltip>
                      {to && <Model show={to} msg={msg.current} onClick={handleClose} type="ok" value={() => editAuthor(type.current, id.current)} />}
-                     {alert && <Model show={alert} type="addAuthor" close={handleClose} />}
+                     {alert && <Model show={alert} type="addAuthor" close={handleClose} id={id.current}/>}
                      <ToastContainer position="top-center"/>
                 </div>
             }

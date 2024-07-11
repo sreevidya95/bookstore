@@ -1,15 +1,26 @@
 import Modal from "react-bootstrap/Modal"
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
-import { useState } from "react";
-import { postData, postFormData } from "./fetch";
+import { useEffect, useState } from "react";
+import { getData, postData, postFormData } from "./fetch";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from "react-router-dom";
 const FormData = require('form-data')
 export default function Model(props) {
   const [genere, setGenere] = useState("");
   const [author, setAuthor] = useState({ name: "", biography: "", author_image: "" })
   const [error, setError] = useState({});
+  const [upload, setUpload] = useState(false);
+  useEffect(() => {
+    if (props.id && props.id > 0) {
+      getAuthor(props.id)
+    }
+  }, [])
+  async function getAuthor(id) {
+    const auth = await getData(`http://localhost:3000/authors/${id}`, "get");
+    setAuthor(auth);
+  }
   function handleData(event) {
     if (props.type === 'genere') {
       setGenere(event.target.value);
@@ -64,28 +75,41 @@ export default function Model(props) {
       else {
         var data = new FormData();
         Object.entries(author).forEach(([key, value]) => {
-          if (value !== '') {
+          if (value !== '' && value!==null) {
             data.append(key, value);
           }
         });
-        if (author.author_image !== null && author.author_image !== '') {
-          data.set('author_image', author.author_image)
+        let msg
+        if(props.id>0){
+          msg = await postFormData(`http://localhost:3000/authors/${props.id}`, "put", data);
+        
+
         }
-        let msg = await postFormData("http://localhost:3000/authors/", "post", data);
+        else{
+           msg = await postFormData("http://localhost:3000/authors/", "post", data);
+        }
+       
         if (msg.hasOwnProperty('msg')) {
           toast.error(msg.msg, {
-            onClose: () => props.close()
+            onClose: () => { props.close();}
           });
 
         }
         else if (msg.hasOwnProperty('author_id')) {
-          toast.success("Author Created Successfully", {
-            onClose: () => props.close()
+          let message;
+          if(props.id>0){
+            message="Author Updated Successfully";
+          }
+          else{
+            message="Author Created Successfully";
+          }
+          toast.success(message, {
+            onClose: () => { props.close();}
           });
         }
         else {
           toast.error("Something Went Wrong", {
-            onClose: () => props.close()
+            onClose: () => { props.close();}
           });
 
         }
@@ -97,25 +121,38 @@ export default function Model(props) {
     <>
       <Modal show={props.show} onHide={props.onClick}>
         <Modal.Header>
-          {props.close && <Modal.Title><h1 className="h3">{props.type === 'genere' ? "Add Genere" : "ADD Author"}</h1></Modal.Title>}
+          {props.close && <Modal.Title><h1 className="h3">{props.type === 'genere' ? "Add Genere" : props.id > 0 ? "Edit Author" : "ADD Author"}</h1></Modal.Title>}
           <span className="btn-close" style={{ float: "right !important" }} onClick={props.onClick ? props.onClick : props.close}></span>
         </Modal.Header>
         <Modal.Body>{props.msg ? props.msg :
           <Form>
-            <Form.Control name={props.type === 'genere' ? "genre_name" : "name"} placeholder={props.type === 'genere' ? "Enter Genere Name" : "Enter Author's Name"} className="mt-2" onChange={handleData} />
+            <Form.Control name={props.type === 'genere' ? "genre_name" : "name"} placeholder={props.type === 'genere' ? "Enter Genere Name" : "Enter Author's Name"} className="mt-2" onChange={handleData} value={props.id ? author.name : genere.genre_name} />
             {error.name && <h1 className="text-danger mt-1 h6">{error.name}</h1>}
             {props.type !== 'genere' &&
               <>
-                <Form.Control name="biography" as="textarea" placeholder="Enter Author's biography" className="mt-3" onChange={handleData} />
+                <Form.Control name="biography" as="textarea" placeholder="Enter Author's biography" className="mt-3" onChange={handleData} value={author.biography} />
                 {error.biography && <h1 className="text-danger mt-1 h6">{error.biography}</h1>}
-                <Form.Control type="file" accept="image/*" name="author_image" placeholder="Select Image" className="mt-3" onChange={handleData} /></>}
+                {props.id > 0 ?
+                  (author.author_image === null ? <h1 className="text-dark mt-2 h6">Image was not uploaded</h1> :
+                    typeof author.author_image === 'object' ? ""
+                      : <img src={author.author_image} alt="no" height="100" width="100" className="mt-2" />) : ""
+                }
+                {props.id > 0 &&
+                  <Link to="#" type="btn"
+                    onClick={() => setUpload(true)} className="mt-2">Upload New Image</Link>
+                }
+                {(props.id === 0 || upload === true) &&
+                  <Form.Control type="file" accept="image/*" name="author_image" placeholder="Select Image" className="mt-3" onChange={handleData} />}
+              </>
+            }
+
           </Form>
 
 
         }</Modal.Body>
         <Modal.Footer>
           {props.type && <Button variant="primary" onClick={props.value ? props.value : addData}>
-            Ok
+            {props.id ? props.id > 0 ? "Edit Author" : "Add Author" : "Ok"}
           </Button>}
           <Button variant="secondary" onClick={props.onClick ? props.onClick : props.close}>
             Close

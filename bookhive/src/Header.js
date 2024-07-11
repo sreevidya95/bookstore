@@ -1,22 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import { Nav } from "react-bootstrap";
-import { NavLink, useParams } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import { getData, delData } from "./fetch";
 import { Tooltip } from "react-tooltip";
 import Model from "./modal";
 export default function Header(props) {
     const [messages, setMessages] = useState([]);
     const [loading, setloading] = useState(false);
-    const [toast, setToast] = useState(false);
+    const [to, setToast] = useState(false);
+    const [alert, setAlert] = useState(false);
+    const[genere,setGenere]=useState();
     const { id } = useParams();
     let msg = useRef('');
     useEffect(() => {
         getMessage();
-    }, []);
+    },[]);
     async function getMessage() {
         setloading(true);
         let message = await getData("http://localhost:3000/enquiry/", "get");
+        let generes = await getData("http://localhost:3000/generes/", "get");
         setMessages(message);
+        setGenere(generes)
         setloading(false);
     }
     async function editMessage(method, id) {
@@ -45,6 +49,7 @@ export default function Header(props) {
     }
     function handleClose() {
         setToast(false);
+        setAlert(false);
         getMessage();
     }
     return (
@@ -70,11 +75,28 @@ export default function Header(props) {
                 </Nav.Link>
             </nav>
             <nav className='row background mt-3'>
-                <NavLink to="/books" className={`col-4 offset-1 text-center arsenal-sc-regular fs-3 text-decoration-none link mb-2 ${window.location.pathname === '/books' ? 'linkactive' : 'text-dark'}`}>Books</NavLink>
-                <NavLink to="/authors" className={`col-3 arsenal-sc-regular fs-3 text-decoration-none text-center link mb-2 ${window.location.pathname === '/authors' ? 'linkactive' : "text-dark"}`}>authors</NavLink>
-                <NavLink className="nav-link dropdown-toggle col-3 text-dark arsenal-sc-regular fs-3 text-decoration-none text-center mb-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <NavLink to="/books" className={`col-3 offset-1 text-center arsenal-sc-regular fs-3 text-decoration-none link mb-2 ${window.location.pathname === '/books' ? 'linkactive' : 'text-dark'}`}>Books</NavLink>
+                <NavLink to="/authors" className={`col-2 arsenal-sc-regular fs-3 text-decoration-none text-center link mb-2 ${window.location.pathname === '/authors' ? 'linkactive' : "text-dark"}`}>authors</NavLink>
+                <NavLink className="nav-link dropdown-toggle col-2 text-dark arsenal-sc-regular fs-3 text-decoration-none text-center mb-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fa-regular fa-message"></i>
                     <Tooltip anchorSelect=".fa-message" place="bottom" className="fs-6">Messages From Users</Tooltip>
+                </NavLink>
+                <NavLink className="nav-link col-2 text-white fs-3 text-decoration-none text-center mb-2"
+                    href="#">
+                    <div className="dropdown">
+                        <button className="dropdown-toggle text-dark border border-white bg-white" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Genere
+                        </button>
+                        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <Link className="dropdown-item btn col-12" href="#" onClick={() => setAlert(true)}>Add Genere</Link>
+                            <Link className="dropdown-item btn col-12" href="#" id="view">View Generes
+                            </Link>
+                            <span className="g">{genere && genere.map(e=>
+                                   <>
+                                    <span className="h6 col-12 ms-5" key={e.genre_id}>{e.genre_name}</span><br/></>
+                                )}</span>
+                        </div>
+                    </div>
                 </NavLink>
                 <div className="dropdown-menu col-12 col-md-6 col-xl-6 drop" aria-labelledby="navbarDropdown">
                     {loading ?
@@ -105,7 +127,8 @@ export default function Header(props) {
                         </>}
                 </div>
             </nav>
-            {toast && <Model show={toast} msg={msg.current} onClick={handleClose} />}
+            {to && <Model show={to} msg={msg.current} onClick={handleClose}/>}
+            {alert && <Model show={alert} onClick={handleClose} type="genere" close={handleClose} />}
         </>
     );
 }

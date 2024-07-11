@@ -30,7 +30,7 @@ export default function UserLogin(){
        :
        <>
         <div className="row">
-             <h5 className="h4 text-center mt-5 col-6 offset-3">Sorry,Our User Login page is currently under maintanance,please write your enquiries or send your 
+             <h5 className="h4 text-center mt-5 col-6 offset-3">Sorry,Our User Login page is currently under maintanance,please write your enquiries,Feedback or send your 
                 address in below form, we will reply to you through Email.
              </h5>
            </div>

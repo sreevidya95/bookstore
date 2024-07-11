@@ -130,7 +130,6 @@ router.put('/:id',upload.single('book_image'),async (req,res,next)=>{
     if(req.file && typeof req.file==='object' && req.file!==null){
         req.body.book_image = `http://localhost:3000/${req.file.path}`
      }
-     console.log(req.body)
     try{
         const updated = await Book.update(req.body,{
             where:{

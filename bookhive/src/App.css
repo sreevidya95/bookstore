@@ -206,7 +206,7 @@ section img,#v-pills-tab,.name{
   color:#D14031 !important;
 }
 
-.btn-color,.btn-color:hover {
+.btn-color,.btn-color:hover,.btn-color:visited {
   background-color: #D14031;
   border: 1px solid #D14031;
 }
@@ -304,4 +304,10 @@ li{
   background-image: url("../public/404.webp") !important;
   background-size: cover;
   height: 100vh;
+}
+#view ~ .g{
+  display: none;
+}
+#view:hover ~ .g{
+  display: block;
 }

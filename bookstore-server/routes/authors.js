@@ -54,7 +54,10 @@ router.post("/",upload.single('author_image'),async (req,res,next)=>{
         next(e);
     }
 });
-router.put("/:id",async (req,res,next)=>{
+router.put("/:id",upload.single('author_image'),async (req,res,next)=>{
+    if(req.file && typeof req.file==='object' && req.file!==null){
+        req.body.author_image = `http://localhost:3000/${req.file.path}`
+     }
     try{
         const updated = await Author.update(req.body,{
             where:{
