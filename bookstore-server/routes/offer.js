@@ -31,7 +31,7 @@ router.post('/', async (req, res, next) => {
             })
             if(book){
                   let date = new Date(req.body.endDate);
-                  let task = cron.schedule(`0 0 0 ${date.getDate()} ${date.getMonth()+1} ${date.getDay()}`,()=>{
+                  let task = cron.schedule(`0 0 0 ${date.getDate()+1} ${date.getMonth()+1} ${date.getDay()}`,()=>{
                         deleteOffers(task,data.offer_id);
                   })
                     return res.status(201).json(data);
@@ -61,9 +61,6 @@ async function deleteOffers(task,id){
    let d =  await Offer.destroy({
         where:{
             offer_id:id,
-            enddate:{
-                [Op.gt] : now()
-            }
         }
        });
        if(d){
