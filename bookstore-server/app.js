@@ -28,11 +28,13 @@ const AuthorRouter = require('./routes/authors');
 const GenereRouter = require("./routes/genres");
 const EnquiryRouter = require("./routes/enquiry");
 const AdminRouter = require("./routes/login");
+const EventRouter=require("./routes/event");
 app.use("/books", bookRouter);
 app.use("/authors", AuthorRouter);
 app.use("/generes", GenereRouter);
 app.use("/enquiry",EnquiryRouter);
 app.use("/login",AdminRouter);
+app.use("/event",EventRouter);
 app.get("/", (req, res) => {
     res.send("welcome!!!!")
 })

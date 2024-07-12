@@ -333,3 +333,10 @@ li{
 .w{
   width: 250px !important;
 }
+.css-v0pjtz-MuiStack-root {
+  width: 380px;
+    padding-left: 40px;
+}
+.bc{
+  border:1px solid  #e9e3e3 !important;
+}

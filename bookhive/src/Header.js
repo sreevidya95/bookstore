@@ -1,10 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { Nav } from "react-bootstrap";
 import { Link, NavLink, useParams } from "react-router-dom";
-import { getData, delData } from "./fetch";
+import { getData, delData, postData } from "./fetch";
 import { Tooltip } from "react-tooltip";
 import Model from "./modal";
 import Offcanva from "./Offcanvas";
+import Modal from "react-bootstrap/Modal"
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
+import { toast,ToastContainer} from 'react-toastify';
+import dayjs from 'dayjs';
 export default function Header(props) {
     const [messages, setMessages] = useState([]);
     const [loading, setloading] = useState(false);
@@ -12,7 +20,10 @@ export default function Header(props) {
     const [alert, setAlert] = useState(false);
     const[genere,setGenere]=useState();
     const[offcanvas,setOffcanvas]=useState(false);
+    const[schedule,setSchedule]=useState(false);
     const { id } = useParams();
+    const [value,setValue]=useState(dayjs(new Date()));
+    const[data,setData]=useState({email:"",eventName:""})
     let msg = useRef('');
     useEffect(() => {
         getMessage();
@@ -55,6 +66,25 @@ export default function Header(props) {
         setOffcanvas(false)
         getMessage();
     }
+    function handleChange(event){
+        setData({...data,[event.target.name]:event.target.value})
+    }
+    async function scheduleEvent(e){
+         e.preventDefault();
+         if (value.toDate().getTime() <= new Date().getTime()) {
+            toast.error("Selected Date should be greater than current Date and Time ")
+         } else {
+            let msg=await  postData("http://localhost:3000/event/","post",{email:localStorage.getItem('email'),event:data.eventName,date:value});
+            if(msg.hasOwnProperty('msg')){
+                console.log(msg)
+                toast.success(msg.msg,{
+                    onClose:()=>setSchedule(false)
+                });
+            }
+            console.log({email:localStorage.getItem('email'),event:data.eventName,date:value.toDate()});
+         }
+         
+    }
     return (
         <>
             <nav className='navbar navbar-expand-lg col-md-12 col-sm-12 bg header'>
@@ -73,6 +103,7 @@ export default function Header(props) {
                         </button>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li className="dropdown-item btn" onClick={props.onClick}>Signout</li>
+                            <li className="dropdown-item btn" onClick={()=>setSchedule(true)}>Set Reminder</li>
                         </ul>
                     </div>
                 </Nav.Link>
@@ -135,6 +166,34 @@ export default function Header(props) {
             {to && <Model show={to} msg={msg.current} onClick={handleClose}/>}
             {alert && <Model show={alert} onClick={handleClose} type="genere" close={handleClose} />}
             {offcanvas && <Offcanva show={offcanvas} onClick={handleClose}/>}
+            {schedule && <Modal show={schedule} onHide={()=>setSchedule(false)}>
+            <ToastContainer position="top-center"/>
+        <Modal.Header>
+           <Modal.Title><h1 className="h3">Set Event Reminder</h1></Modal.Title>
+          <span className="btn-close cur" style={{ float: "right !important" }} onClick={()=>setSchedule(false)}></span>
+        </Modal.Header>
+                <Modal.Body>
+                    <form className="row" onSubmit={scheduleEvent}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} className="col-8 offset-1">
+                            <DemoContainer components={['DateTimePicker']}>
+                                <DateTimePicker
+                                    label="Select Date And Time"
+                                    viewRenderers={{
+                                        hours: renderTimeViewClock,
+                                        minutes: renderTimeViewClock,
+                                        seconds: renderTimeViewClock,
+                                    }}
+                                    value={value} minDateTime={dayjs(new Date())}
+                                    onChange={(newValue) => setValue(newValue)}
+                                />
+                            </DemoContainer>
+                        </LocalizationProvider>
+                        <input type="text" className="form-control-sm col-8 offset-1 mt-2 bc" name="eventName"  placeholder="Enter your Event" required onChange={handleChange}/>
+                        <input type="submit" className="form-control-sm btn-color col-2 offset-4 mt-4 text-white"/>
+                    </form>
+                </Modal.Body>
+        </Modal>
+        }
         </>
     );
 }
