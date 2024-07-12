@@ -132,8 +132,8 @@ export default function Header(props) {
                         </div>
                     </div>
                 </NavLink>
-                <span className="nav-link col-6 col-md-2 fs-3 text-center mb-2 btn"><i class="fa-solid fa-user-plus link" onClick={()=>setOffcanvas(true)}></i></span>
-                <Tooltip anchorSelect=".fa-user-plus" place="bottom" className="fs-6"> Add New Admin</Tooltip>
+                <span className="nav-link col-6 col-md-2 fs-3 text-center mb-2 btn"><i className="fas fa-bullhorn link" onClick={()=>setOffcanvas(true)}></i></span>
+                <Tooltip anchorSelect=".fa-bullhorn" place="bottom" className="fs-6"> Add New Offer</Tooltip>
                 <div className="dropdown-menu col-12 col-md-6 col-xl-6 drop" aria-labelledby="navbarDropdown">
                     {loading ?
                         <div className="row">
@@ -165,7 +165,7 @@ export default function Header(props) {
             </nav>
             {to && <Model show={to} msg={msg.current} onClick={handleClose}/>}
             {alert && <Model show={alert} onClick={handleClose} type="genere" close={handleClose} />}
-            {offcanvas && <Offcanva show={offcanvas} onClick={handleClose}/>}
+            {offcanvas && <Offcanva show={offcanvas} onClick={handleClose} book={true}/>}
             {schedule && <Modal show={schedule} onHide={()=>setSchedule(false)}>
             <ToastContainer position="top-center"/>
         <Modal.Header>

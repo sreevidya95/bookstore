@@ -17,11 +17,11 @@ export default function Offcanva(props) {
   const [add, setAdd] = useState("");
   const [error, setError] = useState({});
   const[upload,setUpload]=useState(false);
-  const[ptype,setptype]=useState("password");
-  const[admin,setAdmin]=useState({name:"",email:"",password:"",cp:""})
+  const[ptype,setptype]=useState({sd:"text",ed:"text"});
+  const[offer,setOffer]=useState({name:"",discount:"",startDate:"",endDate:"",book:[]})
   const [book, setBook] = useState({ title: "", price: "", publication_date: "", book_image: "", AuthorAuthorId: "", GenreGenreId: "" })
   useEffect(() => {
-    if(typeof props.id !=='undefined')
+    if(typeof props.id !=='undefined' || props.book)
         LoadData();
   }, []);
   function handleClose() {
@@ -34,6 +34,10 @@ export default function Offcanva(props) {
       const b = await getData(`http://localhost:3000/books/${props.id}`, "get");
       setBook(b);
     }
+    if(props.book){
+       const b = await getData(`http://localhost:3000/books/`, "get");
+      setBook(b);
+    }
     const author = await getData("http://localhost:3000/authors/", "get");
     const genere = await getData("http://localhost:3000/generes/", "get");
     setGenere(genere);
@@ -41,14 +45,6 @@ export default function Offcanva(props) {
     setloading(false);
   }
   const [type, setType] = useState("text");
-  function toggleType(){
-    if(ptype==='text'){
-      setptype("password")
-    }
-    else{
-      setptype("text")
-    }
-  }
   async function AddBook(id) {
       let error = {};
       if (book.title === '') {
@@ -112,28 +108,33 @@ export default function Offcanva(props) {
   async function AddAdmin(){
     setloading(true);
      let error={};
-     if(admin.name===''){
-         error.name="Admin Name should not be Empty";
+     if(offer.name===''){
+         error.name="Promotion Name should not be Empty";
      }
-     else if(admin.email==='' || /\S+@\S+\.\S+/.test(admin.email)===false){
-      error.email="Enter Valid Email"
+     else if(offer.discount===''){
+      error.discount="Enter Valid Dicount"
      }
-     else if(admin.password===''||!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/.test(admin.password))){
-         error.p="Enter Valid Password,Make Sure Password contains Numbers,Letters and Symbols"
+     else if(offer.startDate===''){
+         error.sd="Enter Start Date of Offer"
      }
-     else if(admin.cp!==admin.password){
-        error.cp="Confirm Passwrod should match with the Password"
+     else if(offer.endDate===''){
+        error.ed="Enter End Date"
+     }
+     else if(offer.book==='' || offer.book.length===0){
+      error.book="Select Atleast One Book"
+     }
+     else if(offer.startDate >= offer.endDate){
+        error.sd="Start Should be less than End Date"
      }
      else{
-       delete admin.cp;
-      let msg=await  postData("http://localhost:3000/login/new","post",admin);
+      let msg=await  postData("http://localhost:3000/offer","post",offer);
       if (msg.hasOwnProperty('msg')) {
         toast.error(msg.msg,
         );
 
       }
-      else if (msg.hasOwnProperty('admin_id')) {
-        toast.success("Admin Added Successfully",{
+      else if (msg.hasOwnProperty('offer_id')) {
+        toast.success("Offer Added Successfully",{
           onClose: () => props.onClick()
         })
      }
@@ -150,16 +151,21 @@ export default function Offcanva(props) {
         setBook({ ...book, [event.target.name]: event.target.value });
       }
       else{
-        setAdmin({...admin,[event.target.name]:event.target.value});
-      }
-      
+         if(event.target.name==='book'){
+          let value = Array.from(event.target.selectedOptions, option => option.value);
+          setOffer({...offer,[event.target.name]:value});
+         }
+         else{
+          setOffer({...offer,[event.target.name]:event.target.value});
+         }
     }
   }
+}
   return (
     <Offcanvas show={props.show} placement="end">
       <Offcanvas.Header>
         <Offcanvas.Title>
-          <h3 className="h3">{(typeof props.id !=='undefined') ? props.id > 0 ? "Edit Book" : "Add Book" : "Add Admin"}</h3>
+          <h3 className="h3">{(typeof props.id !=='undefined') ? props.id > 0 ? "Edit Book" : "Add Book" : "Add Promotion"}</h3>
         </Offcanvas.Title>
         <span className="btn-close cur" style={{ float: "right !important" }} onClick={props.onClick}></span>
       </Offcanvas.Header>
@@ -229,21 +235,23 @@ export default function Offcanva(props) {
                 <Button type="submit" as={Col} xs={{ span: 4, offset: 4 }} className="mt-5" onClick={() => AddBook(props.id)}>{props.id > 0 ? "Edit Book" : "Add Book"}</Button>
                 </>:
                 <>
-                  <Form.Control name="name" placeholder="Enter Admin's Name" className={`mt-3 ${error.name ? "border border-danger" : "border border-secondary"}`} onChange={handleChange}/>
+                  <Form.Control name="name" placeholder="Enter Promotion Name" className={`mt-3 ${error.name ? "border border-danger" : "border border-secondary"}`} onChange={handleChange}/>
                   {error.name && <h1 className="text-danger mt-2 h6">{error.name}</h1>}   
-                  <Form.Control type="email" name="email" placeholder="Enter Email Address" className={`mt-3 ${error.email ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required/>
-                  {error.email && <h1 className="text-danger mt-2 h6">{error.email}</h1>}  
-                  <Form.Control type={ptype} name="password" placeholder="Enter Password" className={`mt-3 ${error.p ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required/>
-                  {error.p && <h1 className="text-danger mt-2 h6">{error.p}</h1>}  
-                  <Form.Control type={ptype} name="cp" placeholder="Enter Email Address" className={`mt-3 ${error.cp ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required/>
-                  {error.cp && <h1 className="text-danger mt-2 h6">{error.cp}</h1>}   
-                  <div className="form-check col-12 mt-3">
-                  <input className="form-check-input border border-secondary" type="checkbox" value="" id="flexCheckDefault" onClick={toggleType}/>
-                  <label className="form-check-label ms-1" for="flexCheckDefault">
-                       Show Password
-                  </label>
-              </div>
-              <Button type="submit" as={Col} xs={{ span: 4, offset: 4 }} className="mt-5" onClick={() =>AddAdmin()}>Add Admin</Button>
+                  <Form.Control type="number" name="discount" placeholder="Enter Discount percentage" className={`mt-3 ${error.discount ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required/>
+                  {error.discount && <h1 className="text-danger mt-2 h6">{error.discount}</h1>}  
+                  <Form.Control type={ptype.sd} name="startDate" placeholder="Enter Start Date" 
+                  className={`mt-3 ${error.sd ? "border border-danger" : "border border-secondary"}`} onFocus={()=>ptype.sd="date"} onChange={handleChange} required/>
+                  {error.sd && <h1 className="text-danger mt-2 h6">{error.sd}</h1>}  
+                  <Form.Control type={ptype.ed} name="endDate" placeholder="Enter End Address" onFocus={()=>ptype.ed="date"} className={`mt-3 ${error.ed ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required/>
+                  {error.ed && <h1 className="text-danger mt-2 h6">{error.ed}</h1>}   
+                  <Form.Control as="select" name="book" onChange={handleChange} value={book.book_id} className={`mt-3 ${error.book ? "border border-danger" : "border border-secondary"}`}  multiple>
+                     <option value="">Select Books</option>
+                     {book.length > 0 && book.map(e =>
+                      <option key={e.book_id} value={e.book_id}>{e.title}</option>
+                     )}
+                  </Form.Control>
+                  {error.book && <h1 className="text-danger mt-2 h6">{error.book}</h1>}  
+              <Button type="submit" as={Col} xs={{ span: 4, offset: 4 }} className="mt-5" onClick={() =>AddAdmin()}>Submit</Button>
                 </>
                 }
               </Form>}

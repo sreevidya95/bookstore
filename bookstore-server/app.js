@@ -14,6 +14,7 @@ const Author = require('./models/author')(sequelize);
 const Enquiry = require("./models/enquiry")(sequelize);
 const Genere = require("./models/genere")(sequelize);
 const Book = require('./models/book')(sequelize);
+const Offer = require("./models/Offer")(sequelize);
 // sequelize.sync({force:true})
 sequelize.sync()
     .then(() => console.log("databases synced"))
@@ -29,12 +30,14 @@ const GenereRouter = require("./routes/genres");
 const EnquiryRouter = require("./routes/enquiry");
 const AdminRouter = require("./routes/login");
 const EventRouter=require("./routes/event");
+const OfferRouter = require("./routes/offer");
 app.use("/books", bookRouter);
 app.use("/authors", AuthorRouter);
 app.use("/generes", GenereRouter);
 app.use("/enquiry",EnquiryRouter);
 app.use("/login",AdminRouter);
 app.use("/event",EventRouter);
+app.use("/offer",OfferRouter);
 app.get("/", (req, res) => {
     res.send("welcome!!!!")
 })

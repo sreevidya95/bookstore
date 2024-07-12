@@ -1,6 +1,7 @@
 const {sequelize,DataTypes} = require("./sequelize");
 const Author = require('./author')(sequelize);
 const Genere = require('./genere')(sequelize);
+const offer = require("./Offer")(sequelize);
 module.exports = (sequelize) => {
 const Book = sequelize.define("Book",{
     book_id:{
@@ -24,13 +25,14 @@ const Book = sequelize.define("Book",{
     book_image:{
         type:DataTypes.STRING,
         allowNull:true,
-    }
+    },
 });
     
 Author.hasMany(Book);
 Book.belongsTo(Author);
 Genere.hasMany(Book);
 Book.belongsTo(Genere);
-
+offer.hasMany(Book);
+Book.belongsTo(offer);
 return Book;
 }
