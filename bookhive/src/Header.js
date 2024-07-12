@@ -132,7 +132,7 @@ export default function Header(props) {
                         </div>
                     </div>
                 </NavLink>
-                <span className="nav-link col-6 col-md-2 fs-3 text-center mb-2 btn"><i className="fas fa-bullhorn link" onClick={()=>setOffcanvas(true)}></i></span>
+                <span className="nav-link col-6 col-md-2 fs-2 text-center mb-2 btn"><i className="fa fa-bullhorn link" onClick={()=>setOffcanvas(true)}></i></span>
                 <Tooltip anchorSelect=".fa-bullhorn" place="bottom" className="fs-6"> Add New Offer</Tooltip>
                 <div className="dropdown-menu col-12 col-md-6 col-xl-6 drop" aria-labelledby="navbarDropdown">
                     {loading ?

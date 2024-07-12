@@ -8,6 +8,7 @@ const author = require('../models/author')(sequelize);
 const Book = require("../models/book")(sequelize);
 const genere = require('../models/genere')(sequelize);
 const multer  = require('multer');
+const Offer = require('../models/Offer')(sequelize);
 const storage = multer.diskStorage({
     destination: "./images",
     filename: (req, file, cb) => {
@@ -28,7 +29,7 @@ router.get('/',async (req,res,next)=>{
             {
                 model:genere,
                 required:true,
-            },     
+            },      
         ],
         });
             res.status(200).json(books);

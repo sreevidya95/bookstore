@@ -126,6 +126,9 @@ section img,#v-pills-tab,.name{
     background-size: cover;
     height: 100vh;
   }
+  .mar-top{
+    margin-top:-100px;
+  }
   .author{
     margin-left: 80px;
   }
@@ -339,4 +342,12 @@ li{
 }
 .bc{
   border:1px solid  #e9e3e3 !important;
+}
+.fa-tag{
+  color: white;
+    font-size: 50px;
+}
+.fa-stack{
+  color:orangered;
+  font-size:50px;
 }

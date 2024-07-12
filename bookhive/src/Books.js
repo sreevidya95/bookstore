@@ -19,6 +19,7 @@ export default function Books() {
     const [loading, setloading] = useState(false);
     const [grid, setGrid] = useState(true);
     const [range, setRange] = useState(1);
+    const[offer,setOffer]=useState({});
     const filterData = useRef([]);
     const initialState = {};
     const msg = useRef("");
@@ -98,9 +99,12 @@ export default function Books() {
         LoadBooks()
         const author = await getData("http://localhost:3000/authors/", "get");
         const genere = await getData("http://localhost:3000/generes/", "get");
+        const off = await getData("http://localhost:3000/offer", "get");
+        setOffer(off);
         setAuthors(author);
         setCategories(genere);
         setloading(false);
+        console.log(off)
     }
     async function LoadBooks() {
         setloading(true);
@@ -250,18 +254,25 @@ export default function Books() {
                                 <div className={`card col-12  ms-1 border-0 rounded-0 ${grid ? "col-md-3 col-xl-3 ms-5 mt-3" : "col-md-12 col-xl-12 mt-5 card-height"}`} key={e.book_id}>
                                     {e.book_image ? <img src={e.book_image} alt="no" height="300" className={`col-md-12 col-xl-12 ${!grid && "w-25"}`} />
                                         : <img src="/noimg.webp" alt="no" height="300" className={`col-md-12 col-xl-12 ${!grid && "w-25"}`} />}
-                                    <div className={`card-body col-xl-12 col-md-12 mb-5 ${grid ? "border" : "car_body"}`}>
+                                        <div className={`card-body col-xl-12 col-md-12 mb-5 ${grid ? "border" : "car_body"} ${e.offerOfferId && "mar-top"}`}>
+                                        {e.offerOfferId && 
+                                  <span class="fa-stack fa-lg">
+                                    <i class="fa fa-certificate fa-stack-2x"></i>
+                                    <i class="fa fa-tag fa-stack-1x fa-inverse"></i>
+                                    </span>}
                                         <Link to={`/book/${e.book_id}`}><h5 className="card-title col-12 link text-center">{e.title}</h5></Link>
                                         {/* <p class="card-text"> Author:{e.author.name}</p> */}
                                         <p className="card-text col-12 text-center"> Author:{e.Author.name}</p>
-                                        <p className="card-text col-12 text-center"> Price:{e.price}</p>
+                                        <p className={`card-text col-12 text-center ${e.offerOfferId && "text-decoration-line-through"}`}> Price:{e.price}</p>
+                                        {console.log(offer)}
+                                        {e.offerOfferId &&  <p className="card-text col-12 text-center">Offer Price: {offer && offer.length>0 && offer.map(p=><span key={p.offer_id}>{p.offer_id===e.offerOfferId && parseFloat(e.price)-parseFloat(p.discount)/100}</span>)}</p>}
                                         <p className="card-text col-12 text-center"> Genere:{e.Genre.genre_name}</p>
                                         <i className="fa fa-edit col-1 offset-5 fs-5  text-center link text-secondary" onClick={() => {setId(e.book_id);setOffcanvas(true)}}></i>
                                         <i className="fa fa-trash col-2 fs-5 text-center link text-secondary" onClick={() => showToast("delete", e.book_id, e.title)}></i>
                                         <Tooltip anchorSelect=".fa-edit" place="top">Edit Book</Tooltip>
                                         <Tooltip anchorSelect=".fa-trash" place="top">Delete Book</Tooltip>
-                                    </div>
-                                </div>
+                                 </div>   </div>
+                    
                             ) :
                                 <span className="h2 mt-5">sorry No books to display</span>
                             }
