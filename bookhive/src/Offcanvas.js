@@ -167,7 +167,7 @@ export default function Offcanva(props) {
     <Offcanvas show={props.show} placement="end">
       <Offcanvas.Header>
         <Offcanvas.Title>
-          <h3 className="h3">{(typeof props.id !== 'undefined') ? props.id > 0 ? "Edit Book" : "Add Book" : "Add Promotion"}</h3>
+          <h3 className="h3">{(typeof props.id !== 'undefined') ? props.id > 0 ? "Edit Book" : "Add Book" : "Add Sale"}</h3>
         </Offcanvas.Title>
         <span className="btn-close cur" style={{ float: "right !important" }} onClick={props.onClick}></span>
       </Offcanvas.Header>
@@ -241,23 +241,24 @@ export default function Offcanva(props) {
                     <Button type="submit" as={Col} xs={{ span: 4, offset: 4 }} className="mt-5" onClick={() => AddBook(props.id)}>{props.id > 0 ? "Edit Book" : "Add Book"}</Button>
                   </> :
                   <>
-                    <Form.Control name="name" placeholder="Enter Promotion Name" className={`mt-3 ${error.name ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} />
+                    <Form.Control name="name" placeholder="Enter Sale Name" className={`mt-3 ${error.name ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} />
                     {error.name && <h1 className="text-danger mt-2 h6">{error.name}</h1>}
                     <Form.Control type="number" name="discount" placeholder="Enter Discount percentage" className={`mt-3 ${error.discount ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required />
                     {error.discount && <h1 className="text-danger mt-2 h6">{error.discount}</h1>}
                     <Form.Control type={ptype.sd} name="startDate" placeholder="Enter Start Date"
                       className={`mt-3 ${error.sd ? "border border-danger" : "border border-secondary"}`} onFocus={() => ptype.sd = "date"} onChange={handleChange} required />
                     {error.sd && <h1 className="text-danger mt-2 h6">{error.sd}</h1>}
-                    <Form.Control type={ptype.ed} name="endDate" placeholder="Enter End Address" onFocus={() => ptype.ed = "date"} className={`mt-3 ${error.ed ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required />
+                    <Form.Control type={ptype.ed} name="endDate" placeholder="Enter End Date" onFocus={() => ptype.ed = "date"} className={`mt-3 ${error.ed ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required />
                     {error.ed && <h1 className="text-danger mt-2 h6">{error.ed}</h1>}
                     <Form.Control as="select" name="book" onChange={handleChange} value={book.book_id} className={`mt-3 ${error.book ? "border border-danger" : "border border-secondary"}`} multiple>
-                      <option value="">Select Books</option>
+                      <option value="" className="fw-bold">Select Books</option>
                       {book.length > 0 && book.map(e =>
                         <option key={e.book_id} value={e.book_id}>{e.title}</option>
                       )}
                     </Form.Control>
                     {error.book && <h1 className="text-danger mt-2 h6">{error.book}</h1>}
                     <Button type="submit" as={Col} xs={{ span: 4, offset: 4 }} className="mt-5" onClick={() => AddAdmin()}>Submit</Button>
+                    <h1 className="text-secondary mt-5" style={{fontSize:"12px"}}>* Offers will be removed automatically after offer ends *</h1>
                   </>
                 }
               </Form>}

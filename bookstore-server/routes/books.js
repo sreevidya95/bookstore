@@ -1,7 +1,7 @@
 const express = require('express');
 const CustomeError = require('../CustomError');
 const router = express.Router();
-const {Sequelize} = require("sequelize");
+const {Sequelize, Op} = require("sequelize");
 const {sequelize} = require('../models/sequelize');
 const { where } = require('sequelize');
 const author = require('../models/author')(sequelize);
@@ -75,6 +75,32 @@ router.get('/:sort',async (req,res,next)=>{
                 },    
             ],
             order: [['publication_date',req.params.sort]]
+            });
+                res.status(200).json(books);
+        }
+        catch(err){
+            const e = new CustomeError(err.message,500)
+                    next(e);
+          
+        }
+    }
+    else if(req.params.sort ==='sale'){
+        try{
+            const books = await Book.findAll({
+                include:[{
+                    model:author,
+                    required:true,
+                },
+                {
+                    model:genere,
+                    required:true,
+                },    
+            ],
+            where:{
+                offerOfferId:{
+                    [Op.not]:null
+                }
+            }
             });
                 res.status(200).json(books);
         }

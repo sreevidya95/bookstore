@@ -229,10 +229,11 @@ export default function Books() {
                         </Nav.Link>
                         <hr />
                         <Nav.Link className="nav-link btn col-12 mt-5 cur-def" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages"
-                            role="tab" aria-controls="v-pills-messages" aria-selected="false"><span className="h5 text-black">SortBy Publication Date</span>
+                            role="tab" aria-controls="v-pills-messages" aria-selected="false"><span className="h5 text-black text-center" style={{marginLeft:"30px"}}>Sort Books</span>
                             <ul className="col-12 mt-3">
-                                <li className="fs-5 text-center" onClick={()=>sortPublicationDate('ASC')}>Sort By older</li>
-                                <li className="fs-5 text-center" onClick={()=>sortPublicationDate('DESC')}>Sort By New</li>
+                                <li className="fs-5 cur" onClick={()=>sortPublicationDate('ASC')}>Sort By older</li>
+                                <li className="fs-5 cur text-center" onClick={()=>sortPublicationDate('DESC')}>Sort By New</li>
+                                <li className="fs-5 cur text-center" onClick={()=>sortPublicationDate('sale')}>Sort By Sale</li>
                             </ul>
                         </Nav.Link>
                         <hr />
@@ -264,7 +265,6 @@ export default function Books() {
                                         {/* <p class="card-text"> Author:{e.author.name}</p> */}
                                         <p className="card-text col-12 text-center"> Author:{e.Author.name}</p>
                                         <p className={`card-text col-12 text-center ${e.offerOfferId && "text-decoration-line-through"}`}> Price:{e.price}</p>
-                                        {console.log(offer)}
                                         {e.offerOfferId &&  <p className="card-text col-12 text-center">Offer Price: {offer && offer.length>0 && offer.map(p=><span key={p.offer_id}>{p.offer_id===e.offerOfferId && parseFloat(e.price)-parseFloat(p.discount)/100}</span>)}</p>}
                                         <p className="card-text col-12 text-center"> Genere:{e.Genre.genre_name}</p>
                                         <i className="fa fa-edit col-1 offset-5 fs-5  text-center link text-secondary" onClick={() => {setId(e.book_id);setOffcanvas(true)}}></i>

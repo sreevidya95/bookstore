@@ -3,7 +3,8 @@ const CustomeError = require('../CustomError');
 const cors = require('cors');
 const router = express.Router();
 const { sequelize } = require("../models/sequelize");
-const { where } = require('sequelize');
+const { where, Op } = require('sequelize');
+const cron = require('node-cron');
 const Offer = require("../models/Offer")(sequelize);
 const Book=require("../models/book")(sequelize);
 router.post('/', async (req, res, next) => {
@@ -11,9 +12,7 @@ router.post('/', async (req, res, next) => {
         const data = await Offer.findAll({
             where: {
                 name:req.body.name, 
-                discount:req.body.discount, 
-                startDate:req.body.startDate,
-                enddate:req.body.endDate,
+                discount:req.body.discount
             }
         }); 
         if(data.length>0){
@@ -31,6 +30,10 @@ router.post('/', async (req, res, next) => {
                 }
             })
             if(book){
+                  let date = new Date(req.body.endDate);
+                  let task = cron.schedule(`0 0 0 ${date.getDate()} ${date.getMonth()+1} ${date.getDay()}`,()=>{
+                        deleteOffers(task,data.offer_id);
+                  })
                     return res.status(201).json(data);
                 }
             else{
@@ -54,4 +57,26 @@ router.get("/",async (req,res,next) => {
         next(err);
       }
 });
+async function deleteOffers(task,id){
+   let d =  await Offer.destroy({
+        where:{
+            offer_id:id,
+            enddate:{
+                [Op.gt] : now()
+            }
+        }
+       });
+       if(d){
+        let b = Book.update({
+            offerOfferId:{
+                [Op.is]:null
+            },
+            where:{
+                offerOfferId:id
+            }
+        })
+        task.stop();
+       }
+
+}
 module.exports = router;
