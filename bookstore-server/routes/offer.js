@@ -66,7 +66,7 @@ async function deleteOffers(task,id){
        if(d){
         let b =Book.update({offerOfferId:null},{
             where:{
-                book_id:req.params.id
+                offerOfferId:id
             }
         });
         task.stop();
