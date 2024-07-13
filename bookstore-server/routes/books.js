@@ -178,6 +178,27 @@ router.put('/:id',upload.single('book_image'),async (req,res,next)=>{
     }
     
 });
+router.put('/sale/:id',async (req,res,next)=>{
+    try{
+        const updated = await Book.update(req.body,{
+            where:{
+                book_id:req.params.id
+            }
+        })
+        if(updated){
+            res.status(200).json({msg:"Sale Removed",status:200})
+
+        }
+        else{
+            const e = new CustomeError("couldnt find the book",404)
+            next(e);
+        }
+    }catch(error){
+        const e = new CustomeError(error.message,500)
+        next(e);
+    }
+    
+});
 router.delete('/:id',async (req,res,next)=>{
     try{
         let deleted = await Book.destroy({

@@ -267,8 +267,8 @@ export default function Books() {
                                         <p className={`card-text col-12 text-center ${e.offerOfferId && "text-decoration-line-through"}`}> Price:{e.price}</p>
                                         {e.offerOfferId &&  <p className="card-text col-12 text-center">Offer Price: {offer && offer.length>0 && offer.map(p=><span key={p.offer_id}>{p.offer_id===e.offerOfferId && parseFloat(e.price)-parseFloat(p.discount)/100}</span>)}</p>}
                                         <p className="card-text col-12 text-center"> Genere:{e.Genre.genre_name}</p>
-                                        <i className="fa fa-edit col-1 offset-5 fs-5  text-center link text-secondary" onClick={() => {setId(e.book_id);setOffcanvas(true)}}></i>
-                                        <i className="fa fa-trash col-2 fs-5 text-center link text-secondary" onClick={() => showToast("delete", e.book_id, e.title)}></i>
+                                        <i className="fa fa-edit col-1 offset-5 fs-5  text-center link text-secondary cur" onClick={() => {setId(e.book_id);setOffcanvas(true)}}></i>
+                                        <i className="fa fa-trash col-2 fs-5 text-center link text-secondary cur" onClick={() => showToast("delete", e.book_id, e.title)}></i>
                                         <Tooltip anchorSelect=".fa-edit" place="top">Edit Book</Tooltip>
                                         <Tooltip anchorSelect=".fa-trash" place="top">Delete Book</Tooltip>
                                  </div>   </div>

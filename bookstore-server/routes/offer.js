@@ -64,14 +64,11 @@ async function deleteOffers(task,id){
         }
        });
        if(d){
-        let b = Book.update({
-            offerOfferId:{
-                [Op.is]:null
-            },
+        let b =Book.update({offerOfferId:null},{
             where:{
-                offerOfferId:id
+                book_id:req.params.id
             }
-        })
+        });
         task.stop();
        }
 

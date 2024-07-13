@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Offcanvas } from "react-bootstrap";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
@@ -20,6 +20,7 @@ export default function Offcanva(props) {
   const [ptype, setptype] = useState({ sd: "text", ed: "text" });
   const [offer, setOffer] = useState({ name: "", discount: "", startDate: "", endDate: "", book: [] })
   const [book, setBook] = useState({ title: "", price: "", publication_date: "", book_image: "", AuthorAuthorId: "", GenreGenreId: "" })
+  const id = useRef(0);
   useEffect(() => {
     if (typeof props.id !== 'undefined' || props.book)
       LoadData();
@@ -32,7 +33,9 @@ export default function Offcanva(props) {
     setloading(true);
     if (props.id > 0) {
       const b = await getData(`http://localhost:3000/books/${props.id}`, "get");
+      id.current = b.offerOfferId;
       const off = await getData("http://localhost:3000/offer", "get");
+
       setBook(b);
       setOffer(off)
     }
@@ -107,11 +110,17 @@ export default function Offcanva(props) {
     }
     setError(error);
   }
+  async function removeSale(id){
+    let msg = await postData(`http://localhost:3000/books/sale/${id}`, "put", { offerOfferId:null });
+     toast(msg.msg,{
+      onClose:()=>{ props.onload()}
+     })
+  }
   async function AddAdmin() {
     setloading(true);
     let error = {};
     if (offer.name === '') {
-      error.name = "Promotion Name should not be Empty";
+      error.name = "Sale Name should not be Empty";
     }
     else if (offer.discount === '') {
       error.discount = "Enter Valid Dicount"
@@ -137,7 +146,7 @@ export default function Offcanva(props) {
       }
       else if (msg.hasOwnProperty('offer_id')) {
         toast.success("Offer Added Successfully", {
-          onClose: () => props.onClick()
+          onClose: () => { props.onClick(); props.onload() }
         })
       }
     }
@@ -231,13 +240,14 @@ export default function Offcanva(props) {
                     <p className="mt-3">Couldn't find the Genere You Want ? <Link to="#" type="btn"
                       onClick={() => { setToast(true); setAdd("genere") }}> Click Here</Link></p>
                     {error.gid && <h1 className="text-danger mt-2 h6">{error.gid}</h1>}
-                    <Form.Select name="offerOfferId" onChange={handleChange} value={book.offerOfferId} className={`mt-3 ${error.gid ? "border border-danger" : "border border-secondary"}`}>
+                    {props.id >0 &&offer.length > 0 &&<Form.Select name="offerOfferId" onChange={handleChange} value={book.offerOfferId} className={`mt-3 ${error.gid ? "border border-danger" : "border border-secondary"}`}>
                       <option value="">Apply Offers</option>
                       {offer.length > 0 && offer.map(e =>
                         <option value={e.offer_id} key={e.offer_id}>{e.name}</option>
                       )}
-                    </Form.Select>
-
+                    </Form.Select>}
+                    {props.id >0 && book && book.offerOfferId && id.current >0 &&<p className="mt-3">Want to remove Sale on this Book? <Link to="#" type="btn"
+                      onClick={() => {removeSale(book.book_id)}}> Click Here</Link></p>}
                     <Button type="submit" as={Col} xs={{ span: 4, offset: 4 }} className="mt-5" onClick={() => AddBook(props.id)}>{props.id > 0 ? "Edit Book" : "Add Book"}</Button>
                   </> :
                   <>
@@ -258,7 +268,7 @@ export default function Offcanva(props) {
                     </Form.Control>
                     {error.book && <h1 className="text-danger mt-2 h6">{error.book}</h1>}
                     <Button type="submit" as={Col} xs={{ span: 4, offset: 4 }} className="mt-5" onClick={() => AddAdmin()}>Submit</Button>
-                    <h1 className="text-secondary mt-5" style={{fontSize:"12px"}}>* Offers will be removed automatically after offer ends *</h1>
+                    <h1 className="text-secondary mt-5" style={{fontSize:"12px"}}>* Sale on books will be removed automatically after offer ends *</h1>
                   </>
                 }
               </Form>}
