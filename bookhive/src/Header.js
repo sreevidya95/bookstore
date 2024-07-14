@@ -11,23 +11,23 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
-import { toast,ToastContainer} from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import dayjs from 'dayjs';
 export default function Header(props) {
     const [messages, setMessages] = useState([]);
     const [loading, setloading] = useState(false);
     const [to, setToast] = useState(false);
     const [alert, setAlert] = useState(false);
-    const[genere,setGenere]=useState();
-    const[offcanvas,setOffcanvas]=useState(false);
-    const[schedule,setSchedule]=useState(false);
+    const [genere, setGenere] = useState();
+    const [offcanvas, setOffcanvas] = useState(false);
+    const [schedule, setSchedule] = useState(false);
     const { id } = useParams();
-    const [value,setValue]=useState(dayjs(new Date()));
-    const[data,setData]=useState({email:"",eventName:""})
+    const [value, setValue] = useState(dayjs(new Date()));
+    const [data, setData] = useState({ email: "", eventName: "" })
     let msg = useRef('');
     useEffect(() => {
         getMessage();
-    },[]);
+    }, []);
     async function getMessage() {
         setloading(true);
         let message = await getData("http://localhost:3000/enquiry/", "get");
@@ -66,24 +66,24 @@ export default function Header(props) {
         setOffcanvas(false)
         getMessage();
     }
-    function handleChange(event){
-        setData({...data,[event.target.name]:event.target.value})
+    function handleChange(event) {
+        setData({ ...data, [event.target.name]: event.target.value })
     }
-    async function scheduleEvent(e){
-         e.preventDefault();
-         if (value.toDate().getTime() <= new Date().getTime()) {
+    async function scheduleEvent(e) {
+        e.preventDefault();
+        if (value.toDate().getTime() <= new Date().getTime()) {
             toast.error("Selected Date should be greater than current Date and Time ")
-         } else {
-            let msg=await  postData("http://localhost:3000/event/","post",{email:localStorage.getItem('email'),event:data.eventName,date:value});
-            if(msg.hasOwnProperty('msg')){
+        } else {
+            let msg = await postData("http://localhost:3000/event/", "post", { email: localStorage.getItem('email'), event: data.eventName, date: value });
+            if (msg.hasOwnProperty('msg')) {
                 console.log(msg)
-                toast.success(msg.msg,{
-                    onClose:()=>setSchedule(false)
+                toast.success(msg.msg, {
+                    onClose: () => setSchedule(false)
                 });
             }
-            console.log({email:localStorage.getItem('email'),event:data.eventName,date:value.toDate()});
-         }
-         
+            console.log({ email: localStorage.getItem('email'), event: data.eventName, date: value.toDate() });
+        }
+
     }
     return (
         <>
@@ -103,7 +103,7 @@ export default function Header(props) {
                         </button>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li className="dropdown-item btn" onClick={props.onClick}>Signout</li>
-                            <li className="dropdown-item btn" onClick={()=>setSchedule(true)}>Set Reminder</li>
+                            <li className="dropdown-item btn" onClick={() => setSchedule(true)}>Set Reminder</li>
                         </ul>
                     </div>
                 </Nav.Link>
@@ -125,14 +125,14 @@ export default function Header(props) {
                             <Link className="dropdown-item btn col-12" href="#" onClick={() => setAlert(true)}>Add Genere</Link>
                             <Link className="dropdown-item btn col-12" href="#" id="view">View Generes
                             </Link>
-                            <span className="g">{genere && genere.map(e=>
-                                   <>
-                                    <span className="h6 col-12 ms-5" key={e.genre_id}>{e.genre_name}</span><br/></>
-                                )}</span>
+                            <span className="g">{genere && genere.map(e =>
+                                <>
+                                    <span className="h6 col-12 ms-5" key={e.genre_id}>{e.genre_name}</span><br /></>
+                            )}</span>
                         </div>
                     </div>
                 </NavLink>
-                <span className="nav-link col-6 col-md-2 fs-2 text-center mb-2 btn"><i className="fa fa-bullhorn link" onClick={()=>setOffcanvas(true)}></i></span>
+                <span className="nav-link col-6 col-md-2 fs-2 text-center mb-2 btn"><i className="fa fa-bullhorn link" onClick={() => setOffcanvas(true)}></i></span>
                 <Tooltip anchorSelect=".fa-bullhorn" place="bottom" className="fs-6"> Add New Offer</Tooltip>
                 <div className="dropdown-menu col-12 col-md-6 col-xl-6 drop" aria-labelledby="navbarDropdown">
                     {loading ?
@@ -163,15 +163,15 @@ export default function Header(props) {
                         </>}
                 </div>
             </nav>
-            {to && <Model show={to} msg={msg.current} onClick={handleClose}/>}
+            {to && <Model show={to} msg={msg.current} onClick={handleClose} />}
             {alert && <Model show={alert} onClick={handleClose} type="genere" close={handleClose} />}
-            {offcanvas && <Offcanva show={offcanvas} onClick={handleClose} book={true}/>}
-            {schedule && <Modal show={schedule} onHide={()=>setSchedule(false)}>
-            <ToastContainer position="top-center"/>
-        <Modal.Header>
-           <Modal.Title><h1 className="h3">Set Event Reminder</h1></Modal.Title>
-          <span className="btn-close cur" style={{ float: "right !important" }} onClick={()=>setSchedule(false)}></span>
-        </Modal.Header>
+            {offcanvas && <Offcanva show={offcanvas} onClick={handleClose} book={true} />}
+            {schedule && <Modal show={schedule} onHide={() => setSchedule(false)}>
+                <ToastContainer position="top-center" />
+                <Modal.Header>
+                    <Modal.Title><h1 className="h3">Set Event Reminder</h1></Modal.Title>
+                    <span className="btn-close cur" style={{ float: "right !important" }} onClick={() => setSchedule(false)}></span>
+                </Modal.Header>
                 <Modal.Body>
                     <form className="row" onSubmit={scheduleEvent}>
                         <LocalizationProvider dateAdapter={AdapterDayjs} className="col-8 offset-1">
@@ -188,12 +188,12 @@ export default function Header(props) {
                                 />
                             </DemoContainer>
                         </LocalizationProvider>
-                        <input type="text" className="form-control-sm col-8 offset-1 mt-2 bc" name="eventName"  placeholder="Enter your Event" required onChange={handleChange}/>
-                        <input type="submit" className="form-control-sm btn-color col-2 offset-4 mt-4 text-white"/>
+                        <input type="text" className="form-control-sm col-8 offset-1 mt-2 bc" name="eventName" placeholder="Enter your Event" required onChange={handleChange} />
+                        <input type="submit" className="form-control-sm btn-color col-2 offset-4 mt-4 text-white" />
                     </form>
                 </Modal.Body>
-        </Modal>
-        }
+            </Modal>
+            }
         </>
     );
 }

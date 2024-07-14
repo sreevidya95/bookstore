@@ -40,7 +40,7 @@ export default function BookDetails() {
                 </div> :
                 <div className="row">
                     <div className="col-12 col-md-6 col-xl-6 mt-5 book">
-                        {book.book_image ? <img src={book.book_image} alt="no" width={!isMobile && "500"} className="b-img"/> : <img src="/noimg.webp" alt="no" width={!isMobile && "500"} className="b-img"/>}
+                        {book.book_image ? <img src={book.book_image} alt="no" width={!isMobile && "500"} className="b-img" /> : <img src="/noimg.webp" alt="no" width={!isMobile && "500"} className="b-img" />}
                     </div>
                     <div className="col-12 col-md-6 col-xl-6 mt-5 auth">
                         {book.Author && <h6 className="fs-2 text-secondary col-12 arsenal-sc-regular">By {book.Author.name}</h6>}

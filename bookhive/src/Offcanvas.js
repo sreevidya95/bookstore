@@ -17,7 +17,6 @@ export default function Offcanva(props) {
   const [add, setAdd] = useState("");
   const [error, setError] = useState({});
   const [upload, setUpload] = useState(false);
-  const [ptype, setptype] = useState({ sd: "text", ed: "text" });
   const [offer, setOffer] = useState({ name: "", discount: "", startDate: "", endDate: "", book: [] })
   const [book, setBook] = useState({ title: "", price: "", publication_date: "", book_image: "", AuthorAuthorId: "", GenreGenreId: "" })
   const id = useRef(0);
@@ -110,11 +109,14 @@ export default function Offcanva(props) {
     }
     setError(error);
   }
-  async function removeSale(id){
-    let msg = await postData(`http://localhost:3000/books/sale/${id}`, "put", { offerOfferId:null });
-     toast(msg.msg,{
-      onClose:()=>{ props.onload()}
-     })
+  async function removeSale(id) {
+    let msg = await postData(`http://localhost:3000/books/sale/${id}`, "put", { offerOfferId: null });
+    toast(msg.msg, {
+      onClose: () => { props.onload() }
+    })
+  }
+  function dateFocus(e) {
+    e.target.type = "date"
   }
   async function AddAdmin() {
     setloading(true);
@@ -128,8 +130,14 @@ export default function Offcanva(props) {
     else if (offer.startDate === '') {
       error.sd = "Enter Start Date of Offer"
     }
+    else if (new Date(offer.startDate).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0)) {
+      error.sd = "Start Date's minimum date starts from today";
+    }
     else if (offer.endDate === '') {
       error.ed = "Enter End Date"
+    }
+    else if (new Date(offer.endDate).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0)) {
+      error.ed = "End Date's minimum date starts from today";
     }
     else if (offer.book === '' || offer.book.length === 0) {
       error.book = "Select Atleast One Book"
@@ -146,7 +154,7 @@ export default function Offcanva(props) {
       }
       else if (msg.hasOwnProperty('offer_id')) {
         toast.success("Offer Added Successfully", {
-          onClose: () => { props.onClick(); props.onload() }
+          onClose: () => { props.onClick(); window.location.reload(); }
         })
       }
     }
@@ -240,25 +248,25 @@ export default function Offcanva(props) {
                     <p className="mt-3">Couldn't find the Genere You Want ? <Link to="#" type="btn"
                       onClick={() => { setToast(true); setAdd("genere") }}> Click Here</Link></p>
                     {error.gid && <h1 className="text-danger mt-2 h6">{error.gid}</h1>}
-                    {props.id >0 &&offer.length > 0 &&<Form.Select name="offerOfferId" onChange={handleChange} value={book.offerOfferId} className={`mt-3 ${error.gid ? "border border-danger" : "border border-secondary"}`}>
+                    {props.id > 0 && offer.length > 0 && <Form.Select name="offerOfferId" onChange={handleChange} value={book.offerOfferId} className={`mt-3 ${error.gid ? "border border-danger" : "border border-secondary"}`}>
                       <option value="">Apply Offers</option>
                       {offer.length > 0 && offer.map(e =>
                         <option value={e.offer_id} key={e.offer_id}>{e.name}</option>
                       )}
                     </Form.Select>}
-                    {props.id >0 && book && book.offerOfferId && id.current >0 &&<p className="mt-3">Want to remove Sale on this Book? <Link to="#" type="btn"
-                      onClick={() => {removeSale(book.book_id)}}> Click Here</Link></p>}
+                    {props.id > 0 && book && book.offerOfferId && id.current > 0 && <p className="mt-3">Want to remove Sale on this Book? <Link to="#" type="btn"
+                      onClick={() => { removeSale(book.book_id) }}> Click Here</Link></p>}
                     <Button type="submit" as={Col} xs={{ span: 4, offset: 4 }} className="mt-5" onClick={() => AddBook(props.id)}>{props.id > 0 ? "Edit Book" : "Add Book"}</Button>
                   </> :
                   <>
                     <Form.Control name="name" placeholder="Enter Sale Name" className={`mt-3 ${error.name ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} />
                     {error.name && <h1 className="text-danger mt-2 h6">{error.name}</h1>}
-                    <Form.Control type="number" name="discount" placeholder="Enter Discount percentage" className={`mt-3 ${error.discount ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required />
+                    <Form.Control type="number" name="discount" placeholder="Enter Discount percentage" min="1" max="100" className={`mt-3 ${error.discount ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required />
                     {error.discount && <h1 className="text-danger mt-2 h6">{error.discount}</h1>}
-                    <Form.Control type={ptype.sd} name="startDate" placeholder="Enter Start Date"
-                      className={`mt-3 ${error.sd ? "border border-danger" : "border border-secondary"}`} onFocus={() => ptype.sd = "date"} onChange={handleChange} required />
+                    <Form.Control type="text" name="startDate" placeholder="Enter Start Date"
+                      className={`mt-3 ${error.sd ? "border border-danger" : "border border-secondary"}`} onFocus={dateFocus} onChange={handleChange} required />
                     {error.sd && <h1 className="text-danger mt-2 h6">{error.sd}</h1>}
-                    <Form.Control type={ptype.ed} name="endDate" placeholder="Enter End Date" onFocus={() => ptype.ed = "date"} className={`mt-3 ${error.ed ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required />
+                    <Form.Control type="text" name="endDate" placeholder="Enter End Date" onFocus={dateFocus} className={`mt-3 ${error.ed ? "border border-danger" : "border border-secondary"}`} onChange={handleChange} required />
                     {error.ed && <h1 className="text-danger mt-2 h6">{error.ed}</h1>}
                     <Form.Control as="select" name="book" onChange={handleChange} value={book.book_id} className={`mt-3 ${error.book ? "border border-danger" : "border border-secondary"}`} multiple>
                       <option value="" className="fw-bold">Select Books</option>
@@ -268,7 +276,7 @@ export default function Offcanva(props) {
                     </Form.Control>
                     {error.book && <h1 className="text-danger mt-2 h6">{error.book}</h1>}
                     <Button type="submit" as={Col} xs={{ span: 4, offset: 4 }} className="mt-5" onClick={() => AddAdmin()}>Submit</Button>
-                    <h1 className="text-secondary mt-5" style={{fontSize:"12px"}}>* Sale on books will be removed automatically after offer ends *</h1>
+                    <h1 className="text-secondary mt-5" style={{ fontSize: "12px" }}>* Sale on books will be removed automatically after offer ends *</h1>
                   </>
                 }
               </Form>}

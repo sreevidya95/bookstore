@@ -75,41 +75,41 @@ export default function Model(props) {
       else {
         var data = new FormData();
         Object.entries(author).forEach(([key, value]) => {
-          if (value !== '' && value!==null) {
+          if (value !== '' && value !== null) {
             data.append(key, value);
           }
         });
         let msg
-        if(props.id>0){
+        if (props.id > 0) {
           msg = await postFormData(`http://localhost:3000/authors/${props.id}`, "put", data);
-        
+
 
         }
-        else{
-           msg = await postFormData("http://localhost:3000/authors/", "post", data);
+        else {
+          msg = await postFormData("http://localhost:3000/authors/", "post", data);
         }
-       
+
         if (msg.hasOwnProperty('msg')) {
           toast.error(msg.msg, {
-            onClose: () => { props.close();}
+            onClose: () => { props.close(); }
           });
 
         }
         else if (msg.hasOwnProperty('author_id')) {
           let message;
-          if(props.id>0){
-            message="Author Updated Successfully";
+          if (props.id > 0) {
+            message = "Author Updated Successfully";
           }
-          else{
-            message="Author Created Successfully";
+          else {
+            message = "Author Created Successfully";
           }
           toast.success(message, {
-            onClose: () => { props.close();}
+            onClose: () => { props.close(); }
           });
         }
         else {
           toast.error("Something Went Wrong", {
-            onClose: () => { props.close();}
+            onClose: () => { props.close(); }
           });
 
         }
@@ -141,7 +141,7 @@ export default function Model(props) {
                   <Link to="#" type="btn"
                     onClick={() => setUpload(true)} className="mt-2">Upload New Image</Link>
                 }
-                {(typeof props.id==='undefined' || props.id === 0 || upload === true) &&
+                {(typeof props.id === 'undefined' || props.id === 0 || upload === true) &&
                   <Form.Control type="file" accept="image/*" name="author_image" placeholder="Select Image" className="mt-3 border border-secondary" onChange={handleData} />}
               </>
             }

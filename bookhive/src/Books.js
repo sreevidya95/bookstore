@@ -8,7 +8,7 @@ import { Tooltip } from "react-tooltip";
 import Header from "./Header";
 import Footer from "./Footer";
 import Offcanva from "./Offcanvas";
-import { toast,ToastContainer} from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function Books() {
 
@@ -19,12 +19,12 @@ export default function Books() {
     const [loading, setloading] = useState(false);
     const [grid, setGrid] = useState(true);
     const [range, setRange] = useState(1);
-    const[offer,setOffer]=useState({});
+    const [offer, setOffer] = useState({});
     const filterData = useRef([]);
     const initialState = {};
     const msg = useRef("");
     const type = useRef("");
-    const[offcanvas,setOffcanvas]=useState(false);
+    const [offcanvas, setOffcanvas] = useState(false);
     const [id, setId] = useState(0);
     useEffect(() => {
         loadVal();
@@ -76,10 +76,10 @@ export default function Books() {
             setToast(false);
             let msg = await delData(`http://localhost:3000/books/${id}`, "delete");
             if (msg === 204) {
-               toast.success("Deleted Successfully",{
-                onClose:()=> {LoadBooks();setId(0)}
-               });
-              
+                toast.success("Deleted Successfully", {
+                    onClose: () => { LoadBooks(); setId(0) }
+                });
+
             }
             else {
                 toast.error("Something went Wrong");
@@ -88,11 +88,11 @@ export default function Books() {
         }
 
     }
-    async function sortPublicationDate(sort){
+    async function sortPublicationDate(sort) {
         setloading(true);
-       let book = await getData(`http://localhost:3000/books/${sort}`, "get");
-       setBooks(book);
-       setloading(false);
+        let book = await getData(`http://localhost:3000/books/${sort}`, "get");
+        setBooks(book);
+        setloading(false);
     }
     async function loadVal() {
         setloading(true);
@@ -117,8 +117,11 @@ export default function Books() {
         setloading(true);
         let book = [];
         if (type === "genre") {
-            if(categories[val - 1])
-            filterData.current.push(categories[val - 1].genre_name)
+            categories.forEach(e => {
+                if (e.genre_id === val) {
+                    filterData.current.push(e.genre_name);
+                }
+            })
             books.forEach(e => {
                 if (e.GenreGenreId === val) {
                     book.push(e);
@@ -126,8 +129,11 @@ export default function Books() {
             });
         }
         else if (type === "author") {
-            if(authors[val - 1])
-             filterData.current.push(authors[val - 1].name)
+            authors.forEach(e => {
+                if (e.author_id === val) {
+                    filterData.current.push(e.name)
+                }
+            })
             books.forEach(e => {
                 if (e.AuthorAuthorId === val) {
                     book.push(e);
@@ -190,7 +196,7 @@ export default function Books() {
                 <div className="row mt-5">
                     <div className={`nav flex-column nav-pills ${isMobile ? 'collapse col-12' : 'col-3 '}`} id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <Nav.Link className="nav-link mt-5 btn col-12" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home"
-                            role="tab" aria-controls="v-pills-home" aria-selected="true"><span className="btn btn-color text-white col-8 mb-5" onClick={()=>setOffcanvas(true)} disabled={to}>ADD New Book</span>
+                            role="tab" aria-controls="v-pills-home" aria-selected="true"><span className="btn btn-color text-white col-8 mb-5" onClick={() => setOffcanvas(true)} disabled={to}>ADD New Book</span>
                         </Nav.Link>
                         <hr />
                         <Nav.Link className="nav-link btn mt-5" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home"
@@ -229,11 +235,11 @@ export default function Books() {
                         </Nav.Link>
                         <hr />
                         <Nav.Link className="nav-link btn col-12 mt-5 cur-def" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages"
-                            role="tab" aria-controls="v-pills-messages" aria-selected="false"><span className="h5 text-black text-center" style={{marginLeft:"30px"}}>Sort Books</span>
+                            role="tab" aria-controls="v-pills-messages" aria-selected="false"><span className="h5 text-black text-center" style={{ marginLeft: "30px" }}>Sort Books</span>
                             <ul className="col-12 mt-3">
-                                <li className="fs-5 cur" onClick={()=>sortPublicationDate('ASC')}>Sort By older</li>
-                                <li className="fs-5 cur text-center" onClick={()=>sortPublicationDate('DESC')}>Sort By New</li>
-                                <li className="fs-5 cur text-center" onClick={()=>sortPublicationDate('sale')}>Sort By Sale</li>
+                                <li className="fs-5 cur" onClick={() => sortPublicationDate('ASC')}>Sort By older</li>
+                                <li className="fs-5 cur text-center" onClick={() => sortPublicationDate('DESC')}>Sort By New</li>
+                                <li className="fs-5 cur text-center" onClick={() => sortPublicationDate('sale')}>Sort By Sale</li>
                             </ul>
                         </Nav.Link>
                         <hr />
@@ -255,34 +261,42 @@ export default function Books() {
                                 <div className={`card col-12  ms-1 border-0 rounded-0 ${grid ? "col-md-3 col-xl-3 ms-5 mt-3" : "col-md-12 col-xl-12 mt-5 card-height"}`} key={e.book_id}>
                                     {e.book_image ? <img src={e.book_image} alt="no" height="300" className={`col-md-12 col-xl-12 ${!grid && "w-25"}`} />
                                         : <img src="/noimg.webp" alt="no" height="300" className={`col-md-12 col-xl-12 ${!grid && "w-25"}`} />}
-                                        <div className={`card-body col-xl-12 col-md-12 mb-5 ${grid ? "border" : "car_body"} ${e.offerOfferId && "mar-top"}`}>
-                                        {e.offerOfferId && 
-                                  <span class="fa-stack fa-lg">
-                                    <i class="fa fa-certificate fa-stack-2x"></i>
-                                    <i class="fa fa-tag fa-stack-1x fa-inverse"></i>
-                                    </span>}
+                                    <div className={`card-body col-xl-12 col-md-12 mb-5 ${grid ? "border" : "car_body"} ${e.offerOfferId && offer && offer.length > 0 && offer.map(p => p.offer_id === e.offerOfferId && new Date(p.startDate).setHours(0, 0, 0, 0) <= new Date().setHours(0, 0, 0, 0) && " mar-top ")}`}>
+                                        {e.offerOfferId && offer && offer.length > 0 &&
+                                            offer.map(p =>
+                                                <>
+                                                    {e.offerOfferId === p.offer_id && new Date(p.startDate).setHours(0, 0, 0, 0) <= new Date().setHours(0, 0, 0, 0) &&
+                                                        <span class="fa-stack fa-lg">
+                                                            <i class="fa fa-certificate fa-stack-2x"></i>
+                                                            <h1 className="fs-6 text-white tag">Sale</h1>
+                                                        </span>}
+                                                </>
+                                            )
+                                        }
                                         <Link to={`/book/${e.book_id}`}><h5 className="card-title col-12 link text-center">{e.title}</h5></Link>
                                         {/* <p class="card-text"> Author:{e.author.name}</p> */}
                                         <p className="card-text col-12 text-center"> Author:{e.Author.name}</p>
-                                        <p className={`card-text col-12 text-center ${e.offerOfferId && "text-decoration-line-through"}`}> Price:{e.price}</p>
-                                        {e.offerOfferId &&  <p className="card-text col-12 text-center">Offer Price: {offer && offer.length>0 && offer.map(p=><span key={p.offer_id}>{p.offer_id===e.offerOfferId && parseFloat(e.price)-parseFloat(p.discount)/100}</span>)}</p>}
+                                        <p className={`card-text col-12 text-center ${e.offerOfferId && offer && offer.length > 0 &&
+                                            offer.map(p => p.offer_id === e.offerOfferId && new Date(p.startDate).setHours(0, 0, 0, 0) <= new Date().setHours(0, 0, 0, 0)
+                                                && " text-decoration-line-through ")}`}> Price:{e.price}</p>
+                                        {e.offerOfferId && <p className="card-text col-12 text-center">{offer && offer.length > 0 && offer.map(p => <span key={p.offer_id}>{p.offer_id === e.offerOfferId && new Date(p.startDate).setHours(0, 0, 0, 0) <= new Date().setHours(0, 0, 0, 0) && `Offer Price: ${parseFloat(e.price) - parseFloat(p.discount) / 100}`}</span>)}</p>}
                                         <p className="card-text col-12 text-center"> Genere:{e.Genre.genre_name}</p>
-                                        <i className="fa fa-edit col-1 offset-5 fs-5  text-center link text-secondary cur" onClick={() => {setId(e.book_id);setOffcanvas(true)}}></i>
+                                        <i className="fa fa-edit col-1 offset-5 fs-5  text-center link text-secondary cur" onClick={() => { setId(e.book_id); setOffcanvas(true) }}></i>
                                         <i className="fa fa-trash col-2 fs-5 text-center link text-secondary cur" onClick={() => showToast("delete", e.book_id, e.title)}></i>
                                         <Tooltip anchorSelect=".fa-edit" place="top">Edit Book</Tooltip>
                                         <Tooltip anchorSelect=".fa-trash" place="top">Delete Book</Tooltip>
-                                 </div>   </div>
-                    
+                                    </div>   </div>
+
                             ) :
                                 <span className="h2 mt-5">sorry No books to display</span>
                             }
                         </div>
                     </div>
                     {to && <Model show={to} msg={msg.current} onClick={handleClose} type="ok" value={() => handleOk(type.current)} />}
-                       {offcanvas && <Offcanva show={offcanvas} onClick={handleClose} id={id && id} onload={LoadBooks}/>}
-                       <ToastContainer position="top-center"/>
+                    {offcanvas && <Offcanva show={offcanvas} onClick={handleClose} id={id && id} onload={LoadBooks} />}
+                    <ToastContainer position="top-center" />
                 </div>
-                
+
             }
             <footer className='mt-5'>
                 <Footer></Footer>
