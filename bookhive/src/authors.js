@@ -142,7 +142,7 @@ export default function Authors() {
                     <Tooltip anchorSelect=".fa-edit" place="top">Edit Author</Tooltip>
                     <Tooltip anchorSelect=".fa-trash" place="top">Delete Author</Tooltip>
                     {to && <Model show={to} msg={msg.current} onClick={handleClose} type="ok" value={() => editAuthor(type.current,id)} />}
-                    {alert && <Model show={alert} type="addAuthor" close={handleClose} id={id} onload={()=>load()}/>}
+                    {alert && <Model show={alert} type="addAuthor" close={handleClose} id={id} onload={()=>load()} showToast={true}/>}
                     <ToastContainer position="top-center" autoClose={1000}/>
                 </div>
             }

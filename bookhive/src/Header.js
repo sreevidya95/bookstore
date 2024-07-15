@@ -164,7 +164,7 @@ export default function Header(props) {
                 </div>
             </nav>
             {to && <Model show={to} msg={msg.current} onClick={handleClose} />}
-            {alert && <Model show={alert} onClick={handleClose} type="genere" close={handleClose}/>}
+            {alert && <Model show={alert} onClick={handleClose} type="genere" close={handleClose} onload={()=>getMessage()} showToast={true}/>}
             {offcanvas && <Offcanva show={offcanvas} onClick={handleClose} book={true} />}
             {schedule && <Modal show={schedule} onHide={() => setSchedule(false)}>
                 <ToastContainer position="top-center" />

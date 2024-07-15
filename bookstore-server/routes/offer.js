@@ -9,14 +9,9 @@ const Offer = require("../models/Offer")(sequelize);
 const Book=require("../models/book")(sequelize);
 router.post('/', async (req, res, next) => {
     try {
-        const data = await Offer.findAll({
-            where: {
-                name:req.body.name, 
-                discount:req.body.discount
-            }
-        }); 
+        const data = await Offer.findAll(); 
         if(data.length>0){
-            const e = new CustomeError("This Offer Already Exists",404)
+            const e = new CustomeError("One Offer is already added, wait till that offer ends",404)
             next(e);
         }
         else{

@@ -84,9 +84,10 @@ export default function Books() {
             let msg = await delData(`http://localhost:3000/books/${id}`, "delete");
             if (msg === 204) {
                 load();
+                setToast(false);
                 setId(0);
                 toast.success("Deleted Successfully", {
-                    onClose: () => {setToast(false); }
+                    onClose: () => {  setId(0);}
                 });
 
             }
@@ -241,7 +242,7 @@ export default function Books() {
                         </Nav.Link>
                         <hr />
                         <Nav.Link className="nav-link btn col-12 mt-5 cur-def" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages"
-                            role="tab" aria-controls="v-pills-messages" aria-selected="false"><span className="h4 text-black col-8"  style={{ marginLeft: "-50px" }}>Filter By Price</span>
+                            role="tab" aria-controls="v-pills-messages" aria-selected="false"><span className="h4 text-black col-8 mlf">Filter By Price</span>
                             <input type="range" className="col-2 mt-2 ms-2 text-dark form-range w" min="1" max="500" value={range} onChange={(event) => setRange(event.target.value)} step="1" />
                             <span className="col-1 text-dark ms-1">{range}</span>
                             <input type="button" className="btn btn-color col-8 mt-2 ms-2 text-white" onClick={() => sortBy("filter", range)} value="Filter" />
@@ -296,7 +297,7 @@ export default function Books() {
                                         <p className={`card-text col-12 text-center ${e.offerOfferId && offer && offer.length > 0 &&
                                             offer.map(p => p.offer_id === e.offerOfferId && new Date(p.startDate).setHours(0, 0, 0, 0) <= new Date().setHours(0, 0, 0, 0)
                                                 && " text-decoration-line-through ")}`}> Price:{e.price}</p>
-                                        {e.offerOfferId && <p className="card-text col-12 text-center">{offer && offer.length > 0 && offer.map(p => <span key={p.offer_id}>{p.offer_id === e.offerOfferId && new Date(p.startDate).setHours(0, 0, 0, 0) <= new Date().setHours(0, 0, 0, 0) && `Offer Price: ${parseFloat(e.price) - parseFloat(p.discount) / 100}`}</span>)}</p>}
+                                        {e.offerOfferId && <p className="card-text col-12 text-center">{offer && offer.length > 0 && offer.map(p => <span key={p.offer_id}>{p.offer_id === e.offerOfferId && new Date(p.startDate).setHours(0, 0, 0, 0) <= new Date().setHours(0, 0, 0, 0) && `Offer Price: ${parseFloat(e.price) - (parseFloat(e.price)*parseFloat(p.discount) / 100).toFixed(2)}`}</span>)}</p>}
                                         <p className="card-text col-12 text-center"> Genere:{e.Genre.genre_name}</p>
                                         <i className="fa fa-edit col-1 offset-5 fs-5  text-center link text-secondary cur" onClick={() => { setId(e.book_id); setOffcanvas(true) }}></i>
                                         <i className="fa fa-trash col-2 fs-5 text-center link text-secondary cur" onClick={() => showToast("delete", e.book_id, e.title)}></i>

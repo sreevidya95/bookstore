@@ -17,7 +17,9 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage });
 router.get('/',async (req,res,next)=>{
     try{
-        const authors = await Author.findAll();
+        const authors = await Author.findAll({
+            order: [['createdAt', 'DESC']],
+        });
             res.status(200).json(authors);
     }
     catch(err){

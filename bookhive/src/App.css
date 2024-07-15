@@ -129,6 +129,12 @@ section img,
 }
 
 @media screen and (min-width:1000px) {
+  #view:hover~.g {
+    display: block;
+  }
+  .mlf{
+    margin-left: -50px;
+  }
   .bg-img {
     background-image: url("../public/maintanance.webp");
     background-repeat: no-repeat;
@@ -180,6 +186,9 @@ section img,
 }
 
 @media screen and (max-width:700px) {
+  #view:active  ~.g {
+    display: block;
+  }
   .about{
     height: 10vh !important;
   }
@@ -307,6 +316,8 @@ li {
   height: 300px !important;
   border: 1px solid #e9e3e3 !important;
   border-left: none !important;
+  width:60vw !important;
+  margin-left: 100px !important;
 }
 
 #dropdownMenuButton1 {
@@ -358,10 +369,6 @@ li {
 
 #view~.g {
   display: none;
-}
-
-#view:hover~.g {
-  display: block;
 }
 
 .about {

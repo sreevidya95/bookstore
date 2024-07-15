@@ -52,7 +52,7 @@ export default function Model(props) {
         }
         else if (msg.hasOwnProperty('genre_id')) {
           toast.success("Added Successfully", {
-            onClose: () => {props.close(); window.location.reload();}
+            onClose: () => {props.close();props.onload();}
           });
         }
         else {
@@ -156,7 +156,7 @@ export default function Model(props) {
             Close
           </Button>
         </Modal.Footer>
-        <ToastContainer position="top-center" autoClose={1000}/>
+       {props.showToast && <ToastContainer position="top-center" autoClose={1000}/>}
       </Modal>
 
     </>

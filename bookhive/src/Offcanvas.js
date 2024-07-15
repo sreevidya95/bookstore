@@ -75,6 +75,7 @@ export default function Offcanva(props) {
       error.gid = "Please Select Book's Genere";
     }
     else {
+      setloading(true)
       var data = new FormData();
       Object.entries(book).forEach(([key, value]) => {
         if (value !== '' && value !== null) {
@@ -102,10 +103,10 @@ export default function Offcanva(props) {
           message = "Book Updated Successfully";
         }
         else {
-          message = "Book Created Successfully";
+          message = "Book Added Successfully";
         }
         toast.success(message, {
-          onClose: () => { props.onClick(); props.onload() }
+          onClose: () => { props.onload(); props.onClick(); }
         });
       }
       else {
@@ -114,6 +115,7 @@ export default function Offcanva(props) {
         });
 
       }
+      setloading(false)
     }
     setError(error);
   }
@@ -288,7 +290,6 @@ export default function Offcanva(props) {
                   </>
                 }
               </Form>}
-
             {to && <Model show={toast} onClick={handleClose} type={add} close={handleClose} onload={()=>load()}/>}
           </div>
         </div>

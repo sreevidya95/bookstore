@@ -31,6 +31,7 @@ router.get('/',async (req,res,next)=>{
                 required:true,
             },      
         ],
+        order: [['createdAt', 'DESC']],
         });
             res.status(200).json(books);
     }
