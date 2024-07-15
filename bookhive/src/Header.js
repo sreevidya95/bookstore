@@ -102,7 +102,7 @@ export default function Header(props) {
                             <span>{localStorage.getItem("name").charAt(0)}</span>
                         </button>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li className="dropdown-item btn" onClick={props.onClick}>Signout</li>
+                            <li className="dropdown-item btn" onClick={props.onClick}>Sign Out</li>
                             <li className="dropdown-item btn" onClick={() => setSchedule(true)}>Set Reminder</li>
                         </ul>
                     </div>
@@ -119,11 +119,11 @@ export default function Header(props) {
                     href="#">
                     <div className="dropdown">
                         <button className="dropdown-toggle text-dark border border-white bg-white arsenal-sc-regular fs-3" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Genere
+                            Genre
                         </button>
                         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <Link className="dropdown-item btn col-12" href="#" onClick={() => setAlert(true)}>Add Genere</Link>
-                            <Link className="dropdown-item btn col-12" href="#" id="view">View Generes
+                            <Link className="dropdown-item btn col-12" href="#" onClick={() => setAlert(true)}>Add Genre</Link>
+                            <Link className="dropdown-item btn col-12" href="#" id="view">View Genres
                             </Link>
                             <span className="g">{genere && genere.map(e =>
                                 <>
@@ -164,7 +164,7 @@ export default function Header(props) {
                 </div>
             </nav>
             {to && <Model show={to} msg={msg.current} onClick={handleClose} />}
-            {alert && <Model show={alert} onClick={handleClose} type="genere" close={handleClose} />}
+            {alert && <Model show={alert} onClick={handleClose} type="genere" close={handleClose}/>}
             {offcanvas && <Offcanva show={offcanvas} onClick={handleClose} book={true} />}
             {schedule && <Modal show={schedule} onHide={() => setSchedule(false)}>
                 <ToastContainer position="top-center" />

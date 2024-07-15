@@ -46,20 +46,18 @@ export default function Model(props) {
         let msg = await postData("http://localhost:3000/generes/", "post", { genre_name: genere });
         if (msg.hasOwnProperty('msg')) {
           toast.error(msg.msg, {
-            onClose: () => props.close()
           });
 
 
         }
         else if (msg.hasOwnProperty('genre_id')) {
           toast.success("Added Successfully", {
-            onClose: () => props.close()
+            onClose: () => {props.close(); window.location.reload();}
           });
         }
         else {
 
           toast.error("something went wrong", {
-            onClose: () => props.close()
           })
         }
       }
@@ -104,7 +102,7 @@ export default function Model(props) {
             message = "Author Created Successfully";
           }
           toast.success(message, {
-            onClose: () => { props.close(); }
+            onClose: () => { props.onload();props.close(); }
           });
         }
         else {
@@ -121,7 +119,7 @@ export default function Model(props) {
     <>
       <Modal show={props.show} onHide={props.onClick}>
         <Modal.Header>
-          {props.close && <Modal.Title><h1 className="h3">{props.type === 'genere' ? "Add Genere" : props.id > 0 ? "Edit Author" : "ADD Author"}</h1></Modal.Title>}
+          {props.close && <Modal.Title><h1 className="h3">{props.type === 'genere' ? "Add Genre" : props.id > 0 ? "Edit Author" : "ADD Author"}</h1></Modal.Title>}
           <span className="btn-close cur" style={{ float: "right !important" }} onClick={props.onClick ? props.onClick : props.close}></span>
         </Modal.Header>
         <Modal.Body>{props.msg ? props.msg :
@@ -158,7 +156,7 @@ export default function Model(props) {
             Close
           </Button>
         </Modal.Footer>
-        <ToastContainer position="top-center" />
+        <ToastContainer position="top-center" autoClose={1000}/>
       </Modal>
 
     </>

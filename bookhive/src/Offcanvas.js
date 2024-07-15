@@ -16,6 +16,7 @@ export default function Offcanva(props) {
   const [to, setToast] = useState(false);
   const [add, setAdd] = useState("");
   const [error, setError] = useState({});
+  const [eff, setEff] = useState(false);
   const [upload, setUpload] = useState(false);
   const [offer, setOffer] = useState({ name: "", discount: "", startDate: "", endDate: "", book: [] })
   const [book, setBook] = useState({ title: "", price: "", publication_date: "", book_image: "", AuthorAuthorId: "", GenreGenreId: "" })
@@ -23,11 +24,18 @@ export default function Offcanva(props) {
   useEffect(() => {
     if (typeof props.id !== 'undefined' || props.book)
       LoadData();
-  }, []);
+  }, [eff]);
   function handleClose() {
     setToast(false);
-    LoadData();
   }
+  function load(){
+    if(eff){
+        setEff(false)
+    }
+    else{
+        setEff(true)
+    }
+}
   async function LoadData() {
     setloading(true);
     if (props.id > 0) {
@@ -240,12 +248,12 @@ export default function Offcanva(props) {
                       onClick={() => { setToast(true); setAdd("addAuthor") }}> Click Here</Link></p>
 
                     <Form.Select name="GenreGenreId" onChange={handleChange} value={book.GenreGenreId} className={`mt-3 ${error.gid ? "border border-danger" : "border border-secondary"}`}>
-                      <option value="">Select Genere</option>
+                      <option value="">Select Genre</option>
                       {generes && generes.map(e =>
                         <option value={e.genre_id} key={e.genre_id}>{e.genre_name}</option>
                       )}
                     </Form.Select>
-                    <p className="mt-3">Couldn't find the Genere You Want ? <Link to="#" type="btn"
+                    <p className="mt-3">Couldn't find the Genre You Want ? <Link to="#" type="btn"
                       onClick={() => { setToast(true); setAdd("genere") }}> Click Here</Link></p>
                     {error.gid && <h1 className="text-danger mt-2 h6">{error.gid}</h1>}
                     {props.id > 0 && offer.length > 0 && <Form.Select name="offerOfferId" onChange={handleChange} value={book.offerOfferId} className={`mt-3 ${error.gid ? "border border-danger" : "border border-secondary"}`}>
@@ -281,11 +289,11 @@ export default function Offcanva(props) {
                 }
               </Form>}
 
-            {to && <Model show={toast} onClick={handleClose} type={add} close={handleClose} />}
+            {to && <Model show={toast} onClick={handleClose} type={add} close={handleClose} onload={()=>load()}/>}
           </div>
         </div>
       </Offcanvas.Body>
-      <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" autoClose={1000}/>
     </Offcanvas>
   )
 }

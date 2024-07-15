@@ -1,3 +1,4 @@
+import { isMobile } from 'react-device-detect';
 export default function Aboutus(){
     return(
      <div className="container-fluid">
@@ -5,10 +6,10 @@ export default function Aboutus(){
         <div className="col-12 about">
           <h1 className="display-2 text-center mt-5">About us</h1>
         </div>
-        <div className="col-4 mt-5">
-             <img src="/logo.png" alt="no" className="mt  ms-3"/>
+        <div className="col-md-4 col-xl-4 col-12 mt-5">
+             <img src="/logo.png" alt="no" className={!isMobile && "mt  ms-3"}/>
         </div>
-        <div className="col-6 mt-5">
+        <div className="col-md-6 col-xl-6 col-12 mt-5">
              <h1 className="display-4 text-center">Who We Are</h1>
              <p className="col-12 fs-5">
              Bookhive is a vibrant online bookstore dedicated to delivering a personalized and immersive literary experience. 

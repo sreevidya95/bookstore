@@ -58,8 +58,8 @@ export default function BookDetails() {
                         {book.Author &&
                             <div className="row">
                                 <div className="col-md-3 col-xl-3 col-12 mt-5 book">
-                                    {book.Author ? <img src={book.Author.author_image} alt="no" width="100" height="100" className="auth_img" /> :
-                                        <img src="/noimg.webp" alt="no" width="100" className="auth_img" />}
+                                    {book.Author && book.Author.author_image ? <img src={book.Author.author_image} alt="no" width="100" height="100" className="auth_img" /> :
+                                        <img src="/user.jpg" alt="no" width="100" className="auth_img" />}
                                 </div>
                                 <div className="col-md-8 col-xl-8 col-12 mt-5">
                                     {book.Author && <h6 className="fs-2 col-12 arsenal-sc-regular text-dark">{book.Author.name}</h6>}

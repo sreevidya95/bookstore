@@ -1,7 +1,7 @@
 import { isMobile } from "react-device-detect";
 export default function Footer() {
     return (
-        <div className="row">
+        <div className="row footer">
             <div className="col-12 col-md-3 col-xl-3 ${!isMobile && 'ms-5">
                 <h3 className="col-12 h4 arsenal-sc-regular fw-bold text-light text-center">Publishers</h3>
                 <h6 className="fs-6 col-12  text-light text-center">Bestsellers</h6>

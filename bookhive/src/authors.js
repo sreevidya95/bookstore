@@ -13,9 +13,10 @@ export default function Authors() {
     const [loading, setloading] = useState(false);
     const [to, setToast] = useState(false);
     const [alert, setAlert] = useState(false);
+    const [eff, setEff] = useState(false);
     const [authors, setAuthors] = useState([]);
     let msg = useRef("");
-    let id = useRef(0);
+    const[id,setId] =useState(0)
     let type = useRef("");
     const naviage = useNavigate();
     function showToast(val, identity, title) {
@@ -23,7 +24,7 @@ export default function Authors() {
         if (val === 'delete') {
             msg.current = `Are You sure you want to delete "${title}"`;
             type.current = "delete";
-            id.current = identity;
+           setId(identity);
         }
 
         else {
@@ -49,22 +50,34 @@ export default function Authors() {
     }
     useEffect(() => {
         loadAuthor();
-    }, []);
+    }, [eff]);
+    function load(){
+        if(eff){
+            setEff(false)
+        }
+        else{
+            setEff(true)
+        }
+    }
     async function editAuthor(method, id) {
         setloading(true);
-        setToast(false);
         if (method === 'delete') {
             let m = await delData(`http://localhost:3000/authors/${id}`, method);
             if (m === 204) {
-                toast.success("Deleted Successfully", {
-                    onClose: () => loadAuthor()
+                setToast(false);
+                setId(0); 
+                toast.success("Deleted Successfully",{
+                    onClose:()=>{ load();}
                 });
             }
             else {
-                toast.error("something went wrong");
+                toast.error("something went wrong",{
+                    onClick:()=>setToast(false)
+                });
 
             }
             setloading(false);
+            
         }
         else {
             localStorage.removeItem("id");
@@ -73,14 +86,13 @@ export default function Authors() {
             naviage("/")
 
         }
+         
     }
     function handleClose() {
         setToast(false);
         setAlert(false);
-        if (id.current > 0) {
-            loadAuthor();
-        }
-        id.current = 0;
+        setId(0)
+
 
     }
     async function loadAuthor() {
@@ -108,19 +120,18 @@ export default function Authors() {
                     {(authors.length > 0) ?
                         authors.map((e) =>
                             <div className="card col-12 col-md-3 col-xl-3 author mt-5 border border-white rounded-5" key={e.author_id}>
-                                {e.author_image ? <img src={e.author_image} alt="no" className="card-img" height="500" width="300" />
-                                    : <img src="/user.jpg" alt='no' className="card-img" height="500" width='300' />}
-                                <div className="card-body card-img-overlay text-white  text-center">
+                                {e.author_image ? <img src={e.author_image} alt="no" className="card-img" height="400" width="200" />
+                                    : <img src="/user.jpg" alt='no' className="card-img" height="400" width='200' />}
+                                <div className="card-body text-white  text-center n">
                                     <div className="op rounded-5 cur">
-                                        <span className="col-1 text-dark"> <i className="fa fa-edit fs-5  text-center link mt-5" onClick={() => { setAlert(true); id.current = e.author_id }}></i></span>
-                                        <span className="col-1 offset-1 text-dark"> <i className="fa fa-trash fs-5 text-center link mt-5 mb-5"
+                                        <span className="col-1 text-dark"> <i className="fa fa-edit fs-5  text-center link"
+                                         onClick={() => { setAlert(true); setId(e.author_id) }}></i></span>
+                                        <span className="col-1 offset-1 text-dark"> <i className="fa fa-trash fs-5 text-center link"
                                             onClick={() => showToast("delete", e.author_id, e.name)}></i></span>
-                                        <div className="row">
-                                            <Link to={`/author/${e.author_id}`} className="card-title h1 mt-5 text-dark">
+                                    </div>
+                                    <Link to={`/author/${e.author_id}`} className="card-title h2 text-center text-capitalize mt-5 text-dark">
                                                 {e.name}
                                             </Link>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         )
@@ -130,9 +141,9 @@ export default function Authors() {
                     }
                     <Tooltip anchorSelect=".fa-edit" place="top">Edit Author</Tooltip>
                     <Tooltip anchorSelect=".fa-trash" place="top">Delete Author</Tooltip>
-                    {to && <Model show={to} msg={msg.current} onClick={handleClose} type="ok" value={() => editAuthor(type.current, id.current)} />}
-                    {alert && <Model show={alert} type="addAuthor" close={handleClose} id={id.current} />}
-                    <ToastContainer position="top-center" />
+                    {to && <Model show={to} msg={msg.current} onClick={handleClose} type="ok" value={() => editAuthor(type.current,id)} />}
+                    {alert && <Model show={alert} type="addAuthor" close={handleClose} id={id} onload={()=>load()}/>}
+                    <ToastContainer position="top-center" autoClose={1000}/>
                 </div>
             }
             <footer className='mt-5'>

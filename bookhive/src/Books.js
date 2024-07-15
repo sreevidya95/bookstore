@@ -11,7 +11,7 @@ import Offcanva from "./Offcanvas";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function Books() {
-
+   const[eff,setEff]=useState(false);
     const [to, setToast] = useState(false);
     const [categories, setCategories] = useState({});
     const [authors, setAuthors] = useState({});
@@ -28,7 +28,7 @@ export default function Books() {
     const [id, setId] = useState(0);
     useEffect(() => {
         loadVal();
-    }, [])
+    }, [eff])
     function reducer(state, action) {
         switch (action.type) {
             case "All": {
@@ -63,6 +63,14 @@ export default function Books() {
         setToast(false);
         setOffcanvas(false);
     }
+    function load(){
+        if(eff){
+            setEff(false)
+        }
+        else{
+            setEff(true)
+        }
+    }
     const handleOk = async (val) => {
         if (val === 'signout') {
             setToast(false);
@@ -73,11 +81,12 @@ export default function Books() {
         }
         else {
             setloading(true);
-            setToast(false);
             let msg = await delData(`http://localhost:3000/books/${id}`, "delete");
             if (msg === 204) {
+                load();
+                setId(0);
                 toast.success("Deleted Successfully", {
-                    onClose: () => { LoadBooks(); setId(0) }
+                    onClose: () => {setToast(false); }
                 });
 
             }
@@ -89,6 +98,15 @@ export default function Books() {
 
     }
     async function sortPublicationDate(sort) {
+        if(sort==='ASC'){
+            filterData.current[0]="Sort By Old";
+        }
+        else if(sort==='DeSC'){
+            filterData.current[0]="Sort By New";
+        }
+        else{
+            filterData.current[0]="Sort By Sale";
+        }
         setloading(true);
         let book = await getData(`http://localhost:3000/books/${sort}`, "get");
         setBooks(book);
@@ -104,7 +122,6 @@ export default function Books() {
         setAuthors(author);
         setCategories(genere);
         setloading(false);
-        console.log(off)
     }
     async function LoadBooks() {
         setloading(true);
@@ -150,7 +167,7 @@ export default function Books() {
         }
         else if (type === 'search') {
             if (val === '') {
-                LoadBooks();
+                load();
             }
             else {
                 books.forEach(e => {
@@ -195,12 +212,8 @@ export default function Books() {
                 :
                 <div className="row mt-5">
                     <div className={`nav flex-column nav-pills ${isMobile ? 'collapse col-12' : 'col-3 '}`} id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <Nav.Link className="nav-link mt-5 btn col-12" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home"
-                            role="tab" aria-controls="v-pills-home" aria-selected="true"><span className="btn btn-color text-white col-8 mb-5" onClick={() => setOffcanvas(true)} disabled={to}>ADD New Book</span>
-                        </Nav.Link>
-                        <hr />
                         <Nav.Link className="nav-link btn mt-5" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home"
-                            role="tab" aria-controls="v-pills-home" aria-selected="true"><span className="h4 text-black col-8">FilterBy Categories</span>
+                            role="tab" aria-controls="v-pills-home" aria-selected="true"><span className="h4 text-black col-8 ms-5">Filter By Categories</span>
                             {(state.hide && state.type === "Categories") ? <i className="fa fa-minus col-1 text-dark" aria-hidden="true" onClick={() => dispatch({ type: "Categories", hide: false })}></i>
                                 : <i className="fa fa-plus col-1 text-dark" aria-hidden="true"
                                     onClick={() => dispatch({ type: "Categories", hide: true })}></i>}
@@ -213,8 +226,8 @@ export default function Books() {
                             </ul>}
                         </Nav.Link>
                         <hr />
-                        <Nav.Link className="nav-link btn col-12 mt-5" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile"
-                            role="tab" aria-controls="v-pills-profile" aria-selected="false"><span className="h4 text-black col-10">FilterBy Author</span>
+                        <Nav.Link className="nav-link btn col-12 mt-5 mb-4" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile"
+                            role="tab" aria-controls="v-pills-profile" aria-selected="false"><span className="h4 text-black col-8">Filter By Author</span>
                             {(state.hide && state.type === "Authors") ? <i className="fa fa-minus col-1 text-dark" aria-hidden="true" onClick={() => dispatch({ type: "Authors", hide: false })}></i>
                                 : <i className="fa fa-plus col-1 text-dark" aria-hidden="true"
                                     onClick={() => dispatch({ type: "Authors", hide: true })}></i>}
@@ -228,24 +241,28 @@ export default function Books() {
                         </Nav.Link>
                         <hr />
                         <Nav.Link className="nav-link btn col-12 mt-5 cur-def" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages"
-                            role="tab" aria-controls="v-pills-messages" aria-selected="false"><span className="h5 text-black">FilterBy Price</span>
-                            <input type="range" className="col-2 mt-2 ms-2 text-dark form-range w" min="1" max="500" onChange={(event) => setRange(event.target.value)} step="1" />
+                            role="tab" aria-controls="v-pills-messages" aria-selected="false"><span className="h4 text-black col-8"  style={{ marginLeft: "-50px" }}>Filter By Price</span>
+                            <input type="range" className="col-2 mt-2 ms-2 text-dark form-range w" min="1" max="500" value={range} onChange={(event) => setRange(event.target.value)} step="1" />
                             <span className="col-1 text-dark ms-1">{range}</span>
                             <input type="button" className="btn btn-color col-8 mt-2 ms-2 text-white" onClick={() => sortBy("filter", range)} value="Filter" />
                         </Nav.Link>
                         <hr />
                         <Nav.Link className="nav-link btn col-12 mt-5 cur-def" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages"
-                            role="tab" aria-controls="v-pills-messages" aria-selected="false"><span className="h5 text-black text-center" style={{ marginLeft: "30px" }}>Sort Books</span>
-                            <ul className="col-12 mt-3">
-                                <li className="fs-5 cur" onClick={() => sortPublicationDate('ASC')}>Sort By older</li>
-                                <li className="fs-5 cur text-center" onClick={() => sortPublicationDate('DESC')}>Sort By New</li>
-                                <li className="fs-5 cur text-center" onClick={() => sortPublicationDate('sale')}>Sort By Sale</li>
+                            role="tab" aria-controls="v-pills-messages" aria-selected="false"><span className="h4 text-black col-8" style={{ marginLeft: "-70px" }}>Sort Books</span>
+                            <ul className="col-12 mt-3" style={{marginLeft:"-50px"}}>
+                                <li className="fs-6 cur" onClick={() => sortPublicationDate('ASC')}>Sort By older</li>
+                                <li className="fs-6 cur" onClick={() => sortPublicationDate('DESC')}>Sort By New</li>
+                                <li className="fs-6 cur" onClick={() => sortPublicationDate('sale')}>Sort By Sale</li>
                             </ul>
                         </Nav.Link>
                         <hr />
                     </div>
-                    <div className="col-12 mol-md-9 col-xl-9 mt-5">
-                        <span className="fs-3 col-9">showing All {books.length} books</span>
+                    <div className="col-12 mol-md-9 col-xl-9">
+                    <div className={`col-1 text-right fs-1 bg mb-3 text-secondary rounded-5 ${isMobile ? 'offset-10' : 'offset-11'}`}>
+                        <i className="fa fa-plus link ms-3" onClick={() => setOffcanvas(true)} disabled={to}></i>
+                    </div>
+                    <Tooltip anchorSelect=".fa-plus" place="top">Add New Book</Tooltip>
+                        <span className="fs-3 col-9">Showing All {books.length} books</span>
                         {!isMobile && <span className="col-2 col">
                             <i class="fa fa-th col-6 text-center btn fs-3" aria-hidden="true" onClick={() => setGrid(true)}></i>
                             <i class="fa fa-list col-6 text-center btn fs-3" onClick={() => setGrid(false)}></i>
@@ -293,8 +310,8 @@ export default function Books() {
                         </div>
                     </div>
                     {to && <Model show={to} msg={msg.current} onClick={handleClose} type="ok" value={() => handleOk(type.current)} />}
-                    {offcanvas && <Offcanva show={offcanvas} onClick={handleClose} id={id && id} onload={LoadBooks} />}
-                    <ToastContainer position="top-center" />
+                    {offcanvas && <Offcanva show={offcanvas} onClick={handleClose} id={id && id} onload={()=>load()} />}
+                    <ToastContainer position="top-center" autoClose={1000}/>
                 </div>
 
             }

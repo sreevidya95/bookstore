@@ -52,7 +52,7 @@ export default function AuthorDetails() {
                     </div>
                     <div className="row">
                         <div className="col-md-4 col-xl-4 col-12 mt-5">
-                            {data && (data.author_image ? <img src={data.author_image} alt="no" height="300" width="300" className="ms-5 auth_img fr name" /> : <img src="/user.jpg" alt="no" className="ms-5 auth_img fr" />)}
+                            {data && (data.author_image ? <img src={data.author_image} alt="no" height="300" width="300" className="ms-5 auth_img fr name" /> : <img src="/user.jpg" alt="no" height="300" width="300" className="ms-5 auth_img fr name" />)}
                         </div>
                         <div className="col-md-6 col-xl-6 col-12 mt-5 offset-xl-1 offset-md-1 auth">
                             {data && <h3 className="display-4 col-12 text-dark arsenal-sc-regular">{data.name}</h3>}

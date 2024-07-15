@@ -55,7 +55,7 @@
   margin-right: -380px;
 }
 
-footer,
+.footer,
 .bg {
   background-color: #282828;
   width: 100vw;
@@ -177,16 +177,15 @@ section img,
   .settings {
     left: -20px;
   }
-
-  .card-img-overlay:hover .op {
-    display: block;
-    background-color: rgba(248, 241, 232, 0.5);
-    height: 470px;
-    transform: scale(1.1);
-  }
 }
 
 @media screen and (max-width:700px) {
+  .about{
+    height: 10vh !important;
+  }
+  .bc {
+    margin-left: 40px;
+  }
   .carousel-inner .carousel-item .i {
     display: none !important;
   }
@@ -223,13 +222,6 @@ section img,
 
   .author {
     margin-left: -20px !important;
-  }
-
-  .card-img-overlay:active .op {
-    display: block;
-    background-color: rgba(248, 241, 232, 0.5);
-    height: 470px;
-    transform: scale(1.1);
   }
 
   .ml {
@@ -340,9 +332,6 @@ li {
   border-bottom: 1px solid #e9e3e3;
 }
 
-.card-img-overlay .op {
-  display: none;
-}
 
 .drop.show {
   height: 300px !important;
@@ -379,6 +368,7 @@ li {
   background-image: url("../public/book.jpg");
   background-size: cover;
   height: 50vh;
+  background-repeat: no-repeat;
   background-position-y: -300px;
 }
 
@@ -404,4 +394,8 @@ li {
 
 .fa-stack {
   color: orangered;
+}
+.n{
+  border: 1px solid #e9e3e3 !important;
+  border-top:none !important;
 }
