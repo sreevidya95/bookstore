@@ -167,7 +167,7 @@ export default function Header(props) {
             {alert && <Model show={alert} onClick={handleClose} type="genere" close={handleClose} onload={()=>getMessage()} showToast={true}/>}
             {offcanvas && <Offcanva show={offcanvas} onClick={handleClose} book={true} />}
             {schedule && <Modal show={schedule} onHide={() => setSchedule(false)}>
-                <ToastContainer position="top-center" />
+                <ToastContainer position="top-center" autoClose={1000}/>
                 <Modal.Header>
                     <Modal.Title><h1 className="h3">Set Event Reminder</h1></Modal.Title>
                     <span className="btn-close cur" style={{ float: "right !important" }} onClick={() => setSchedule(false)}></span>

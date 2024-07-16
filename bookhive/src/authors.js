@@ -62,18 +62,18 @@ export default function Authors() {
     async function editAuthor(method, id) {
         setloading(true);
         if (method === 'delete') {
+            setToast(false);
             let m = await delData(`http://localhost:3000/authors/${id}`, method);
             if (m === 204) {
-                setToast(false);
+                
                 setId(0); 
                 toast.success("Deleted Successfully",{
                     onClose:()=>{ load();}
                 });
             }
             else {
-                toast.error("something went wrong",{
-                    onClick:()=>setToast(false)
-                });
+                console.log(m)
+                toast.error("There Are Books Corresponding to this author,so we cant delete");
 
             }
             setloading(false);

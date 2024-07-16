@@ -81,29 +81,31 @@ router.put("/:id",upload.single('author_image'),async (req,res,next)=>{
 });
 router.delete("/:id",async (req,res,next)=>{
     try{
-        const transaction = await sequelize.transaction();
-        const deleted = await Author.destroy({
-            where:{
-                author_id:req.params.id
-            }
-        },{ transaction });
-        await Books.destroy({
+        let books = await Books.findAll({
             where:{
                 AuthorAuthorId:req.params.id
             }
-        },{transaction});
-        await transaction.commit();
-        if(deleted){
-
-            res.status(204).end();
-        }
-        else{
-            transaction.rollback();
-            const e = new CustomeError("couldnt find the author",404)
+        });
+        if(books && books.length>0){
+            const e = new CustomeError("Cant Delete this Author,There are books corresponding to this Author",404)
             next(e);
         }
+        else{
+            const deleted = await Author.destroy({
+                where:{
+                    author_id:req.params.id
+                }
+            });
+            if(deleted){
+    
+                res.status(204).end();
+            }
+            else{
+                const e = new CustomeError("couldnt find the author",404)
+                next(e);
+            }
+        }
     }catch(err){
-        transaction.rollback();
         const e = new CustomeError(err.message,500)
         next(e);
     }
